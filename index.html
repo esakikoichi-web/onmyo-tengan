@@ -84,6 +84,10 @@ body.showmore #moreBtn{display:none}
 #bmodal .ttl2{font-size:15px;letter-spacing:.2em;color:var(--gold);text-align:center;margin-bottom:6px;font-weight:700}
 #bmodal .cls{position:absolute;top:8px;right:12px;background:none;border:none;font-size:22px;color:var(--dim);cursor:pointer}
 #bmodal .lead{font-size:11.5px;color:var(--dim);line-height:1.7;margin-bottom:10px;text-align:center}
+.bhandle-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.bhandle-row span{font-size:11.5px;color:var(--dim);white-space:nowrap}
+#bhandle{flex:1;font-family:inherit;font-size:13px;color:var(--ink);background:#fffdf7;border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+#bhandle::placeholder{color:#b9ad96}
 #btext{width:100%;height:130px;font-family:inherit;font-size:13px;line-height:1.6;color:var(--ink);background:#fffdf7;border:1px solid var(--line);border-radius:8px;padding:10px;resize:vertical}
 #btext::placeholder{color:#b9ad96}
 .brun{display:block;width:100%;margin-top:10px;font-family:inherit;font-size:14px;font-weight:700;letter-spacing:.18em;color:#fff8e6;background:#8a6a1f;border:1px solid #6f5414;border-radius:8px;padding:11px;cursor:pointer}
@@ -95,8 +99,11 @@ body.showmore #moreBtn{display:none}
 .bcopyall:hover{background:rgba(138,106,31,.1)}
 .brow{border:1px solid var(--line);border-radius:9px;overflow:hidden}
 .brow-h{background:rgba(138,106,31,.1);color:var(--bright);font-size:12.5px;font-weight:700;padding:8px 12px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
-.brow-h .bcopy{flex:0 0 auto;font-family:inherit;font-size:11px;color:var(--gold);background:#fffdf7;border:1px solid var(--line);border-radius:999px;padding:5px 12px;cursor:pointer;font-weight:400}
+.brow-h .bbtns{flex:0 0 auto;display:flex;gap:6px}
+.brow-h .bcopy,.brow-h .bcard{font-family:inherit;font-size:11px;color:var(--gold);background:#fffdf7;border:1px solid var(--line);border-radius:999px;padding:5px 12px;cursor:pointer;font-weight:400;white-space:nowrap}
+.brow-h .bcard{color:#fff8e6;background:#8a6a1f;border-color:#6f5414}
 .brow-h .bcopy:hover{background:rgba(138,106,31,.1)}
+.brow-h .bcard:hover{background:#6f5414}
 .brow-body{padding:11px 13px;font-size:13.5px;line-height:1.7;white-space:pre-wrap;color:#241f17;background:#fffdf7}
 .brow-body b{color:var(--bright)}.brow-body .x{color:var(--bad);font-weight:700}
 #toast{position:fixed;left:50%;bottom:40px;transform:translateX(-50%) translateY(20px);background:#241f17;color:#fff8e6;font-size:12.5px;padding:10px 20px;border-radius:999px;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;z-index:90;box-shadow:0 4px 18px rgba(0,0,0,.28)}
@@ -248,7 +255,8 @@ showHelp();
   <div class="box">
     <button class="cls" onclick="closeBatch()">×</button>
     <div class="ttl2">一括鑑定</div>
-    <div class="lead">お客様を1行に1人ずつ貼って「まとめて観る」を押すと、全員分の鑑定文が一気に出ます。<br>DMやスプレッドシートにそのままコピーできます。<br>例）<b>hi_mymi1221 2002/08/06 女</b> ／ <b>田中 1990/4/10 16:39 男</b></div>
+    <div class="lead">お客様を1行に1人ずつ貼って「まとめて観る」を押すと、全員分の鑑定文が一気に出ます。<br>DMやスプレッドシートにそのままコピー、または<b>投稿用の画像カード</b>に書き出せます。<br>例）<b>hi_mymi1221 2002/08/06 女</b> ／ <b>田中 1990/4/10 16:39 男</b></div>
+    <div class="bhandle-row"><span>カードに載せるSNS名</span><input type="text" id="bhandle" placeholder="@onmyo_tengan" onchange="bSaveHandle()"></div>
     <textarea id="btext" placeholder="hi_mymi1221 2002/08/06 女&#10;takuty0410 1990/4/10 16:39 男&#10;tokeshikouhei 1988/6/4 男"></textarea>
     <button class="brun" onclick="batchGo()">まとめて観る</button>
     <div id="bresults"></div>
@@ -325,7 +333,7 @@ function aGo(){
 }
 
 /* ===== 一括鑑定（自動化） ===== */
-function openBatch(){document.getElementById('bmodal').classList.add('on');setTimeout(function(){document.getElementById('btext').focus();},80);}
+function openBatch(){document.getElementById('bmodal').classList.add('on');bLoadHandle();setTimeout(function(){document.getElementById('btext').focus();},80);}
 function closeBatch(){document.getElementById('bmodal').classList.remove('on');}
 var BATCH=[];
 function bEsc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
@@ -359,15 +367,17 @@ function batchGo(){
   lines.forEach(function(line,i){
     var norm=bNorm(line);
     var md=norm.match(/(19|20)(\d{2})[年\/\-\.\s]*(\d{1,2})[月\/\-\.\s]*(\d{1,2})/);
-    var html;
+    var html,ymd=null;
     if(!md){html='<span class="x">生年月日が読み取れませんでした（例：1990/4/10）</span>';}
     else{
-      var yy=+(md[1]+md[2]),mm=+md[3],dd=+md[4];
+      var yy=+(md[1]+md[2]),mm=+md[3],dd=+md[4];ymd=[yy,mm,dd];
       try{html=bTokucho(yy,mm,dd);}catch(e){html='<span class="x">鑑定できませんでした</span>';}
     }
     var text=bHtmlToText(html);
-    BATCH.push({label:line,text:text});
-    out.push('<div class="brow"><div class="brow-h"><span>'+bEsc(line)+'</span><button class="bcopy" onclick="bCopyRow('+i+')">コピー</button></div><div class="brow-body">'+html+'</div></div>');
+    BATCH.push({label:line,text:text,ymd:ymd});
+    var btns='<button class="bcopy" onclick="bCopyRow('+i+')">コピー</button>';
+    if(ymd)btns='<button class="bcard" onclick="bCard('+i+')">画像</button>'+btns;
+    out.push('<div class="brow"><div class="brow-h"><span>'+bEsc(line)+'</span><span class="bbtns">'+btns+'</span></div><div class="brow-body">'+html+'</div></div>');
   });
   box.innerHTML=out.join('');
 }
@@ -380,6 +390,84 @@ function bCopyRow(i){if(!BATCH[i])return;bClip(BATCH[i].text,'この鑑定をコ
 function bCopyAll(){if(!BATCH.length)return;var s=BATCH.map(function(b){return '■ '+b.label+'\n'+b.text;}).join('\n\n────────\n\n');bClip(s,BATCH.length+'人分をコピーしました');}
 var _toastT;
 function bToast(msg){var t=document.getElementById('toast');if(!t)return;t.textContent=msg;t.classList.add('on');clearTimeout(_toastT);_toastT=setTimeout(function(){t.classList.remove('on');},1800);}
+
+/* ===== 投稿用 画像カード生成（拡散用） ===== */
+function bSaveHandle(){try{localStorage.setItem('onmyo_handle',document.getElementById('bhandle').value.trim());}catch(e){}}
+function bLoadHandle(){try{var v=localStorage.getItem('onmyo_handle');if(v)document.getElementById('bhandle').value=v;}catch(e){}}
+function bCardData(y,m,d){
+  var k=erect(y,m,d,null,0).nisshu;
+  var ch=KCHAR[k]||{},lead=KOGLEAD[k]||{};
+  return {type:(ch.n||'')+'タイプ',sub:ch.c||'',body:bTrimBody(KMOTO[k]||''),want:lead.m||''};
+}
+function bTrimBody(s){
+  var parts=s.split('。').filter(Boolean),out='';
+  for(var i=0;i<parts.length;i++){var cand=out+parts[i]+'。';if(cand.length>96&&out)break;out=cand;if(out.length>=70)break;}
+  return out||s;
+}
+var BKINSOKU="、。，．）〕〉》」』】｝’”・ー？！ぁぃぅぇぉっゃゅょゎ";
+function bWrap(ctx,text,maxW){
+  var lines=[],cur='';
+  for(var i=0;i<text.length;i++){var ch=text[i];if(ch==='\n'){lines.push(cur);cur='';continue;}var t=cur+ch;if(ctx.measureText(t).width>maxW&&cur){lines.push(cur);cur=ch;}else{cur=t;}}
+  if(cur)lines.push(cur);
+  /* 禁則処理：行頭に句読点等が来たら前の行に追い込む */
+  for(var j=1;j<lines.length;j++){while(lines[j]&&BKINSOKU.indexOf(lines[j][0])>=0){lines[j-1]+=lines[j][0];lines[j]=lines[j].slice(1);}}
+  return lines.filter(function(l){return l.length;});
+}
+function bSpaced(ctx,text,cx,y,font,color,gap){
+  ctx.save();ctx.font=font;ctx.fillStyle=color;ctx.textAlign='left';
+  var total=0;for(var i=0;i<text.length;i++){total+=ctx.measureText(text[i]).width+(i<text.length-1?gap:0);}
+  var sx=cx-total/2;for(var j=0;j<text.length;j++){ctx.fillText(text[j],sx,y);sx+=ctx.measureText(text[j]).width+gap;}
+  ctx.restore();
+}
+function bDivider(ctx,cx,y,w){ctx.save();ctx.strokeStyle='#c9b277';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(cx-w/2,y);ctx.lineTo(cx+w/2,y);ctx.stroke();ctx.fillStyle='#b08d3c';ctx.beginPath();ctx.moveTo(cx,y-7);ctx.lineTo(cx+8,y);ctx.lineTo(cx,y+7);ctx.lineTo(cx-8,y);ctx.closePath();ctx.fill();ctx.restore();}
+function bRound(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();}
+function bDrawCard(d,handle){
+  return new Promise(function(resolve){
+    var go=function(){
+      var W=1080,H=1350,c=document.createElement('canvas');c.width=W;c.height=H;var x=c.getContext('2d');
+      var SER='"Shippori Mincho B1","Hiragino Mincho ProN","Yu Mincho",serif';
+      var g=x.createLinearGradient(0,0,0,H);g.addColorStop(0,'#f7f2e7');g.addColorStop(1,'#ece0c9');x.fillStyle=g;x.fillRect(0,0,W,H);
+      x.strokeStyle='#c9b277';x.lineWidth=3;x.strokeRect(40,40,W-80,H-80);x.lineWidth=1.5;x.strokeRect(58,58,W-116,H-116);
+      x.textAlign='center';x.textBaseline='alphabetic';
+      bSpaced(x,'陰 陽 天 眼',W/2,172,'700 40px '+SER,'#8a6a1f',12);
+      bDivider(x,W/2,214,300);
+      x.fillStyle='#6f5414';x.font='700 100px '+SER;x.fillText(d.type,W/2,410);
+      x.fillStyle='#6f6553';x.font='500 44px '+SER;x.fillText(d.sub,W/2,486);
+      bDivider(x,W/2,560,240);
+      x.fillStyle='#2c261b';x.font='500 41px '+SER;
+      var lines=bWrap(x,d.body,W-230).slice(0,6),by=666,lh=66;
+      for(var i=0;i<lines.length;i++)x.fillText(lines[i],W/2,by+i*lh);
+      if(d.want){
+        var py=by+lines.length*lh+56,label='ほしいのは「'+d.want+'」';
+        x.font='700 40px '+SER;var tw=x.measureText(label).width,pw=tw+84,ph=78,px=W/2-pw/2;
+        bRound(x,px,py,pw,ph,39);x.fillStyle='#8a6a1f';x.fill();
+        x.fillStyle='#fff8e6';x.fillText(label,W/2,py+ph/2+15);
+      }
+      x.fillStyle='#8a6a1f';x.font='700 48px '+SER;x.fillText((handle||'@onmyo_tengan'),W/2,H-152);
+      x.fillStyle='#6f6553';x.font='500 35px '+SER;x.fillText('▶ あなたも生年月日を送ってね（無料鑑定）',W/2,H-94);
+      resolve(c);
+    };
+    if(document.fonts&&document.fonts.ready){document.fonts.ready.then(go,go);}else{go();}
+  });
+}
+function bDownload(blob,fname){var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=fname;document.body.appendChild(a);a.click();document.body.removeChild(a);setTimeout(function(){URL.revokeObjectURL(a.href);},1500);bToast('画像を保存しました');}
+function bCard(i){
+  var b=BATCH[i];if(!b||!b.ymd)return;
+  bToast('画像を作成中…');
+  var d=bCardData(b.ymd[0],b.ymd[1],b.ymd[2]);
+  var handle=(document.getElementById('bhandle').value||'').trim();
+  bDrawCard(d,handle).then(function(canvas){
+    canvas.toBlob(function(blob){
+      if(!blob){bToast('画像を作成できませんでした');return;}
+      var base=b.label.replace(/[^0-9A-Za-z぀-ヿ一-龯]+/g,'_').replace(/^_+|_+$/g,'').slice(0,20);
+      var fname='onmyo_'+(base||'card')+'.png';
+      var file=null;try{file=new File([blob],fname,{type:'image/png'});}catch(e){}
+      if(file&&navigator.canShare&&navigator.canShare({files:[file]})){
+        navigator.share({files:[file],text:d.type+' ／ 陰陽天眼 無料鑑定'}).then(function(){bToast('共有しました');},function(){bDownload(blob,fname);});
+      }else{bDownload(blob,fname);}
+    },'image/png');
+  });
+}
 
 /* ライセンス不要版 — すぐに利用可能 */
 </script>
