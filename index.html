@@ -76,6 +76,31 @@ body.showmore #moreBtn{display:none}
 #amodal .box{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:22px 20px;max-width:400px;width:100%;position:relative}
 #amodal .ttl2{font-size:14px;letter-spacing:.25em;color:var(--gold);text-align:center;margin-bottom:14px}
 #amodal .cls{position:absolute;top:8px;right:12px;background:none;border:none;font-size:20px;color:var(--dim);cursor:pointer}
+
+/* 一括鑑定（自動化） */
+#bmodal{display:none;position:fixed;inset:0;background:rgba(36,31,23,.5);z-index:60;align-items:flex-start;justify-content:center;padding:16px;overflow-y:auto}
+#bmodal.on{display:flex}
+#bmodal .box{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px 18px;max-width:560px;width:100%;position:relative;margin:auto}
+#bmodal .ttl2{font-size:15px;letter-spacing:.2em;color:var(--gold);text-align:center;margin-bottom:6px;font-weight:700}
+#bmodal .cls{position:absolute;top:8px;right:12px;background:none;border:none;font-size:22px;color:var(--dim);cursor:pointer}
+#bmodal .lead{font-size:11.5px;color:var(--dim);line-height:1.7;margin-bottom:10px;text-align:center}
+#btext{width:100%;height:130px;font-family:inherit;font-size:13px;line-height:1.6;color:var(--ink);background:#fffdf7;border:1px solid var(--line);border-radius:8px;padding:10px;resize:vertical}
+#btext::placeholder{color:#b9ad96}
+.brun{display:block;width:100%;margin-top:10px;font-family:inherit;font-size:14px;font-weight:700;letter-spacing:.18em;color:#fff8e6;background:#8a6a1f;border:1px solid #6f5414;border-radius:8px;padding:11px;cursor:pointer}
+.brun:hover{background:#6f5414}
+#bresults{margin-top:14px;display:flex;flex-direction:column;gap:12px}
+#bresults:empty{display:none}
+.bhead{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.bcopyall{font-family:inherit;font-size:11.5px;color:var(--gold);background:transparent;border:1px solid var(--line);border-radius:999px;padding:6px 13px;cursor:pointer;white-space:nowrap}
+.bcopyall:hover{background:rgba(138,106,31,.1)}
+.brow{border:1px solid var(--line);border-radius:9px;overflow:hidden}
+.brow-h{background:rgba(138,106,31,.1);color:var(--bright);font-size:12.5px;font-weight:700;padding:8px 12px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.brow-h .bcopy{flex:0 0 auto;font-family:inherit;font-size:11px;color:var(--gold);background:#fffdf7;border:1px solid var(--line);border-radius:999px;padding:5px 12px;cursor:pointer;font-weight:400}
+.brow-h .bcopy:hover{background:rgba(138,106,31,.1)}
+.brow-body{padding:11px 13px;font-size:13.5px;line-height:1.7;white-space:pre-wrap;color:#241f17;background:#fffdf7}
+.brow-body b{color:var(--bright)}.brow-body .x{color:var(--bad);font-weight:700}
+#toast{position:fixed;left:50%;bottom:40px;transform:translateX(-50%) translateY(20px);background:#241f17;color:#fff8e6;font-size:12.5px;padding:10px 20px;border-radius:999px;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;z-index:90;box-shadow:0 4px 18px rgba(0,0,0,.28)}
+#toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
 </style></head><body>
 
 
@@ -124,6 +149,7 @@ body.showmore #moreBtn{display:none}
   <button class="chip secret-chip" style="display:none" onclick="openAi()">相性</button>
   <button class="chip secret-chip" style="display:none" onclick="openSelf()">自分を観る</button>
   <button class="chip" onclick="ask('今月の吉日')">今月の吉日</button>
+  <button class="chip" onclick="openBatch()">一括鑑定</button>
   <button class="chip" onclick="openContact()">青龍孔一に連絡</button>
   
 </div>
@@ -218,6 +244,18 @@ showHelp();
   </div>
 </div>
 
+<div id="bmodal">
+  <div class="box">
+    <button class="cls" onclick="closeBatch()">×</button>
+    <div class="ttl2">一括鑑定</div>
+    <div class="lead">お客様を1行に1人ずつ貼って「まとめて観る」を押すと、全員分の鑑定文が一気に出ます。<br>DMやスプレッドシートにそのままコピーできます。<br>例）<b>hi_mymi1221 2002/08/06 女</b> ／ <b>田中 1990/4/10 16:39 男</b></div>
+    <textarea id="btext" placeholder="hi_mymi1221 2002/08/06 女&#10;takuty0410 1990/4/10 16:39 男&#10;tokeshikouhei 1988/6/4 男"></textarea>
+    <button class="brun" onclick="batchGo()">まとめて観る</button>
+    <div id="bresults"></div>
+  </div>
+</div>
+<div id="toast"></div>
+
 
 
 <script>
@@ -285,6 +323,63 @@ function aGo(){
   closeForm();add('user',t);
   setTimeout(function(){var _r=respond(t);if(_r)add('bot',_r);},200);
 }
+
+/* ===== 一括鑑定（自動化） ===== */
+function openBatch(){document.getElementById('bmodal').classList.add('on');setTimeout(function(){document.getElementById('btext').focus();},80);}
+function closeBatch(){document.getElementById('bmodal').classList.remove('on');}
+var BATCH=[];
+function bEsc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function bNorm(s){return s.replace(/[０-９]/g,function(c){return String.fromCharCode(c.charCodeAt(0)-0xFEE0);}).replace(/／/g,'/').replace(/：/g,':').replace(/．/g,'.').replace(/－/g,'-');}
+/* 性別が無くても出せる、短い「特徴」鑑定文（フォロワー返信用） */
+function bTokucho(y,m,d){
+  var T=erect(y,m,d,null,0);var k=T.nisshu;
+  var ch=KCHAR[k]||{},lead=KOGLEAD[k]||{};
+  var o="<b>"+(ch.n||"")+"タイプ</b>　"+(ch.c||"")+"\n\n";
+  o+=(KMOTO[k]||"");
+  if(lead.m)o+="\n\n一番ほしいのは「"+lead.m+"」。そこが満たされると、強く動きます。";
+  o+="\n\nさらに深い鑑定は青龍孔一が承ります。";
+  return o;
+}
+/* HTML鑑定文 → コピー用プレーンテキスト */
+function bHtmlToText(h){
+  var t=String(h)
+    .replace(/<span class="sec">([\s\S]*?)<\/span>/g,'\n【$1】\n')
+    .replace(/<br\s*\/?>/gi,'\n')
+    .replace(/<\/(div|p|details|summary|h[1-6])>/gi,'\n')
+    .replace(/<[^>]+>/g,'')
+    .replace(/[ \t]+\n/g,'\n')
+    .replace(/\n{3,}/g,'\n\n').trim();
+  var d=document.createElement('textarea');d.innerHTML=t;return d.value;
+}
+function batchGo(){
+  var lines=document.getElementById('btext').value.split(/\r?\n/).map(function(s){return s.trim();}).filter(Boolean);
+  var box=document.getElementById('bresults');box.innerHTML='';BATCH=[];
+  if(!lines.length){bToast('お客様を1行に1人ずつ入力してください');return;}
+  var out=['<div class="bhead"><span style="font-size:11.5px;color:#6f6553">'+lines.length+'人分の鑑定</span><button class="bcopyall" onclick="bCopyAll()">全員分をコピー</button></div>'];
+  lines.forEach(function(line,i){
+    var norm=bNorm(line);
+    var md=norm.match(/(19|20)(\d{2})[年\/\-\.\s]*(\d{1,2})[月\/\-\.\s]*(\d{1,2})/);
+    var html;
+    if(!md){html='<span class="x">生年月日が読み取れませんでした（例：1990/4/10）</span>';}
+    else{
+      var yy=+(md[1]+md[2]),mm=+md[3],dd=+md[4];
+      try{html=bTokucho(yy,mm,dd);}catch(e){html='<span class="x">鑑定できませんでした</span>';}
+    }
+    var text=bHtmlToText(html);
+    BATCH.push({label:line,text:text});
+    out.push('<div class="brow"><div class="brow-h"><span>'+bEsc(line)+'</span><button class="bcopy" onclick="bCopyRow('+i+')">コピー</button></div><div class="brow-body">'+html+'</div></div>');
+  });
+  box.innerHTML=out.join('');
+}
+function bClip(str,msg){
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(str).then(function(){bToast(msg);},function(){bClipFallback(str,msg);});}
+  else{bClipFallback(str,msg);}
+}
+function bClipFallback(str,msg){var ta=document.createElement('textarea');ta.value=str;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');bToast(msg);}catch(e){bToast('コピーできませんでした');}document.body.removeChild(ta);}
+function bCopyRow(i){if(!BATCH[i])return;bClip(BATCH[i].text,'この鑑定をコピーしました');}
+function bCopyAll(){if(!BATCH.length)return;var s=BATCH.map(function(b){return '■ '+b.label+'\n'+b.text;}).join('\n\n────────\n\n');bClip(s,BATCH.length+'人分をコピーしました');}
+var _toastT;
+function bToast(msg){var t=document.getElementById('toast');if(!t)return;t.textContent=msg;t.classList.add('on');clearTimeout(_toastT);_toastT=setTimeout(function(){t.classList.remove('on');},1800);}
 
 /* ライセンス不要版 — すぐに利用可能 */
 </script>
