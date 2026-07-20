@@ -1,4 +1,13 @@
+# 占いチャット本体（index.html）は Basic 認証で保護し続ける。
+# 集客ランディングページ（keiei.html など、その他のパス）はパスワードなしで公開する。
+# ※ Netlify の Basic-Auth はパス単位で指定可能（/ と /index.html のみ保護）。
+
 [[headers]]
-  for = "/*"
+  for = "/"
+  [headers.values]
+    Basic-Auth = "admin:onmyo2026"
+
+[[headers]]
+  for = "/index.html"
   [headers.values]
     Basic-Auth = "admin:onmyo2026"
