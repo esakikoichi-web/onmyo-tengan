@@ -394,10 +394,23 @@ function bToast(msg){var t=document.getElementById('toast');if(!t)return;t.textC
 /* ===== 投稿用 画像カード生成（拡散用） ===== */
 function bSaveHandle(){try{localStorage.setItem('onmyo_handle',document.getElementById('bhandle').value.trim());}catch(e){}}
 function bLoadHandle(){try{var v=localStorage.getItem('onmyo_handle');if(v)document.getElementById('bhandle').value=v;}catch(e){}}
+/* 強み（称号＋ホメ文）— シェアされる"自分ごと"のポジティブ版 */
+var KTSUYOMI={
+"甲":{t:"まっすぐ伸びる大樹",b:"誰より高い所を目指し、逆境でも折れない芯の強さ。周りが自然と見上げ、頼りにする“軸”の人。"},
+"乙":{t:"どこでも咲く強かさ",b:"しなやかに人と縁をつなぎ、強い相手の懐にもすっと入る。折れずに、しなる。本当は誰より逞しい人。"},
+"丙":{t:"場を明るくする太陽",b:"いるだけで空気が変わる、天性のムードメーカー。人を巻き込み前へ進める熱量が、最大の武器。"},
+"丁":{t:"一人を深く照らす灯",b:"目の前の相手を本気で照らす人。あなたの“覚えていたよ”の一言に救われる人が、必ずいる。"},
+"戊":{t:"動じない大黒柱",b:"何があってもどっしり構える安定感。周りが揺れる時ほど、あなたの存在が全員の安心になる。"},
+"己":{t:"すべてを実らせる大地",b:"地道に積み上げ、人も物も育てる人。派手さより確かさで選ばれ、最後に一番信頼される。"},
+"庚":{t:"最短で斬り込む切れ者",b:"ムダを一瞬で見抜き、誰より速く結果を出す。ブレない決断力は、いざという時いちばん頼れる力。"},
+"辛":{t:"本物を見抜く審美眼",b:"一流を見分ける目を持つ人。あなたが選べば、それが“格”になる。妥協しない美意識が武器。"},
+"壬":{t:"枠を超える大海",b:"自由な発想で、誰も思いつかない道を開く。スケールの大きさは随一。可能性で人を惹きつける人。"},
+"癸":{t:"心に沁みる洞察の人",b:"派手さはなくても、相手の本質を静かに見抜く。信頼を預けられた時、誰より大きな力を出す。"}
+};
 function bCardData(y,m,d){
   var k=erect(y,m,d,null,0).nisshu;
-  var ch=KCHAR[k]||{},lead=KOGLEAD[k]||{};
-  return {type:(ch.n||'')+'タイプ',sub:ch.c||'',body:bTrimBody(KMOTO[k]||''),want:lead.m||''};
+  var ch=KCHAR[k]||{},ts=KTSUYOMI[k]||{};
+  return {kanji:k,type:(ch.n||'')+'タイプ',title:ts.t||'',body:ts.b||''};
 }
 function bTrimBody(s){
   var parts=s.split('。').filter(Boolean),out='';
@@ -426,25 +439,44 @@ function bDrawCard(d,handle){
     var go=function(){
       var W=1080,H=1350,c=document.createElement('canvas');c.width=W;c.height=H;var x=c.getContext('2d');
       var SER='"Shippori Mincho B1","Hiragino Mincho ProN","Yu Mincho",serif';
-      var g=x.createLinearGradient(0,0,0,H);g.addColorStop(0,'#f7f2e7');g.addColorStop(1,'#ece0c9');x.fillStyle=g;x.fillRect(0,0,W,H);
+      var g=x.createLinearGradient(0,0,0,H);g.addColorStop(0,'#f8f3e9');g.addColorStop(1,'#eaddc4');x.fillStyle=g;x.fillRect(0,0,W,H);
       x.strokeStyle='#c9b277';x.lineWidth=3;x.strokeRect(40,40,W-80,H-80);x.lineWidth=1.5;x.strokeRect(58,58,W-116,H-116);
       x.textAlign='center';x.textBaseline='alphabetic';
-      bSpaced(x,'陰 陽 天 眼',W/2,172,'700 40px '+SER,'#8a6a1f',12);
-      bDivider(x,W/2,214,300);
-      x.fillStyle='#6f5414';x.font='700 100px '+SER;x.fillText(d.type,W/2,410);
-      x.fillStyle='#6f6553';x.font='500 44px '+SER;x.fillText(d.sub,W/2,486);
-      bDivider(x,W/2,560,240);
-      x.fillStyle='#2c261b';x.font='500 41px '+SER;
-      var lines=bWrap(x,d.body,W-230).slice(0,6),by=666,lh=66;
+      /* ブランド（小さく上に） */
+      bSpaced(x,'陰 陽 天 眼',W/2,158,'700 34px '+SER,'#a58a3e',12);
+      /* ラベル */
+      x.fillStyle='#8a6a1f';x.font='700 40px '+SER;x.fillText('あなたの強み',W/2,232);
+      /* 朱印風エンブレム（日主の一字） */
+      var cx=W/2,cy=400,r=118;
+      x.save();
+      x.beginPath();x.arc(cx,cy,r,0,Math.PI*2);x.fillStyle='rgba(138,106,31,.06)';x.fill();
+      x.lineWidth=6;x.strokeStyle='#a8412c';x.beginPath();x.arc(cx,cy,r,0,Math.PI*2);x.stroke();
+      x.lineWidth=2;x.strokeStyle='#a8412c';x.beginPath();x.arc(cx,cy,r-14,0,Math.PI*2);x.stroke();
+      x.fillStyle='#a8412c';x.font='700 132px '+SER;x.textBaseline='middle';x.fillText(d.kanji,cx,cy+6);
+      x.restore();
+      x.textBaseline='alphabetic';
+      x.fillStyle='#6f5414';x.font='700 44px '+SER;x.fillText(d.type,W/2,566);
+      /* 称号（主役・大きく） */
+      x.fillStyle='#4a3b16';
+      var tt=d.title,ts=(tt.length>10)?66:80;x.font='700 '+ts+'px '+SER;
+      var tl=bWrap(x,tt,W-180);var ty=(tl.length>1)?638:668;
+      for(var a=0;a<tl.length;a++){x.fillText(tl[a],W/2,ty+a*(ts+14));}
+      var afterTitle=ty+(tl.length-1)*(ts+14);
+      bDivider(x,W/2,afterTitle+52,240);
+      /* ホメ文 */
+      x.fillStyle='#2c261b';x.font='500 40px '+SER;
+      var lines=bWrap(x,d.body,W-210).slice(0,3),by=afterTitle+128,lh=62;
       for(var i=0;i<lines.length;i++)x.fillText(lines[i],W/2,by+i*lh);
-      if(d.want){
-        var py=by+lines.length*lh+56,label='ほしいのは「'+d.want+'」';
-        x.font='700 40px '+SER;var tw=x.measureText(label).width,pw=tw+84,ph=78,px=W/2-pw/2;
-        bRound(x,px,py,pw,ph,39);x.fillStyle='#8a6a1f';x.fill();
-        x.fillStyle='#fff8e6';x.fillText(label,W/2,py+ph/2+15);
-      }
-      x.fillStyle='#8a6a1f';x.font='700 48px '+SER;x.fillText((handle||'@onmyo_tengan'),W/2,H-152);
-      x.fillStyle='#6f6553';x.font='500 35px '+SER;x.fillText('▶ あなたも生年月日を送ってね（無料鑑定）',W/2,H-94);
+      /* ▼ 下部ブロックは底からの固定位置（本文の行数で動かさない） */
+      /* シェア誘導バンド */
+      var band='✦ 当たってたら、ストーリーでシェア ✦',bandTop=H-306,ph=74;
+      x.font='700 37px '+SER;var bw=x.measureText(band).width,pw=bw+70,px=W/2-pw/2;
+      bRound(x,px,bandTop,pw,ph,37);x.fillStyle='#8a6a1f';x.fill();
+      x.fillStyle='#fff8e6';x.fillText(band,W/2,bandTop+ph/2+13);
+      x.fillStyle='#6f6553';x.font='500 32px '+SER;x.fillText('友達の生年月日でも占えます',W/2,H-176);
+      /* フッター（ブランド導線） */
+      x.fillStyle='#8a6a1f';x.font='700 44px '+SER;x.fillText((handle||'@onmyo_tengan'),W/2,H-108);
+      x.fillStyle='#6f6553';x.font='500 31px '+SER;x.fillText('▶ 生年月日を送れば、無料であなたを観ます',W/2,H-62);
       resolve(c);
     };
     if(document.fonts&&document.fonts.ready){document.fonts.ready.then(go,go);}else{go();}
