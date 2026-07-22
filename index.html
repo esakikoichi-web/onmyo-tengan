@@ -14286,70 +14286,6 @@ ${showFamousPage25 ? `
  </div>
  ` : ''}
 
- ${showFamousPage31 ? `
- <div class="rp-page">
-  <div style="background:${th.headerGrad};padding:10px 20px 10px;display:flex;align-items:center;justify-content:space-between;position:relative;">
-   <div style="position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,${th.secondary},${th.highlight},${th.secondary});"></div>
-   <div>
-    <div style="font-family:'Cinzel',serif;font-size:12px;letter-spacing:0.3em;color:rgba(255,255,255,0.65);text-transform:uppercase;margin-bottom:3px;">Onmyo Tengan · Self-Understanding Report</div>
-    <div style="font-size:18px;font-weight:700;color:#fff;letter-spacing:0.06em;">同じ星を持つ著名人</div>
-   </div>
-   <div style="text-align:right;">
-    <div style="font-size:15px;color:rgba(255,255,255,0.65);line-height:1.6;">${s.birthdate} · ${s.age}歳 · ${s.genderLabel}</div>
-    <div style="font-family:'Cinzel',serif;font-size:13px;color:rgba(255,255,255,0.5);">ANALYSIS DATE : ${currentYear}.${String(new Date().getMonth()+1).padStart(2,'0')}.${String(new Date().getDate()).padStart(2,'0')}</div>
-   </div>
-  </div>
-
-  <div class="rp-body">
-   <div class="rp-section" style="color:${th.secondary};">Similar Stars · 同じ印綬＋偏印の構造を持つ人物</div>
-
-   <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:14px;">
-
-    <div style="border:1.5px solid ${th.border};overflow:hidden;">
-     <div class="rp-similar-head" style="background:${th.pillarbg};padding:10px 16px;display:flex;align-items:center;gap:16px;border-bottom:1px solid ${th.border};">
-      <div class="rp-similar-avatar" style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,${th.highlight},${th.secondary});display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">🚂</div>
-      <div style="flex:1;">
-       <div class="rp-similar-name" style="font-size:17px;font-weight:800;color:${th.primary};letter-spacing:0.04em;">井上勝（いのうえまさる）</div>
-       <div class="rp-similar-prof" style="font-size:12px;color:${th.secondary};margin-top:2px;">1843年8月25日生 ／ 実業家・官僚　「鉄道の父」　長州五傑の一人</div>
-       <div class="rp-similar-prof" style="font-size:12px;color:${th.secondary};margin-top:2px;">UCL卒業。東海道本線・東北本線を完成させ日本の鉄道網の礎を築いた</div>
-      </div>
-      <div style="text-align:right;flex-shrink:0;">
-       <div class="rp-similar-pillar-lbl" style="font-size:10px;font-family:'Cinzel',serif;letter-spacing:0.2em;color:${th.secondary};margin-bottom:4px;">PILLAR</div>
-       <div class="rp-similar-pillar-val" style="font-size:13px;font-weight:700;color:${th.primary};">庚申 ／ 辛未</div>
-       <div class="rp-similar-pillar-sub" style="font-size:11px;color:${th.secondary};margin-top:2px;">印綬・偏印 ／ 印綬＋偏印</div>
-      </div>
-     </div>
-     <div style="padding:12px 16px;background:#fff;">
-      <div class="rp-similar-strengths" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px;">
-       <div class="rp-strength-card" style="padding:8px 10px;background:${th.aptGood || 'rgba(184,150,62,0.06)'};border:1px solid ${th.border};">
-        <div class="rp-strength-lbl" style="font-size:10px;font-family:'Cinzel',serif;letter-spacing:0.15em;color:${th.secondary};margin-bottom:5px;">STRENGTH 01</div>
-        <div class="rp-strength-t" style="font-size:12px;font-weight:700;color:${th.primary};margin-bottom:4px;">脱藩して密かに渡英し、4年かけてUCLで鉄道技術を習得した</div>
-        <div class="rp-strength-d" style="font-size:11px;color:#6b5c40;line-height:1.6;">藩命に反して脱藩扱いで渡英。ユニヴァーシティ・カレッジ・ロンドンに入学し、経費が底をつく困窮に4年間耐えながら鉄道・鉱山技術を習得した。印綬の「本物の技術を、どんな逆境でも直接学びに行く」力。</div>
-       </div>
-       <div class="rp-strength-card" style="padding:8px 10px;background:${th.aptGood || 'rgba(184,150,62,0.06)'};border:1px solid ${th.border};">
-        <div class="rp-strength-lbl" style="font-size:10px;font-family:'Cinzel',serif;letter-spacing:0.15em;color:${th.secondary};margin-bottom:5px;">STRENGTH 02</div>
-        <div class="rp-strength-t" style="font-size:12px;font-weight:700;color:${th.primary};margin-bottom:4px;">外国人技師なしで日本人だけによる初のトンネルを完成させた</div>
-        <div class="rp-strength-d" style="font-size:11px;color:#6b5c40;line-height:1.6;">逢坂山トンネル工事で外国人を排除し日本人技師のみで施工。草鞋・脚絆を履いて自ら鶴嘴を振るった。偏印の「既成の『外国人頼み』という枠を超え、自分たちの形を作る」本質。日本人技師の自立を示した歴史的な工事となった。</div>
-       </div>
-       <div class="rp-strength-card" style="padding:8px 10px;background:${th.aptGood || 'rgba(184,150,62,0.06)'};border:1px solid ${th.border};">
-        <div class="rp-strength-lbl" style="font-size:10px;font-family:'Cinzel',serif;letter-spacing:0.15em;color:${th.secondary};margin-bottom:5px;">STRENGTH 03</div>
-        <div class="rp-strength-t" style="font-size:12px;font-weight:700;color:${th.primary};margin-bottom:4px;">中山道から東海道へ——自分の判断で既定路線を覆した</div>
-        <div class="rp-strength-d" style="font-size:11px;color:#6b5c40;line-height:1.6;">国の方針として決まっていた中山道ルートについて、自ら実地調査を重ね「工事困難」と判断し東海道への変更を主張・実現。偏印の「前例・方針より、自分が見た現実を優先する」力。</div>
-       </div>
-      </div>
-      <div style="padding:9px 12px;background:linear-gradient(135deg,rgba(184,150,62,0.06),rgba(184,150,62,0.02));border-left:3px solid ${th.highlight};font-size:12px;line-height:1.65;color:#3d3020;">
-       <strong style="color:${th.primary};">📌 このタイプへの示唆：</strong>　このタイプに「マニュアル通りにやれ」「前例に倣え」は通じません。印綬が現場で深く学んだ知識と、偏印の「既存の枠を超えた独自の実装」が組み合わさるとき、このタイプは本領を発揮します。<strong>学びの自由と、実装の裁量を同時に与えることが、このタイプの最良の活かし方です。</strong>
-      </div>
-     </div>
-    </div>
-
-   </div>
-
-   <div class="rp-footer"><div class="rp-footer-dis">本レポートは生年月日・生時データに基づく四柱推命（伝統占術）の解釈であり、自己理解・対話のための参考資料です。<br>採用選考・人事評価・処遇決定の根拠としての使用は想定していません。<br>© 陰陽天眼 Self-Understanding Reports</div><div class="rp-footer-copy">ONMYO TENGAN</div></div>
-  </div>
- </div>
- ` : ''}
-
  ${showFamousPage32 ? `
  <div class="rp-page">
   <div style="background:${th.headerGrad};padding:10px 20px 10px;display:flex;align-items:center;justify-content:space-between;position:relative;">
@@ -15888,6 +15824,44 @@ ${showFamousPage48 ? `
     </div>
 
    </div>
+
+    <div style="border:1.5px solid ${th.border};overflow:hidden;">
+     <div class="rp-similar-head" style="background:${th.pillarbg};padding:10px 16px;display:flex;align-items:center;gap:16px;border-bottom:1px solid ${th.border};">
+      <div class="rp-similar-avatar" style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,${th.highlight},${th.secondary});display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">🚂</div>
+      <div style="flex:1;">
+       <div class="rp-similar-name" style="font-size:17px;font-weight:800;color:${th.primary};letter-spacing:0.04em;">井上勝（いのうえまさる）</div>
+       <div class="rp-similar-prof" style="font-size:12px;color:${th.secondary};margin-top:2px;">1843年8月25日生 ／ 実業家・官僚　「鉄道の父」　長州五傑の一人</div>
+       <div class="rp-similar-prof" style="font-size:12px;color:${th.secondary};margin-top:2px;">UCL卒業。東海道本線・東北本線を完成させ日本の鉄道網の礎を築いた</div>
+      </div>
+      <div style="text-align:right;flex-shrink:0;">
+       <div class="rp-similar-pillar-lbl" style="font-size:10px;font-family:'Cinzel',serif;letter-spacing:0.2em;color:${th.secondary};margin-bottom:4px;">PILLAR</div>
+       <div class="rp-similar-pillar-val" style="font-size:13px;font-weight:700;color:${th.primary};">庚申 ／ 癸卯</div>
+       <div class="rp-similar-pillar-sub" style="font-size:11px;color:${th.secondary};margin-top:2px;">劫財・食神 ／ 劫財＋食神</div>
+      </div>
+     </div>
+     <div style="padding:12px 16px;background:#fff;">
+      <div class="rp-similar-strengths" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px;">
+       <div class="rp-strength-card" style="padding:8px 10px;background:${th.aptGood || 'rgba(184,150,62,0.06)'};border:1px solid ${th.border};">
+        <div class="rp-strength-lbl" style="font-size:10px;font-family:'Cinzel',serif;letter-spacing:0.15em;color:${th.secondary};margin-bottom:5px;">STRENGTH 01</div>
+        <div class="rp-strength-t" style="font-size:12px;font-weight:700;color:${th.primary};margin-bottom:4px;">脱藩して密かに渡英し、4年かけてUCLで鉄道技術を習得した</div>
+        <div class="rp-strength-d" style="font-size:11px;color:#6b5c40;line-height:1.6;">藩命に反して脱藩扱いで渡英。ユニヴァーシティ・カレッジ・ロンドンに入学し、経費が底をつく困窮に4年間耐えながら鉄道・鉱山技術を習得した。印綬の「本物の技術を、どんな逆境でも直接学びに行く」力。</div>
+       </div>
+       <div class="rp-strength-card" style="padding:8px 10px;background:${th.aptGood || 'rgba(184,150,62,0.06)'};border:1px solid ${th.border};">
+        <div class="rp-strength-lbl" style="font-size:10px;font-family:'Cinzel',serif;letter-spacing:0.15em;color:${th.secondary};margin-bottom:5px;">STRENGTH 02</div>
+        <div class="rp-strength-t" style="font-size:12px;font-weight:700;color:${th.primary};margin-bottom:4px;">外国人技師なしで日本人だけによる初のトンネルを完成させた</div>
+        <div class="rp-strength-d" style="font-size:11px;color:#6b5c40;line-height:1.6;">逢坂山トンネル工事で外国人を排除し日本人技師のみで施工。草鞋・脚絆を履いて自ら鶴嘴を振るった。偏印の「既成の『外国人頼み』という枠を超え、自分たちの形を作る」本質。日本人技師の自立を示した歴史的な工事となった。</div>
+       </div>
+       <div class="rp-strength-card" style="padding:8px 10px;background:${th.aptGood || 'rgba(184,150,62,0.06)'};border:1px solid ${th.border};">
+        <div class="rp-strength-lbl" style="font-size:10px;font-family:'Cinzel',serif;letter-spacing:0.15em;color:${th.secondary};margin-bottom:5px;">STRENGTH 03</div>
+        <div class="rp-strength-t" style="font-size:12px;font-weight:700;color:${th.primary};margin-bottom:4px;">中山道から東海道へ——自分の判断で既定路線を覆した</div>
+        <div class="rp-strength-d" style="font-size:11px;color:#6b5c40;line-height:1.6;">国の方針として決まっていた中山道ルートについて、自ら実地調査を重ね「工事困難」と判断し東海道への変更を主張・実現。偏印の「前例・方針より、自分が見た現実を優先する」力。</div>
+       </div>
+      </div>
+      <div style="padding:9px 12px;background:linear-gradient(135deg,rgba(184,150,62,0.06),rgba(184,150,62,0.02));border-left:3px solid ${th.highlight};font-size:12px;line-height:1.65;color:#3d3020;">
+       <strong style="color:${th.primary};">📌 このタイプへの示唆：</strong>　このタイプに「マニュアル通りにやれ」「前例に倣え」は通じません。印綬が現場で深く学んだ知識と、偏印の「既存の枠を超えた独自の実装」が組み合わさるとき、このタイプは本領を発揮します。<strong>学びの自由と、実装の裁量を同時に与えることが、このタイプの最良の活かし方です。</strong>
+      </div>
+     </div>
+    </div>
 
    <div class="rp-footer"><div class="rp-footer-dis">本レポートは生年月日・生時データに基づく四柱推命（伝統占術）の解釈であり、自己理解・対話のための参考資料です。<br>採用選考・人事評価・処遇決定の根拠としての使用は想定していません。<br>© 陰陽天眼 Self-Understanding Reports</div><div class="rp-footer-copy">ONMYO TENGAN</div></div>
   </div>
@@ -22361,7 +22335,7 @@ const TENGAN_FAMOUS_DB = [
 {name:'空知英秋（そらちひであき）',birth:'1979-05-25',profile:'1979年5月25日生 ／ 漫画家　銀魂作者 / 連載当初アンケート最下位すれすれから、15年半・77巻の長期連載を完走',pillar:'己巳 ／ 己未',pillarSub:'正官・正官 ／ 正官＋正官',monthJ:'正官',yearJ:'正官',pattern:'正官＋正官',strengths:[{title:'「ジャンプ最遅筆」を自認しながら、15年間連載を完走した',body:'自らジャンプ最遅筆と公言し、「2番目に遅い作家さんより1日遅れている」と述べた。それでも連載当初アンケート最下位すれすれから15年半・77巻を完走した。正官の「速さより誠実さ、完うすることへの責任感」。'},{title:'父親に嘲笑されて夢を諦め、就活失敗で漫画に戻ってきた',body:'小学生の頃に父親に漫画を読まれ嘲笑されて夢を一度諦めた。建築士・コピーライター・整体師と夢を変えたが就活でうまくいかず「落ち込んで漫画の世界に逃げ込み仕上げた漫画が賞をとった」。正官の「本来の役割に自然に引き戻される」力。'},{title:'「ネタもストレスも全て漫画で解消する」——SNSを一切やらないと公言した',body:'Twitter・ブログを「今後もやるつもりは一切ない」と断言。理由は「ネタもストレスも全て漫画で解消する所存です」。正官の「自分の役割の場所に全力を注ぎ、他には散らさない」本質。'}],note:'このタイプは「正しく、かつ速く」が自分への基準。ジャンプ最遅筆を自認しながらも15年間連載を完走した背景には、「誠実に、きっちり責任を果たす」という正官の芯がある。一方で、だらだらと遅い・けじめのない仕事には内側から嫌悪感が生まれる。'},
 {name:'2パック（トゥパック・アマル・シャクール）',birth:'1971-06-16',profile:'1971年6月16日生 ／ ラッパー・俳優　「輝ける龍」の名を持つ / ローリング・ストーン誌「歴史上最も偉大な100組のアーティスト」第86位。25歳で没後も世代を超えて影響を与え続けた',pillar:'甲午 ／ 辛亥',pillarSub:'食神・印綬 ／ 食神＋印綬',monthJ:'食神',yearJ:'印綬',pattern:'食神＋印綬',strengths:[{title:'獄中でマキャヴェッリを読み、アーティスト名を「マキャヴェッリ」に改めた',body:'服役中に読んだニッコロ・マキャヴェッリの思想に感銘を受け、自身のアーティスト名を「マキャヴェッリ」と改名。逆境の中でも知的吸収を止めない——印綬の「どんな状況でも深く学ぶ」本質が、獄中という極限状況で表れた。'},{title:'5発被弾しても表現を止めなかった——「オール・アイズ・オン・ミー」はその直後に生まれた',body:'頭部・股間・手に計5発被弾する事件に遭いながら、その後も精力的に活動を続けた。「オール・アイズ・オン・ミー」はその経験を経て生まれたミリオンセラー。食神の「どんな状況でも自然に溢れ出てくる表現の豊かさ」が、逆境の中でも止まらなかった。'},{title:'死後もマキャヴェリ名義アルバムが全米1位——25年以上リリースが続いた',body:'没後すぐに発表されたマキャヴェリ名義アルバムが全米初登場1位。その後も未発表音源のリリースが続き、『アンティル・ジ・エンド・オブ・タイム』も全米NO.1を記録。エミネム・スヌープ・ドッグ・ドクター・ドレーが惜しみないリスペクトをし続ける。印綬の「深く刻んだ知と表現は、本人の死後も生き続ける」力。'}],note:'このタイプに「型にはまれ」「学ぶより動け」は最も力を削ぐ言葉です。印綬が深く学んだことが食神の表現に直結する——この回路を止めると急速に力が落ちます。'},
 {name:'ノトーリアス・B.I.G.（クリストファー・ウォレス）',birth:'1972-05-21',profile:'1972年5月21日生 ／ ラッパー　東海岸ヒップホップの象徴 / 190cm・136kgの巨漢から放たれる卓越したラップで名盤を残した。24歳で没後もセカンドアルバムが1000万枚を売り上げ伝説となった',pillar:'乙巳 ／ 壬子',pillarSub:'傷官・比肩 ／ 傷官＋比肩',monthJ:'傷官',yearJ:'比肩',pattern:'傷官＋比肩',strengths:[{title:'麻薬売人として生きながら、路上のフリースタイルラップで名を轟かせた',body:'クラックコカインの売人として働きながら、そのカリスマ性とフリースタイルラップで街角の有名人になった。デモテープが業界人の耳に渡り、ショーン・コムズに見出された。比肩の「肩書や環境に関係なく、自分の力で対等な場所に立つ」力。'},{title:'「Ready to Die」で西海岸全盛の時代に東海岸の興隆を示した',body:'1994年のデビューアルバム「Ready to Die」は、当時西海岸が主流だった風潮に東海岸の力を見せつけた。傷官の「既存の主流・権威を批評眼で疑い、独自の表現で対抗する」力。ヒップホップアルバム屈指の名作として現在も評価が高い。'},{title:'死後のセカンドアルバムが1000万枚——24歳の表現が時代を超えた',body:'生前録音済みのセカンドアルバム「Life After Death」は没後にリリースされ1000万枚を売り上げ、ビギーを伝説の存在にした。傷官の「本物の表現は時代を超えて残る」本質。'}],note:'このタイプに「上の言うことに従え」「周囲と合わせろ」は最も力を削ぐ言葉です。比肩は対等な関係でこそ力を出し、傷官は独自の表現の自由があってこそ本領を発揮する。'},
-{name:'井上勝（いのうえまさる）',birth:'1843-08-25',profile:'1843年8月25日生 ／ 実業家・官僚　「鉄道の父」　長州五傑の一人 / UCL卒業。東海道本線・東北本線を完成させ日本の鉄道網の礎を築いた',pillar:'庚申 ／ 辛未',pillarSub:'印綬・偏印 ／ 印綬＋偏印',monthJ:'印綬',yearJ:'偏印',pattern:'印綬＋偏印',strengths:[{title:'脱藩して密かに渡英し、4年かけてUCLで鉄道技術を習得した',body:'藩命に反して脱藩扱いで渡英。ユニヴァーシティ・カレッジ・ロンドンに入学し、経費が底をつく困窮に4年間耐えながら鉄道・鉱山技術を習得した。印綬の「本物の技術を、どんな逆境でも直接学びに行く」力。'},{title:'外国人技師なしで日本人だけによる初のトンネルを完成させた',body:'逢坂山トンネル工事で外国人を排除し日本人技師のみで施工。草鞋・脚絆を履いて自ら鶴嘴を振るった。偏印の「既成の『外国人頼み』という枠を超え、自分たちの形を作る」本質。日本人技師の自立を示した歴史的な工事となった。'},{title:'中山道から東海道へ——自分の判断で既定路線を覆した',body:'国の方針として決まっていた中山道ルートについて、自ら実地調査を重ね「工事困難」と判断し東海道への変更を主張・実現。偏印の「前例・方針より、自分が見た現実を優先する」力。'}],note:'このタイプに「マニュアル通りにやれ」「前例に倣え」は通じません。印綬が現場で深く学んだ知識と、偏印の「既存の枠を超えた独自の実装」が組み合わさるとき、このタイプは本領を発揮します。'},
+{name:'井上勝（いのうえまさる）',birth:'1843-08-25',profile:'1843年8月25日生 ／ 実業家・官僚　「鉄道の父」　長州五傑の一人 / UCL卒業。東海道本線・東北本線を完成させ日本の鉄道網の礎を築いた',pillar:'庚申 ／ 癸卯',pillarSub:'劫財・食神 ／ 劫財＋食神',monthJ:'劫財',yearJ:'食神',pattern:'劫財＋食神',strengths:[{title:'脱藩して密かに渡英し、4年かけてUCLで鉄道技術を習得した',body:'藩命に反して脱藩扱いで渡英。ユニヴァーシティ・カレッジ・ロンドンに入学し、経費が底をつく困窮に4年間耐えながら鉄道・鉱山技術を習得した。印綬の「本物の技術を、どんな逆境でも直接学びに行く」力。'},{title:'外国人技師なしで日本人だけによる初のトンネルを完成させた',body:'逢坂山トンネル工事で外国人を排除し日本人技師のみで施工。草鞋・脚絆を履いて自ら鶴嘴を振るった。偏印の「既成の『外国人頼み』という枠を超え、自分たちの形を作る」本質。日本人技師の自立を示した歴史的な工事となった。'},{title:'中山道から東海道へ——自分の判断で既定路線を覆した',body:'国の方針として決まっていた中山道ルートについて、自ら実地調査を重ね「工事困難」と判断し東海道への変更を主張・実現。偏印の「前例・方針より、自分が見た現実を優先する」力。'}],note:'このタイプに「マニュアル通りにやれ」「前例に倣え」は通じません。印綬が現場で深く学んだ知識と、偏印の「既存の枠を超えた独自の実装」が組み合わさるとき、このタイプは本領を発揮します。'},
 {name:'鳥山明（とりやまあきら）',birth:'1955-04-05',profile:'1955年4月5日生 ／ 漫画家　ドラゴンボール・Dr.スランプ作者 / 「史上最も影響力のある漫画家」。ドラゴンボール2億6000万部・ドラゴンクエストシリーズ8800万本のキャラクターデザイン担当',pillar:'庚辰 ／ 乙未',pillarSub:'偏財・印綬 ／ 偏財＋印綬',monthJ:'偏財',yearJ:'印綬',pattern:'偏財＋印綬',strengths:[{title:'23歳の誕生日に「賞金50万円」を見て初めて漫画を描き始めた',body:'デザイン会社を辞め途方に暮れていた23歳の誕生日、喫茶店で偶然手にした雑誌の新人賞記事を見て初めて漫画を描いた。偏財の「目の前のチャンスを即座に掴む」瞬発力。デビュー作はアンケート最下位でも、1年で500ページのボツをこなして習得した。'},{title:'担当編集との「賭け」でアラレを主人公にし、Dr.スランプ→ドラゴンボールと2本の長期連載を育て上げた',body:'「女の子を主人公にした読み切りがアンケート3位以内ならアラレを主人公に」という賭けに乗り、見事3位を獲得。最高視聴率36.9%のDr.スランプから、ドラゴンボール2億6000万部へ。印綬の「コツコツと、長く続けて、深く育てる」力。'},{title:'「ゲームをやったことがない」状態からドラゴンクエストのデザインを担当し国民的RPGを生んだ',body:'「ゲームに関してはてんで無知だった」と語りながらも、ドラゴンクエストのキャラクター・モンスターデザインを全シリーズ担当。スライムを雨粒のようにアレンジするなど独自の解釈を加え続けた。偏財の「未知の領域にも臆せず入り込み、独自の価値を生む」力。'}],note:'このタイプには「チャンスと学びの環境を同時に与える」ことが最大の活かし方です。偏財の「目の前のチャンスを掴む」×印綬の「コツコツ長く育てる」が組み合わさるとき、賞金目当てで始めた漫画が世界2億6000万部になるような結果が生まれます。'},
 {name:'冨樫義博（とがしよしひろ）',birth:'1966-04-27',profile:'1966年4月27日生 ／ 漫画家　幽☆遊☆白書・HUNTER×HUNTER作者 / 山形大学中退後上京。幽☆遊☆白書・HUNTERの2作でジャンプ史に名を刻んだ',pillar:'壬辰 ／ 丙午',pillarSub:'偏官・比肩 ／ 偏官＋比肩',monthJ:'偏官',yearJ:'比肩',pattern:'偏官＋比肩',strengths:[{title:'腰痛で寝そべって原稿を描き、「あらゆる動作が常人の3〜5倍かかる」状態でも描き続けた',body:'幽☆遊☆白書の頃から腰痛が重く、寝そべった状態で原稿を描いた。2022年には「2年ほど椅子に座れない状態で描けなかった」「あらゆる動作が常人の3〜5倍の時間がかかる」と告白しながらも連載を再開した。偏官の「逆境を養分にして、止まらない」本質。'},{title:'人気絶頂の幽☆遊☆白書を「人気の衰えを見る前に」自ら終わらせた',body:'ジャンプの看板作品となった幽☆遊☆白書を、人気の衰えを見る前に連載終了させた。読者・編集・市場の論理より、自分の判断を優先した。比肩の「外からの評価・期待より、自分の基準で動く」独立心。'},{title:'善悪の逆転テーマを一貫して描き続けた——単純な悪者を描かないという信念',body:'幽☆遊☆白書の妖怪・HUNTERのキメラアントなど「外界の生物を決して単純な悪者にしない」テーマを一貫して描き続けた。偏官の「権威・既成の価値観への批評眼」が、作品の独自性を生んだ。'}],note:'このタイプに「読者に合わせろ」「人気があるうちは続けろ」は通じません。偏官の逆境耐性と比肩の「自分の判断」が組み合わさるとき、このタイプは外からの圧力に一切動じない。一方で、'},
 {name:'横井軍平（よこいぐんぺい）',birth:'1941-09-10',profile:'1941年9月10日生 ／ 任天堂開発第一部部長　ゲームボーイ・ゲーム&ウオッチ開発者 / 「枯れた技術の水平思考」を哲学に携帯ゲーム機市場を切り開いた。ゲームボーイの世界累計販売台数は1億台超',pillar:'丁酉 ／ 辛巳',pillarSub:'偏官・比肩 ／ 偏官＋比肩',monthJ:'偏官',yearJ:'比肩',pattern:'偏官＋比肩',strengths:[{title:'暇つぶしで作ったおもちゃを社長に見つかり「商品化しろ」と言われた——それが任天堂玩具開発の始まりだった',body:'電気設備の保守点検の仕事中、暇つぶしで格子状に伸び縮みするおもちゃを作って遊んでいたところを社長の山内溥に見つかり「それをゲーム化して商品化しろ」と言われた。比肩の「自分が面白いと感じたことを、誰の指示もなく自然に形にする」本質がキャリアの起点になった。'},{title:'「ライバルがカラーで出たらウチの勝ち」——高性能競合を逆用してゲームボーイで圧勝した',body:'ゲームギア・PCエンジンGTなど高性能カラー機が対抗して出てきた際、横井は「ライバルがカラーで出たらウチの勝ち」と最初から読んでいた。カラー化は消費電力が高く電池が持たない——携帯ゲーム機として致命的な弱点になる。モノクロ・低コスト路線のゲームボーイはその逆を突いて競合を次々と葬った。偏官の「逆境・圧力を養分にして、止まらない」本質。'},{title:'「枯れた技術の水平思考」——既存の技術を異なる使い方で全く新しい商品を生み出した',body:'「すでに広く使われている技術を、既存とは異なる使い方で新しい商品を生み出す」という哲学を貫いた。太陽電池をセンサーとして使う光線銃、モノクロ液晶を採用したゲームボーイ。比肩の「自分の基準・哲学を、外の圧力に関わらず貫く」独立心。'}],note:''},
