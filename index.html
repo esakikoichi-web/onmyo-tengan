@@ -1909,7 +1909,7 @@ body { font-family:var(--serif-jp); background:var(--paper); color:var(--ink); m
 
 
 <!-- 📱 モバイル用フローティングPDFボタン：画面右下に常時表示 -->
-<a id="floatingPdfBtn" href="javascript:void(0)" role="button" onclick="alert('FAB tapped');tenganDownloadPDFFromHeader();return false;" style="display:none;position:fixed;bottom:20px;right:20px;z-index:9998;width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#D4AF5A,#B8963E);color:#1A0606;font-family:var(--serif-jp);font-weight:700;font-size:11px;letter-spacing:0.05em;align-items:center;justify-content:center;text-decoration:none;box-shadow:0 4px 12px rgba(0,0,0,0.3);-webkit-tap-highlight-color:rgba(255,255,255,0.3);touch-action:manipulation;border:2px solid #8B6F2A;text-align:center;line-height:1.2;">📄<br>PDF</a>
+<a id="floatingPdfBtn" href="javascript:void(0)" role="button" onclick="tenganDownloadPDFFromHeader();return false;" style="display:none;position:fixed;bottom:20px;right:20px;z-index:9998;width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#D4AF5A,#B8963E);color:#1A0606;font-family:var(--serif-jp);font-weight:700;font-size:11px;letter-spacing:0.05em;align-items:center;justify-content:center;text-decoration:none;box-shadow:0 4px 12px rgba(0,0,0,0.3);-webkit-tap-highlight-color:rgba(255,255,255,0.3);touch-action:manipulation;border:2px solid #8B6F2A;text-align:center;line-height:1.2;">📄<br>PDF</a>
 
 
 <div id="loginScreen" class="screen active">
@@ -6878,8 +6878,6 @@ function keieiRunDirect(){
 var _tenganPdfFiring = false;
 
 function tenganDownloadPDFFromHeader(){
- // 押されたことを確認するためのデバッグalert
- alert('PDFボタンが押されました');
  // 短時間内の重複呼び出しをブロック
  if(_tenganPdfFiring) return false;
  _tenganPdfFiring = true;
