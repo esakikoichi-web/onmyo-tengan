@@ -5708,10 +5708,14 @@ function getDaunStart(direction, y, m, d){
  let days;
  if(direction === 1){
 
- const nextMonth = m === 12 ? 1 : m + 1;
- const nextYear = m === 12 ? y + 1 : y;
- const sekkiDay = getSekki(nextYear, nextMonth);
- let target = daysSince1900(nextYear, nextMonth, sekkiDay);
+ // 順行：出生後の「次の節」までの日数。当月の節よりも前に生まれた場合は
+ // 次の節は当月の節、そうでなければ翌月の節。
+ const thisSekki = getSekki(y, m);
+ let ty, tm;
+ if(d < thisSekki){ ty = y; tm = m; }
+ else { tm = m === 12 ? 1 : m + 1; ty = m === 12 ? y + 1 : y; }
+ const sekkiDay = getSekki(ty, tm);
+ let target = daysSince1900(ty, tm, sekkiDay);
  let birth = daysSince1900(y, m, d);
  days = target - birth;
  } else {
@@ -5733,7 +5737,8 @@ function getDaunStart(direction, y, m, d){
 }
 
 function getDaunCycle(start){
- return start <= 2 ? 10 : start;
+ // 大運は一運＝10年で固定（起算年齢に依存しない）
+ return 10;
 }
 
 function getDaunKanshiIdx(monthPillarKanshiIdx, direction, daunNumber){
