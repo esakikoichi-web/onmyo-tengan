@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>縁結び天眼</title>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fbeaee;--panel:#fffbfb;--ink:#2f2023;--dim:#8f6e74;--gold:#c2436c;--bright:#9c2f52;--bad:#a8412c;--line:rgba(194,67,108,.30)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#f3d7de;color:var(--ink);font-family:"Shippori Mincho B1",serif;height:100vh;display:flex;flex-direction:column;max-width:620px;margin:0 auto;width:100%;box-shadow:0 0 40px rgba(0,0,0,.08)}
+header{padding:9px 14px;border-bottom:1px solid var(--line);text-align:center}
+header .ttl{font-size:13px;letter-spacing:.3em;color:var(--gold)}
+header .sub{font-size:11px;color:var(--dim);margin-top:4px}
+#chat{flex:1;overflow-y:auto;padding:10px 14px;display:flex;flex-direction:column;gap:9px}
+.msg{max-width:88%;padding:11px 14px;border-radius:8px;font-size:15px;line-height:1.7;white-space:pre-wrap;color:#2f2023}
+.user{align-self:flex-end;background:rgba(194,67,108,.13);border:1px solid var(--line)}
+.bot{align-self:flex-start;background:#fffbfb;border:1px solid rgba(194,67,108,.28)}
+.bot b{color:var(--bright)}
+.hd{font-size:1.15em;color:var(--bright);font-weight:700;margin-bottom:4px}
+#chips{display:flex;gap:8px;overflow-x:auto;align-items:center;flex-wrap:nowrap;padding:10px 14px;border-top:1px solid var(--line)}
+.chip{flex:0 0 auto;align-self:center;white-space:nowrap;font-size:11.5px;color:var(--gold);border:1px solid var(--line);border-radius:999px;padding:7px 13px;cursor:pointer;background:transparent;font-family:inherit}
+.chip.line{background:#06c755;color:#fff;border-color:#06c755;font-weight:700}
+#bar{display:flex;gap:8px;padding:10px 14px 16px}
+#inp{flex:1;background:#fffbfb;border:1px solid var(--line);border-radius:8px;color:var(--ink);font-family:inherit;font-size:14px;padding:12px;resize:none;height:48px}
+#send{background:var(--gold);border:1px solid var(--bright);border-radius:8px;color:#fff8f9;font-family:inherit;font-size:13px;padding:0 18px;cursor:pointer}
+.disc{text-align:center;font-size:9px;color:#9c8388;padding:0 14px 10px;line-height:1.7}
+#histbar{display:flex;gap:6px;overflow-x:auto;padding:8px 14px;background:var(--bg);border-bottom:1px solid var(--line);white-space:nowrap;min-height:0}#histbar:empty{display:none}.htag{flex:0 0 auto;background:var(--panel);border:1px solid var(--line);color:var(--gold);padding:4px 10px;border-radius:6px;font-size:12px;cursor:pointer}
+header,#histbar,#chat,#chips,#form,#bar{width:100%;max-width:560px;margin-left:auto;margin-right:auto}body>header,body>#histbar,body>#chat,body>#chips,body>#form,body>#bar{background:var(--bg)}#chat{background:var(--bg)}@media(min-width:600px){body{box-shadow:none}header,#histbar,#chat,#chips,#form,#bar{border-left:1px solid var(--line);border-right:1px solid var(--line)}}
+/* 入力フォーム */
+#form{margin:8px 14px 0;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:9px 14px 11px}
+.fhead{font-size:12.5px;color:var(--gold);letter-spacing:.08em;padding:2px 0 8px}
+#form .row{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+#form .rlbl{font-size:11.5px;color:var(--dim);min-width:130px}
+#form input[type=date]{font-family:inherit;font-size:14px;color:var(--ink);background:#fffbfb;border:1px solid var(--line);border-radius:8px;padding:7px 8px;flex:1;min-width:150px}
+#miru{display:block;width:100%;margin-top:2px;font-family:inherit;font-size:14px;font-weight:700;letter-spacing:.2em;color:#fff8f9;background:var(--gold);border:1px solid var(--bright);border-radius:8px;padding:10px;cursor:pointer}
+#miru:hover{background:var(--bright)}
+</style>
+</head>
+<body>
+<header>
+  <div class="ttl">縁 結 び 天 眼</div>
+  <div class="sub">生年月日でひも解く、恋愛と相性の鑑定</div>
+</header>
+<div id="histbar"></div>
+<div id="chat"></div>
+<div id="form">
+  <div class="fhead">生年月日を入れて「診る」を押してください</div>
+  <div class="row"><span class="rlbl">あなたの生年月日</span><input type="date" id="meDate"></div>
+  <div class="row"><span class="rlbl">お相手の生年月日（任意）</span><input type="date" id="partnerDate"></div>
+  <button id="miru" onclick="miru()">診 る</button>
+</div>
+<div id="chips">
+  <button class="chip" onclick="askToday()">今日の恋愛運</button>
+  <button class="chip" onclick="askDeai()">出会い運のいい日</button>
+  <button class="chip" onclick="askHelp()">使い方</button>
+  <button class="chip line" onclick="openContact()">個別相談はLINEで</button>
+</div>
+<div id="bar">
+  <textarea id="inp" placeholder="例：1995/6/21　相性なら2つ送ってください"></textarea>
+  <button id="send" onclick="go()">送る</button>
+</div>
+<div class="disc">本鑑定は娯楽目的の占いです。恋愛や人間関係の結果を保証するものではありません。</div>
+<script>
+const KAN=[..."甲乙丙丁戊己庚辛壬癸"];
+const SHI=[..."子丑寅卯辰巳午未申酉戌亥"];
+const ANCHOR=Date.UTC(2026,5,8),AK=9,AS=1;
+function dayP(y,m,d){const n=Math.round((Date.UTC(y,m-1,d)-ANCHOR)/86400000);return[KAN[((AK+n)%10+10)%10],SHI[((AS+n)%12+12)%12]];}
+const KANGO={"甲":"己","己":"甲","乙":"庚","庚":"乙","丙":"辛","辛":"丙","丁":"壬","壬":"丁","戊":"癸","癸":"戊"};
+const GOGYO={"甲":"木","乙":"木","丙":"火","丁":"火","戊":"土","己":"土","庚":"金","辛":"金","壬":"水","癸":"水"};
+const KOKU={"木":"土","火":"金","土":"水","金":"木","水":"火"};
+const CHU={"子":"午","丑":"未","寅":"申","卯":"酉","辰":"戌","巳":"亥","午":"子","未":"丑","申":"寅","酉":"卯","戌":"辰","亥":"巳"};
+const ROKUGO={"子":"丑","丑":"子","寅":"亥","亥":"寅","卯":"戌","戌":"卯","辰":"酉","酉":"辰","巳":"申","申":"巳","午":"未","未":"午"};
+const SANGO=[["寅","午","戌"],["申","子","辰"],["巳","酉","丑"],["亥","卯","未"]];
+function sango(a,b){return SANGO.some(g=>g.includes(a)&&g.includes(b)&&a!==b);}
+const GAI={"子":"未","未":"子","丑":"午","午":"丑","寅":"巳","巳":"寅","卯":"辰","辰":"卯","申":"亥","亥":"申","酉":"戌","戌":"酉"};
+const KEI_G=[["寅","巳","申"],["丑","戌","未"]],KEI_PAIR=[["子","卯"]];
+function kei(a,b){return KEI_G.some(g=>g.includes(a)&&g.includes(b)&&a!==b)||KEI_PAIR.some(g=>g.includes(a)&&g.includes(b)&&a!==b);}
+
+const TYPE={
+ "甲":{n:"大樹型",c:"まっすぐで一途。好きになると迷わず一直線に向かっていく。",need:"信じてついてきてくれる相手。頼られると燃えるタイプ。",warn:"意見を曲げず、知らぬ間に相手を委縮させることがある。たまには相手に決めさせる余白を。",app:"駆け引きせず、まっすぐな気持ちを見せると距離が縮まる。"},
+ "乙":{n:"草花型",c:"柔らかく寄り添い上手。相手の顔色を読み、合わせるのが得意。",need:"包み込んでくれる、安心できる相手。",warn:"合わせすぎて自分を見失いやすい。本音を飲み込みすぎない。",app:"焦らずゆっくり距離を詰めると心を開く。"},
+ "丙":{n:"太陽型",c:"明るく積極的。好きになったらすぐ態度に出る、惚れっぽい一面も。",need:"一緒にいて盛り上がれる、明るい相手。",warn:"熱しやすく冷めやすい。長続きさせるには新鮮さを保つ工夫を。",app:"褒めて明るく誘うと乗ってくる。駆け引きより勢い。"},
+ "丁":{n:"灯火型",c:"一人を静かに深く想う。表には出さないが、内側の情熱は強い。",need:"自分だけを見てくれる、一途な相手。",warn:"独占欲・嫉妬が内側にこもりやすい。溜め込まず言葉にする練習を。",app:"じっくり時間をかけ、二人だけの空気を作ると心を開く。"},
+ "戊":{n:"山型",c:"どっしり構え、動じない。告白は自分からより待つ方が多い。",need:"安定を壊さない、誠実な相手。",warn:"落ち着きすぎてサインを見逃されがち。少しは分かりやすく動く。",app:"焦らず誠実さを積み重ねると信頼から愛情に変わる。"},
+ "己":{n:"畑型",c:"世話焼きで尽くす。相手のために動くことに幸せを感じる。",need:"尽くした分をちゃんと返してくれる相手。",warn:"都合よく使われても我慢しがち。尽くす前に見極める目を持つ。",app:"頼られる、必要とされると距離が縮まる。"},
+ "庚":{n:"剣型",c:"白黒はっきり。好き嫌いを態度に出す、ツンデレ気味。",need:"駆け引きを楽しめる、対等な相手。",warn:"素直になれず強がって突き放すことがある。たまには弱さを見せる。",app:"駆け引きよりストレートな一言が刺さる。"},
+ "辛":{n:"宝石型",c:"プライドが高く理想も高い。簡単には心を開かない。",need:"自分を大切に磨き上げてくれる、格のある相手。",warn:"理想が高すぎて機会を逃しやすい。完璧を求めすぎない。",app:"特別扱いされていると感じさせると心を開く。"},
+ "壬":{n:"大海型",c:"自由でスケールが大きい。束縛を嫌い、広く人を惹きつける。",need:"自由を尊重してくれる、器の大きい相手。",warn:"広く浅くなりやすく、本命を絞れないことがある。",app:"追いかけるより、自由にさせて信頼を見せると落ちる。"},
+ "癸":{n:"雨露型",c:"繊細でロマンチスト。察してほしい気持ちが強い。",need:"言葉にしなくても気づいてくれる、細やかな相手。",warn:"察してもらえないと拗ねて閉じこもりやすい。言葉にする練習を。",app:"小さな気遣いを重ねると静かに信頼が育つ。"}
+};
+const TIMESLOT={
+ "子":"静かな夜。電話やメッセージで気持ちを伝えるのに向く時間。",
+ "丑":"深夜。今日は早めに休んで、動くのは控えて。",
+ "寅":"早朝。新しい出会いの気配がある時間。",
+ "卯":"朝。爽やかな誘いが響く時間。",
+ "辰":"朝。準備・身支度に力を入れると印象が上がる時間。",
+ "巳":"午前。連絡を入れるなら今の時間。",
+ "午":"昼。ランチデートが向く時間。",
+ "未":"午後。まったり過ごすデートが向く時間。",
+ "申":"夕方。誘いの返事が来やすい時間。",
+ "酉":"夕方〜夜。ディナーデートの誘いに向く時間。",
+ "戌":"夜。本音を話すのに向く時間。",
+ "亥":"夜。距離を縮める会話に向く時間。"
+};
+
+function relStem(a,b){
+  if(KANGO[a]===b)return{tag:"干合",good:true,text:"強く惹かれ合う。運命的な結びつきを感じやすい相性。"};
+  if(GOGYO[a]===GOGYO[b])return{tag:"比和",good:false,text:"波長が合うが、似た者同士で張り合うこともある。"};
+  if(KOKU[GOGYO[a]]===GOGYO[b])return{tag:"我剋",good:false,text:"気持ちの主導権はあなたが握りやすい。"};
+  if(KOKU[GOGYO[b]]===GOGYO[a])return{tag:"剋我",good:false,text:"気持ちの主導権は相手が握りやすい。"};
+  return{tag:"平",good:false,text:"穏やかで無理のない距離感。"};
+}
+function relBranch(a,b){
+  if(a===b)return{tag:"同じ",good:false,bad:false,text:"似た者同士。居心地はいいが刺激は少なめ。"};
+  if(CHU[a]===b)return{tag:"冲",good:true,bad:true,text:"強く惹かれ合うが、ぶつかることも多い刺激的な相性。"};
+  if(ROKUGO[a]===b)return{tag:"六合",good:true,bad:false,text:"生活のリズムが自然に噛み合う、一緒にいて楽な相性。"};
+  if(sango(a,b))return{tag:"三合",good:true,bad:false,text:"同じ方向を向いて進める、絆が育ちやすい相性。"};
+  if(GAI[a]===b)return{tag:"害",good:false,bad:true,text:"じわじわとすれ違いが溜まりやすい相性。こまめな会話が鍵。"};
+  if(kei(a,b))return{tag:"刑",good:false,bad:true,text:"足を引っ張り合いやすい相性。距離感の調整が必要。"};
+  return{tag:"平",good:false,bad:false,text:"穏やかで特に問題のない相性。"};
+}
+function verdict(rs,rb){
+  if(rs.good&&rb.good&&!rb.bad)return"心も体も結ばれる、理想的な縁。";
+  if(rs.good&&rb.bad)return"強く惹かれ合うが、ぶつかる場面も多い刺激的な縁。距離の取り方が鍵。";
+  if(!rs.good&&rb.good&&!rb.bad)return"一緒にいて楽で、じっくり長く続く安定型の縁。";
+  if(rb.bad)return"刺激はあるがすれ違いやすい縁。歩み寄りが必要。";
+  return"穏やかに育っていくタイプの縁。";
+}
+function adviceFor(rs,rb){
+  if(rb.tag==="冲")return"ぶつかる時ほど、感情的な言い合いを避けて一晩置くこと。刺激的な分、長く続けるには「距離の作り方」を二人で決めておくと安定する。";
+  if(rb.tag==="害"||rb.tag==="刑")return"すれ違いが積もりやすい相性。小さな不満を溜めず、こまめに言葉にする習慣を。";
+  if(rs.tag==="干合")return"もともと引き合う力が強い相性。あとは日々の積み重ねを大事にするだけで自然と続く。";
+  return"特別な工夫がなくても、自然体でいるだけで長く続きやすい相性。";
+}
+function scoreCalc(rs,rb){
+  let s=60;
+  if(rs.tag==="干合")s+=20;else if(rs.tag==="比和")s+=5;else s+=10;
+  if(rb.tag==="六合"||rb.tag==="三合")s+=15;
+  else if(rb.tag==="冲")s+=5;
+  else if(rb.tag==="害"||rb.tag==="刑")s-=15;
+  else if(rb.tag==="同じ")s+=5;
+  return Math.max(30,Math.min(96,s));
+}
+function fmtDate(d){return(d.getMonth()+1)+"/"+d.getDate()+"("+"日月火水木金土"[d.getDay()]+")";}
+function parseYMD(str){
+  const m=str.match(/(\d{4})-(\d{2})-(\d{2})/);
+  if(m)return{y:+m[1],m:+m[2],d:+m[3]};
+  const m2=str.match(/(19|20)(\d{2})[年\/\-\.\s]*(\d{1,2})[月\/\-\.\s]*(\d{1,2})/);
+  if(m2)return{y:+(m2[1]+m2[2]),m:+m2[3],d:+m2[4]};
+  return null;
+}
+
+function loveTypeHtml(stem){
+  const t=TYPE[stem];
+  return'<div class="hd">恋愛タイプ：'+t.n+'</div>'+
+  '<b>恋愛スタイル</b>\n'+t.c+'\n\n<b>求める相手</b>\n'+t.need+'\n\n<b>注意点</b>\n'+t.warn+'\n\n<b>距離の縮め方</b>\n'+t.app;
+}
+function aishoHtml(A,B){
+  const rs=relStem(A[0],B[0]),rb=relBranch(A[1],B[1]);
+  const v=verdict(rs,rb),sc=scoreCalc(rs,rb);
+  const ta=TYPE[A[0]],tb2=TYPE[B[0]];
+  return'<div class="hd">相性診断（一致度 '+sc+'%）</div>'+
+  '<div style="font-size:1.05em;color:var(--bright);font-weight:700;margin-bottom:6px">'+v+'</div>'+
+  '<b>心の相性</b>\n'+rs.text+'\n\n<b>体・現実の相性</b>\n'+rb.text+'\n\n'+
+  '<b>あなたのタイプ：'+ta.n+'</b>\n'+ta.c+'\n\n<b>お相手のタイプ：'+tb2.n+'</b>\n'+tb2.c+'\n\n'+
+  '<b>うまくいかせるには</b>\n'+adviceFor(rs,rb);
+}
+function todayLoveHtml(){
+  const t=new Date();
+  const a=dayP(t.getFullYear(),t.getMonth()+1,t.getDate());
+  const rs=relStem(a[0],ME[0]),rb=relBranch(a[1],ME[1]);
+  const v=verdict(rs,rb);
+  const act=rb.good&&!rb.bad?"誘うなら今日。自然に距離が縮まりやすい。":(rb.bad?"感情的にならないよう一呼吸置いて。焦って動くと空回りしやすい日。":"いつも通り、自然体で過ごして。");
+  return'<div class="hd">'+fmtDate(t)+' の恋愛運</div>'+
+  '<b>今日の空気</b>\n'+v+'\n\n<b>心の動き</b>\n'+rs.text+'\n\n<b>過ごし方</b>\n'+act+'\n\n<b>相性のいい時間帯</b>\n'+TIMESLOT[a[1]];
+}
+function meetDaysHtml(){
+  const rows=[];
+  for(let i=0;i<30;i++){
+    const d=new Date(Date.now()+i*86400000);
+    const a=dayP(d.getFullYear(),d.getMonth()+1,d.getDate());
+    const rs=relStem(a[0],ME[0]),rb=relBranch(a[1],ME[1]);
+    if(rs.tag==="干合"||rb.tag==="六合"||rb.tag==="三合")rows.push(d);
+  }
+  if(!rows.length)return"この30日は、特別強い日はありません。焦らず、いつも通りの縁を大切に。";
+  return'<b>出会い運・デート運のいい日（30日以内）</b>\n'+rows.map(fmtDate).join("　");
+}
+function helpHtml(){
+  return'<b>縁結び天眼とは</b>\n生年月日から、その人の恋愛の型と、二人の相性を読み解く鑑定ツールです。\n\n<b>使い方</b>\n上のフォームに、あなたの生年月日を入れて「診る」を押すと、あなたの恋愛タイプが分かります。\n　お相手の生年月日も入れると、二人の相性が分かります。\n\n<b>その他の機能</b>\n・今日の恋愛運（要：あなたの生年月日）\n・出会い運のいい日（今後30日）\n\n下の入力欄に生年月日を直接送っても診断できます。';
+}
+
+const ME_MISSING="先に、あなたの生年月日を入れて「診る」を押してください。";
+let ME=null;
+function askToday(){add('user','今日の恋愛運');if(!ME){add('bot',ME_MISSING);return;}add('bot',todayLoveHtml());}
+function askDeai(){add('user','出会い運のいい日');if(!ME){add('bot',ME_MISSING);return;}add('bot',meetDaysHtml());}
+function askHelp(){add('user','使い方');add('bot',helpHtml());}
+function openContact(){window.open("https://lin.ee/xozxBZk","_blank");}
+
+function miru(){
+  const meStr=document.getElementById('meDate').value;
+  const ptStr=document.getElementById('partnerDate').value;
+  if(!meStr){add('bot','まずは、あなたの生年月日を入力してください。');return;}
+  const me=parseYMD(meStr);
+  ME=dayP(me.y,me.m,me.d);
+  add('user','あなた：'+meStr+(ptStr?('／お相手：'+ptStr):''));
+  if(ptStr){
+    const pt=parseYMD(ptStr);
+    add('bot',aishoHtml(ME,dayP(pt.y,pt.m,pt.d)));
+  }else{
+    add('bot',loveTypeHtml(ME[0])+'\n\n相性が気になるお相手がいれば、お相手の生年月日も入れて、もう一度「診る」を押してください。');
+  }
+}
+
+const chat=document.getElementById('chat');
+function add(cls,t){const e=document.createElement('div');e.className='msg '+cls;e.innerHTML=cls==='bot'?t:t.replace(/</g,'&lt;');chat.appendChild(e);requestAnimationFrame(function(){e.scrollIntoView({behavior:'smooth',block:'start'});});}
+function ask(t){document.getElementById('inp').value=t;go();}
+function respond(text){
+  const dates=text.match(/((19|20)\d{2}[年\/\-\.\s]*\d{1,2}[月\/\-\.\s]*\d{1,2})/g);
+  if(dates&&dates.length>=2){
+    const a=parseYMD(dates[0]),b=parseYMD(dates[1]);
+    return aishoHtml(dayP(a.y,a.m,a.d),dayP(b.y,b.m,b.d));
+  }
+  if(dates&&dates.length===1){
+    const a=parseYMD(dates[0]);
+    const st=dayP(a.y,a.m,a.d);
+    if(!ME)ME=st;
+    return loveTypeHtml(st[0]);
+  }
+  if(/今日/.test(text))return ME?todayLoveHtml():ME_MISSING;
+  if(/出会/.test(text))return ME?meetDaysHtml():ME_MISSING;
+  if(/使い方|ヘルプ|help/i.test(text))return helpHtml();
+  return"生年月日を送ってください（例：1995/6/21）。相性を見たい場合は、2人分の生年月日を送ってください。";
+}
+function go(){
+  const inp=document.getElementById('inp');
+  const text=inp.value.trim();
+  if(!text)return;
+  inp.value='';
+  add('user',text);
+  setTimeout(function(){add('bot',respond(text));},200);
+}
+document.getElementById('inp').addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();go();}});
+add('bot',helpHtml());
+</script>
+</body></html>
