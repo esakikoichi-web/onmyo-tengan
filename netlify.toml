@@ -1,4 +1,9 @@
 [[headers]]
-  for = "/*"
+  for = "/"
+  [headers.values]
+    Basic-Auth = "admin:onmyo2026"
+
+[[headers]]
+  for = "/index.html"
   [headers.values]
     Basic-Auth = "admin:onmyo2026"
