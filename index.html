@@ -24,9 +24,6 @@ header .sub{font-size:11px;color:var(--dim);margin-top:4px}
 #inp{flex:1;background:#fffdf7;border:1px solid var(--line);border-radius:8px;color:var(--ink);font-family:inherit;font-size:14px;padding:12px;resize:none;height:48px}
 #send{background:#8a6a1f;border:1px solid #6f5414;border-radius:8px;color:#fff8e6;font-family:inherit;font-size:13px;padding:0 18px;cursor:pointer}
 .disc{text-align:center;font-size:9px;color:#8a8270;padding:0 14px 10px;line-height:1.7}
-#affbar{width:100%;max-width:560px;margin:0 auto;padding:0 14px}
-#affbar a{display:block;text-align:center;background:#fffdf7;border:1px solid var(--line);border-radius:8px;color:var(--bright);font-size:12px;letter-spacing:.04em;padding:9px 10px;text-decoration:none}
-#affbar a:active{background:#f3ead2}
 .bwrap{display:flex;flex-wrap:wrap;gap:10px;margin:8px 0}.ban{text-align:center}.ban .bt{font-size:11px;color:#8a7a4f;letter-spacing:1px;margin-bottom:3px}.ban table{border-collapse:collapse;margin:0 auto}.ban td{border:1px solid #c9b277;width:30px;height:30px;text-align:center;font-size:14px;color:#3f3a2e}td.bx{color:#b3402e;background:#f7e8e4;text-decoration:line-through}td.bo{background:#efe3c0;font-weight:700}td.bxo{color:#b3402e;background:#f3d9c9;font-weight:700;text-decoration:line-through}
 .sec{display:block;margin:15px 0 13px;padding:9px 12px;background:linear-gradient(90deg,rgba(176,141,60,.16),rgba(176,141,60,0));border-left:4px solid #b08d3c;color:#7a5f1f;font-weight:700;letter-spacing:3px;border-radius:4px;font-size:1.05em}.dvd{display:block;height:1px;background:linear-gradient(90deg,transparent,#c9b277,transparent);margin:11px 0}
 details.more{margin-top:10px;border-top:1px dashed #c9b277;padding-top:8px}details.more>summary{cursor:pointer;color:#7a5f1f;font-weight:700;letter-spacing:2px;list-style:none;padding:4px 0}details.more>summary::-webkit-details-marker{display:none}details.more>summary::before{content:"▼ ";font-size:.8em}details.more[open]>summary::before{content:"▲ "}
@@ -129,10 +126,6 @@ body.showmore #moreBtn{display:none}
   <button class="chip" onclick="ask('今月の吉日')">今月の吉日</button>
   <button class="chip" onclick="openContact()">青龍孔一に連絡</button>
 
-</div>
-<div id="affbar" style="display:none">
-  <!-- 出口は「青龍孔一への鑑定予約」を優先するため一旦非表示。A8の提携(電話占い等)が承認され、hrefを差し替える準備ができたらdisplay:noneを外す -->
-  <a href="#" id="affLink" target="_blank" rel="noopener sponsored">もっとじっくり視てほしい方へ｜提携鑑定師に相談する</a>
 </div>
 <div id="bar">
   <textarea id="inp" placeholder="お客様の生年月日＋性別でアプローチ（例：1993/4/22 女）／自分の生年月日＋悩みで自分を観る"></textarea>
