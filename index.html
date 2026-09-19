@@ -139,7 +139,7 @@ body.showmore #moreBtn{display:none}
   <button id="send" onclick="go()">送る</button>
 </div>
 <div class="disc">生まれの盤面と暦データから自動算出。重要判断の最終鑑定は青龍孔一が承ります。<br>※本ツールは東洋占術に基づく参考情報の提供であり、特定の成果・結果を保証するものではありません。</div>
-<script>(function(){var EXP=new Date("2026-08-01T00:00:00+09:00").getTime();if(Date.now()>=EXP){var lock=function(){document.body.innerHTML='<div style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#f7f4ec;color:#6b5d3f;font-family:serif;text-align:center;padding:24px">'+'<div style="font-size:22px;letter-spacing:6px;margin-bottom:14px">陰陽天眼</div>'+'<div style="font-size:15px;line-height:2">この鑑定の閲覧期限は終了しました。<br>続きをご覧になりたい方は<br>青龍孔一までご連絡ください。</div></div>';};if(document.body)lock();else document.addEventListener("DOMContentLoaded",lock);throw new Error("expired");}})();
+<script>
 const KAN=[..."甲乙丙丁戊己庚辛壬癸"],SHI=[..."子丑寅卯辰巳午未申酉戌亥"];
 const GOGYO={"甲":"木","乙":"木","丙":"火","丁":"火","戊":"土","己":"土","庚":"金","辛":"金","壬":"水","癸":"水"};
 const KOKU={"木":"土","火":"金","土":"水","金":"木","水":"火"};
@@ -173,12 +173,13 @@ function rMyself(){var T=OWNER;var dk=T.nisshu;var z=KOG[dk]?KOG[dk].zo:"";var d
 function respond(text){text=text.replace(/[０-９]/g,function(c){return String.fromCharCode(c.charCodeAt(0)-0xFEE0);}).replace(/／/g,"/").replace(/：/g,":").replace(/．/g,".").replace(/－/g,"-");GSEX=(function(){var gm=text.match(/(^|[\s\u3000、])(男性|女性|男|女)([\s\u3000、]|$)/);return gm?(gm[2].charAt(0)==="男"?"男":"女"):null;})();var alld=text.match(/(19|20)\d{2}[年\/\-\.\s]*\d{1,2}[月\/\-\.\s]*\d{1,2}/g);if(alld&&alld.length>=2){var sj=rSemejun(text);if(sj)return sj;}if(/吉数/.test(text))return rKichisu(text);if(/攻め順|攻める順|電話リスト|今日の順/.test(text))return "<b>朝の攻め順</b>\nお客様の生年月日を、1行に1人ずつ貼ってください（名前付きでもOK）。\n\n例:\n田中 1985/4/3\n佐藤 1990/11/22\n鈴木 1978/7/9\n\n今日攻めるべき順に並べ替えて、ツボと一言も添えます。";if(/私の性格|自分の性格|わたしの性格|俺の性格|僕の性格/.test(text))return rMyself();if(/設立|会社|法人|社名|屋号|開業|創業/.test(text)){var km=text.match(/(19|20)(\d{2})[年\/\-\.]\s*(\d{1,2})/);if(km){var ky=+(km[1]+km[2]),kmo=+km[3];var kn=text.replace(km[0],"").replace(/設立|会社|法人化|法人|社名|屋号|開業|創業|年|月|を観る|観て|みて|で/g,"").replace(/[、。\s　\/\-\.0-9０-９]+/g,"").trim();if(kmo>=1&&kmo<=12)return rKaisha(ky,kmo,kn||null);}return "会社を観るには、設立の年月を送ってください（例: 会社 2020/4 ◯◯商事）。社名は無くても観られます。";}const md=text.match(/(19|20)(\d{2})[年\/\-\.\s]*(\d{1,2})[月\/\-\.\s]*(\d{1,2})/);if(md){const yy=+(md[1]+md[2]),mm=+md[3],dd=+md[4];var _tm=text.slice(text.indexOf(md[0])+md[0].length).match(/(\d{1,2})[:：時](\d{1,2})?分?/);var _th=null,_tmi=0;if(_tm){var _h=+_tm[1];if(_h>=0&&_h<=23){_th=_h;_tmi=+(_tm[2]||0);if(_tmi>59)_tmi=0;}}if(/自分|じぶん|私|わたし|俺|おれ|僕|ぼく|スランプ|メンタル|折れ|しんどい|疲れ|落ち込|病ん|病み|辞めたい|やめたい|きつい|プレッシャー|モチベ|自信/.test(text))return rSelf(yy,mm,dd);if(/相性|恋|付き合|夫婦|デート|惹/.test(text))return rAishou(yy,mm,dd);var idx0=text.indexOf(md[0]);var pre=text.slice(0,idx0).replace(/[、。,.\s　]+$/,"").trim();var rest=text.slice(idx0+md[0].length).replace(/^日/,"").replace(/\d{1,2}[:：時]\d{0,2}分?/g,"").replace(/生まれ|誕生日?/g,"").replace(/^[、。,.\s　]+|[、。,.\s　]+$/g,"").trim();var cand=(rest||pre).replace(/(^|[\s\u3000])(男性|女性|男|女)([\s\u3000]|$)/g," ").replace(/\s{2,}/g," ").trim();var nm2=cand?cand.match(/^([ぁ-んァ-ヶ一-鿿\u{F900}-\u{FAFF}\u{20000}-\u{2FA1F}々ーA-Za-zａ-ｚＡ-Ｚ]{1,10})(?:[ 　]+([ぁ-んァ-ヶ一-鿿\u{F900}-\u{FAFF}\u{20000}-\u{2FA1F}々ーA-Za-zａ-ｚＡ-Ｚ]{1,10}))?$/u):null;var okname=nm2&&!/活かす|攻略|今日|吉|運|悩|客|相手|メンタル|スランプ|お願|教|盤|魔法陣|方陣/.test(cand);if(/盤|魔法陣|方陣|六/.test(text))return rRokuban(yy,mm,dd,okname?nm2[1]:null,okname?(nm2[2]||null):null);if(!GSEX)return "<b>性別を入れてください</b>\nお客様の生年月日と一緒に、性別（男／女）も送ってください。大運まで観るのに必要です。\n\n例：1993/4/22 女　／　1985/4/3 4:58 男";if(okname)return rFull(yy,mm,dd,nm2[1],nm2[2]||null,_th,_tmi);return rKogyaku(yy,mm,dd,_th,_tmi);}if(/名前で読|姓名|源氏名/.test(text)||text.trim()==="名前")return "お客様の名前を送ってください。\n\n<b>① 漢字のフルネーム</b>（例：山田太郎）\n→ 性格と心のつかみ方を、しっかり読みます\n\n<b>② ひらがな・源氏名・あだ名</b>（例：あいか）\n→ 名前の響きから、ざっくりタイプを読みます";if(/裏メニュ|うらメニュ|うらめにゅ|ウラメニュ/.test(text)){revealSecret();return null;}if(/聞き方|聞き出|誕生日|生年月日の聞/.test(text))return rAsk();if(/自分|スランプ|メンタル|悩み|しんどい|辞めたい|やめたい|折れ|落ち込|プレッシャー|モチベ/.test(text))return "あなたの生年月日を送ってください（例: 1991/8/18）。続けて「スランプ」「メンタル」など今の悩みを一言そえると、その悩みに合わせて観ます。";if(text.length>=18){var _gk2=analyzeByGokyo(text);if(_gk2)return _gk2;}if(/相性|接し方|口説|客|相手/.test(text))return "相手の生年月日を送ってください（例: 1992/4/3）。";if(/今週|週/.test(text))return rWeek();if(/吉日|契約|商談|いつ|取りやすい|良い日/.test(text))return rKichi();if(/営業|攻め|売り|スタイル|かけ方|型/.test(text))return rEigyo();var sm=text.trim().match(/^([ぁ-んァ-ヶ一-鿿\u{F900}-\u{FAFF}\u{20000}-\u{2FA1F}々ーA-Za-zａ-ｚＡ-Ｚ]{1,10})[ 　]+([ぁ-んァ-ヶ一-鿿\u{F900}-\u{FAFF}\u{20000}-\u{2FA1F}々ーA-Za-zａ-ｚＡ-Ｚ]{1,10})$/u);if(sm&&!/相性|今日|今週|吉日|営業|見た目|名前|自分|タイプ/.test(text))return rSeimei(sm[1],sm[2]);var s1=text.trim().match(/^([ぁ-んァ-ヶ一-鿿\u{F900}-\u{FAFF}\u{20000}-\u{2FA1F}々ーA-Za-zａ-ｚＡ-Ｚ]{2,8})$/u);if(s1&&/[一-鿿\u{F900}-\u{FAFF}\u{20000}-\u{2FA1F}]/u.test(s1[1])&&!/今日|明日|昨日|吉日|契約|商談|営業|相性|見た目|名前|今週|今月|自分|了解|お願|有難|無理|何|誰|どこ|教|です|ます|する|して|下さい|ください|誕生|攻略|攻め|客|売/.test(text))return rSeimei(s1[1],null);if(/^[ぁ-んァ-ヶ]{1,12}$/.test(text.trim()))return rName(text.trim());if(text.length>6){var _gk=analyzeByGokyo(text);if(_gk)return _gk;}return "次のどれかを送ってください。\n・お客様の生年月日 … 売り方のアプローチ\n・名前（例: 山田太郎）… 性格と心のつかみ方\n・生年月日＋「相性」… 相性\n・「今月の吉日」「今週の運び」";}
 const chat=document.getElementById('chat');
 function add(cls,t){const e=document.createElement('div');e.className='msg '+cls;e.innerHTML=cls==='bot'?t:t.replace(/</g,'&lt;');chat.appendChild(e);if(cls==='bot'){requestAnimationFrame(function(){e.scrollIntoView({behavior:'smooth',block:'start'});});}else{chat.scrollTop=chat.scrollHeight;}}
+function withCta(t){if(!t)return t;if(t.indexOf('青龍孔一')!==-1)return t;return t+'\n\n<b>もっと詳しく知りたい方は</b>\n→ <span onclick="openContact()" style="text-decoration:underline;cursor:pointer;color:var(--bright)">青龍孔一に鑑定を依頼する</span>';}
 function ask(t){closeForm();document.getElementById('inp').value=t;go();}
 function revealSecret(){var cs=document.querySelectorAll('.secret-chip');for(var i=0;i<cs.length;i++)cs[i].style.display='inline-block';add('bot','<b>裏メニューを開きました</b>\nチップに「相性」「自分を観る」を追加しました。\n\n<b>相性</b>\n\u3000お客様との相性を観ます。例）1985/4/3 相性\n<b>自分を観る</b>\n\u3000自分の生年月日＋悩みを一言。例）1991/8/18 スランプ');}
 function toggleMore(){document.body.classList.add("showmore");}
 function openContact(){window.open("https://lin.ee/xozxBZk","_blank");}
 function showHelp(){add('bot','<b>陰陽天眼とは</b>\nお客様の生年月日や名前から、その人の心の動かし方を読み解く、営業のための道具です。\n\n人にはそれぞれ、響く言葉・嫌う言葉・財布が開く瞬間があります。同じ提案でも、刺さる人と冷める人がいるのはそのため。東洋の暦をもとに、目の前の相手に何が効いて何が地雷かを、一人ずつ示します。\n\n<b>分かること</b>\n・どんな人か … 性格・本音・一番欲しがっているもの\n・入り方 … 最初のひと言・警戒される所・信頼の取り方\n・売り方 … 刺さる伝え方・効く一言・やってはいけない地雷\n・決めさせ方 … 財布が開く瞬間・迷っている時の一押し\n・契約が決まりやすい日 … 商談や詰めに向く日・避けるべき日\n\n<b>使い方</b>\nいちばん簡単なのは、上のフォームでお客様の生年月日と性別を選んで「このお客様を観る」を押すだけ。\n\u3000→ 入り方・売り方・決めさせ方・契約が決まりやすい日が出ます。\n\u3000時間まで入れると精度が上がり、名前も入れるとより深く観ます。\n\n<b>下の入力欄からは、こんな使い方も</b>\n・商談メモを貼る\u3000例）「効率とROIを重視、数字で結果を見たい」\n\u3000→ お客様のいまの状態を五行で読み、攻め筋とNGを出します\n\n<b>ボタンでも</b>\nお名前鑑定（名前だけで観る）／今月の吉日（売上が上がりやすい日）\n\n迷ったら、まずお客様の生年月日と性別を入れてみてください。\n最終の深い鑑定は青龍孔一が承ります。');}
-var HIST=[];function renderHist(){var box=document.getElementById("histbar");if(!box)return;box.innerHTML="";HIST.forEach(function(it){var t=document.createElement("div");t.className="htag";t.textContent=it.label;t.onclick=function(){document.getElementById("inp").value=it.q;go();};box.appendChild(t);});}function saveHist(q){var label=q.length>14?q.slice(0,14)+"…":q;HIST=HIST.filter(function(x){return x.q!==q;});HIST.unshift({q:q,label:label});if(HIST.length>10)HIST.pop();renderHist();}function go(){const inp=document.getElementById('inp');const text=inp.value.trim();if(!text)return;inp.value='';closeForm();add('user',text);if(/(19|20|１９|２０)[0-9０-９]{2}|[一-鿿]{2,}/.test(text)&&!/今日|今週|今月|吉日|見た目|相性|自分|スランプ|了解|お願|教/.test(text))saveHist(text);setTimeout(function(){var _r=respond(text);if(_r)add('bot',_r);},200);}
+var HIST=[];function renderHist(){var box=document.getElementById("histbar");if(!box)return;box.innerHTML="";HIST.forEach(function(it){var t=document.createElement("div");t.className="htag";t.textContent=it.label;t.onclick=function(){document.getElementById("inp").value=it.q;go();};box.appendChild(t);});}function saveHist(q){var label=q.length>14?q.slice(0,14)+"…":q;HIST=HIST.filter(function(x){return x.q!==q;});HIST.unshift({q:q,label:label});if(HIST.length>10)HIST.pop();renderHist();}function go(){const inp=document.getElementById('inp');const text=inp.value.trim();if(!text)return;inp.value='';closeForm();add('user',text);if(/(19|20|１９|２０)[0-9０-９]{2}|[一-鿿]{2,}/.test(text)&&!/今日|今週|今月|吉日|見た目|相性|自分|スランプ|了解|お願|教/.test(text))saveHist(text);setTimeout(function(){var _r=respond(text);if(_r)add('bot',withCta(_r));},200);}
 document.getElementById('inp').addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();go();}});
 showHelp();
 </script>
@@ -250,14 +251,14 @@ function miruGo(){
   if(nm)t+=' '+nm;
   document.getElementById('form').classList.add('closed');
   closeForm();add('user',t);
-  setTimeout(function(){add('bot',respond(t));},200);
+  setTimeout(function(){add('bot',withCta(respond(t)));},200);
 }
 function nmGo(){
   var nm=document.getElementById('nmname').value.trim();
   if(!nm){alert('お名前を入力してください。');return;}
   document.getElementById('nmodal').classList.remove('on');
   closeForm();add('user',nm);
-  setTimeout(function(){add('bot',respond(nm));},200);
+  setTimeout(function(){add('bot',withCta(respond(nm)));},200);
 }
 document.getElementById('nmname').addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();nmGo();}});
 var SNAYAMI='';
@@ -275,7 +276,7 @@ function sGo(){
   document.getElementById('smodal').classList.remove('on');
   var t=y+'/'+m+'/'+d+' '+(SNAYAMI||'自分');
   closeForm();add('user',t);
-  setTimeout(function(){var _r=respond(t);if(_r)add('bot',_r);},200);
+  setTimeout(function(){var _r=respond(t);if(_r)add('bot',withCta(_r));},200);
 }
 (function(){
   function fillA(id,a,b,pad){var el=document.getElementById(id);var o=document.createElement('option');o.value='';o.textContent='-';el.appendChild(o);
@@ -290,7 +291,7 @@ function aGo(){
   document.getElementById('amodal').classList.remove('on');
   var t=y+'/'+m+'/'+d+' 相性';
   closeForm();add('user',t);
-  setTimeout(function(){var _r=respond(t);if(_r)add('bot',_r);},200);
+  setTimeout(function(){var _r=respond(t);if(_r)add('bot',withCta(_r));},200);
 }
 
 /* ライセンス不要版 — すぐに利用可能 */
