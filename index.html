@@ -129,7 +129,6 @@ body.showmore #moreBtn{display:none}
   <button class="chip secret-chip" style="display:none" onclick="openSelf()">自分を観る</button>
   <button class="chip" onclick="ask('今月の吉日')">今月の吉日</button>
   <button class="chip" onclick="showAbout()">青龍孔一について</button>
-  <button class="chip" onclick="showMembership()">月額会員について</button>
   <button class="chip" onclick="openContact()">青龍孔一に連絡</button>
 
 </div>
@@ -181,8 +180,8 @@ function showHelp(){var eigyo=(typeof APPMODE!=='undefined'&&APPMODE==='eigyo');
 var HIST=[];function renderHist(){var box=document.getElementById("histbar");if(!box)return;box.innerHTML="";HIST.forEach(function(it){var t=document.createElement("div");t.className="htag";t.textContent=it.label;t.onclick=function(){document.getElementById("inp").value=it.q;go();};box.appendChild(t);});}function saveHist(q){var label=q.length>14?q.slice(0,14)+"…":q;HIST=HIST.filter(function(x){return x.q!==q;});HIST.unshift({q:q,label:label});if(HIST.length>10)HIST.pop();renderHist();}function go(){const inp=document.getElementById('inp');const text=inp.value.trim();if(!text)return;inp.value='';closeForm();add('user',text);if(/(19|20|１９|２０)[0-9０-９]{2}|[一-鿿]{2,}/.test(text)&&!/今日|今週|今月|吉日|見た目|相性|自分|スランプ|了解|お願|教/.test(text))saveHist(text);setTimeout(function(){var _r=respond(text);if(_r)add('bot',withCta(_r));},200);}
 document.getElementById('inp').addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();go();}});
 showHelp();
-function showMembership(){add('bot','<b>月額会員について</b>\n90分の本鑑定ほどではなくても、日々の変化を気軽に追いたい方向けの制度です。\n\n<b>月額1,980円で</b>\n・毎月1回、その月のあなたの運勢をLINEでお届けします\n・気になることを、いつでも気軽にLINEで質問できます（簡単なご質問への返信です。じっくり相談したい方は90分鑑定をご利用ください）\n\nお申し込みは、下のボタンからLINEでご連絡ください。\n<span onclick=\"openContact()\" style=\"text-decoration:underline;cursor:pointer;color:var(--bright)\">青龍孔一に連絡する</span>');}
-function showAbout(){add('bot','<b>青龍孔一について</b>\n現在地を知り、才能を見つけ、次の一手を示す。\nなんとなくの運勢ではなく、「今、自分は何をすべきか」まで踏み込んでお伝えします。相談が終わった時、心が暗くなっていたらそれは鑑定の失敗——それが青龍孔一の基準です。\n\n<b>実績</b>\n鑑定歴2年半、これまで300名以上を鑑定。\n\n<b>ある相談者の例</b>\n良い商品を作っていたのに思うように売れず、停滞していた方がいました。「来月、驚くほど売れます。強気で行ってください」とお伝えしたところ、その後数千万円規模の契約が立て続けに決まるように。ご本人いわく「言われたことで自信になり、いけるんだと確信に変わったから」とのことでした。\n\n気になることがあれば、下のボタンからご連絡ください。\n<span onclick=\"openContact()\" style=\"text-decoration:underline;cursor:pointer;color:var(--bright)\">青龍孔一に鑑定を依頼する</span>（初回90分 55,000円）');}
+
+function showAbout(){add('bot','<b>青龍孔一について</b>\n特に、大事な決断を控えている経営者・個人事業主の方へ。\n現在地を知り、才能を見つけ、次の一手を示す。なんとなくの運勢ではなく、「今、何をすべきか」まで踏み込んでお伝えします。相談が終わった時、心が暗くなっていたらそれは鑑定の失敗——それが青龍孔一の基準です。\n\n<b>実績</b>\n鑑定歴2年半、これまで300名以上を鑑定。\n\n<b>ある相談者の例</b>\n良い商品を作っていたのに思うように売れず、停滞していた経営者の方がいました。「来月、驚くほど売れます。強気で行ってください」とお伝えしたところ、その後数千万円規模の契約が立て続けに決まるように。ご本人いわく「言われたことで自信になり、いけるんだと確信に変わったから」とのことでした。\n\n大事な決断の前に、後悔しない一手を。気になることがあれば、下のボタンからご連絡ください。\n<span onclick=\"openContact()\" style=\"text-decoration:underline;cursor:pointer;color:var(--bright)\">青龍孔一に鑑定を依頼する</span>（初回90分 55,000円）');}
 </script>
 <div id="nmodal">
   <div class="box">
