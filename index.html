@@ -83,13 +83,17 @@ body.showmore #moreBtn{display:none}
   <div class="ttl">陰 陽 天 眼</div>
   <div class="tagline">相手を知れば、売れる。お客様のタイプと契約が決まりやすい日が、3秒で分かる。</div>
   <div class="sub" id="sub">監修：青龍孔一</div>
-  
+
 </header>
+<div id="modeSwitch" style="display:flex;gap:8px;padding:0 14px 8px;max-width:560px;margin:0 auto;width:100%;box-sizing:border-box">
+  <button class="chip mode-btn on" id="modeSelf" onclick="setMode('self')" style="flex:1">自分／気になる人を観る</button>
+  <button class="chip mode-btn" id="modeEigyo" onclick="setMode('eigyo')" style="flex:1">商談相手を攻略する（営業モード）</button>
+</div>
 <div id="histbar"></div>
 <div id="form">
-  <div class="fhead" onclick="toggleForm()"><span id="farrow">▼</span> お客様の情報を入れて観る</div>
+  <div class="fhead" onclick="toggleForm()"><span id="farrow">▼</span> <span id="fheadTxt">生年月日を入れて観る</span></div>
   <div id="formBody">
-  <div class="flbl">お客様の情報を選んで「観る」を押してください</div>
+  <div class="flbl" id="flblTxt">生年月日を選んで「観る」を押してください</div>
   <div class="row"><span class="rlbl">生年月日</span>
     <select id="fy"></select><span class="unit">年</span>
     <select id="fm"></select><span class="unit">月</span>
@@ -106,13 +110,13 @@ body.showmore #moreBtn{display:none}
   <div class="row"><span class="rlbl">名前（任意）</span>
     <input type="text" id="fname" placeholder="山田太郎">
   </div>
-  <button id="miru" onclick="miruGo()">このお客様を観る</button>
+  <button id="miru" onclick="miruGo()"><span id="miruTxt">観る</span></button>
   </div>
 </div>
 <div id="chat"></div>
-<div class="chip-label">▼ お仕事を選んでください</div>
+<div class="chip-label" id="jobLbl" style="display:none">▼ お仕事を選んでください</div>
 <div id="chips">
-  <button class="chip job-chip on" onclick="setJob('営業',this)">営業</button>
+  <button class="chip job-chip on eigyo-only" style="display:none" onclick="setJob('営業',this)">営業</button>
   <button class="chip" onclick="showHelp()">使い方</button>
   <button class="chip" onclick="document.getElementById('nmodal').classList.add('on');document.getElementById('nmname').value='';setTimeout(function(){document.getElementById('nmname').focus();},80)">お名前鑑定</button>
   
@@ -171,7 +175,7 @@ function ask(t){closeForm();document.getElementById('inp').value=t;go();}
 function revealSecret(){var cs=document.querySelectorAll('.secret-chip');for(var i=0;i<cs.length;i++)cs[i].style.display='inline-block';add('bot','<b>裏メニューを開きました</b>\nチップに「相性」「自分を観る」を追加しました。\n\n<b>相性</b>\n\u3000お客様との相性を観ます。例）1985/4/3 相性\n<b>自分を観る</b>\n\u3000自分の生年月日＋悩みを一言。例）1991/8/18 スランプ');}
 function toggleMore(){document.body.classList.add("showmore");}
 function openContact(){window.open("https://lin.ee/xozxBZk","_blank");}
-function showHelp(){add('bot','<b>陰陽天眼とは</b>\nお客様の生年月日や名前から、その人の心の動かし方を読み解く、営業のための道具です。\n\n人にはそれぞれ、響く言葉・嫌う言葉・財布が開く瞬間があります。同じ提案でも、刺さる人と冷める人がいるのはそのため。東洋の暦をもとに、目の前の相手に何が効いて何が地雷かを、一人ずつ示します。\n\n<b>分かること</b>\n・どんな人か … 性格・本音・一番欲しがっているもの\n・入り方 … 最初のひと言・警戒される所・信頼の取り方\n・売り方 … 刺さる伝え方・効く一言・やってはいけない地雷\n・決めさせ方 … 財布が開く瞬間・迷っている時の一押し\n・契約が決まりやすい日 … 商談や詰めに向く日・避けるべき日\n\n<b>使い方</b>\nいちばん簡単なのは、上のフォームでお客様の生年月日と性別を選んで「このお客様を観る」を押すだけ。\n\u3000→ 入り方・売り方・決めさせ方・契約が決まりやすい日が出ます。\n\u3000時間まで入れると精度が上がり、名前も入れるとより深く観ます。\n\n<b>下の入力欄からは、こんな使い方も</b>\n・商談メモを貼る\u3000例）「効率とROIを重視、数字で結果を見たい」\n\u3000→ お客様のいまの状態を五行で読み、攻め筋とNGを出します\n\n<b>ボタンでも</b>\nお名前鑑定（名前だけで観る）／今月の吉日（売上が上がりやすい日）\n\n迷ったら、まずお客様の生年月日と性別を入れてみてください。\n最終の深い鑑定は青龍孔一が承ります。');}
+function showHelp(){var eigyo=(typeof APPMODE!=='undefined'&&APPMODE==='eigyo');if(eigyo){add('bot','<b>陰陽天眼とは（営業モード）</b>\nお客様の生年月日や名前から、その人の心の動かし方を読み解く、営業のための道具です。\n\n人にはそれぞれ、響く言葉・嫌う言葉・財布が開く瞬間があります。同じ提案でも、刺さる人と冷める人がいるのはそのため。東洋の暦をもとに、目の前の相手に何が効いて何が地雷かを、一人ずつ示します。\n\n<b>分かること</b>\n・どんな人か … 性格・本音・一番欲しがっているもの\n・入り方 … 最初のひと言・警戒される所・信頼の取り方\n・売り方 … 刺さる伝え方・効く一言・やってはいけない地雷\n・決めさせ方 … 財布が開く瞬間・迷っている時の一押し\n・契約が決まりやすい日 … 商談や詰めに向く日・避けるべき日\n\n<b>使い方</b>\n上のフォームでお客様の生年月日と性別を選んで「このお客様を観る」を押すだけ。\n\u3000→ 入り方・売り方・決めさせ方・契約が決まりやすい日が出ます。\n\n自分自身を観たい方は、上の「自分／気になる人を観る」ボタンに切り替えてください。\n最終の深い鑑定は青龍孔一が承ります。');}else{add('bot','<b>陰陽天眼とは</b>\n生年月日や名前から、その人の心の動かし方を読み解く鑑定ツールです。\n\n<b>①自分を観る</b>\n上のフォームであなたの生年月日を選んで「これで観る」を押すだけ。\n\u3000→ あなたの性質や、力が出る日が分かります。\n\u3000下の入力欄から、生年月日＋今の悩み（例：スランプ、辞めたい）を送ると、悩みに合わせた見立てが出ます。\n\n<b>②気になる人を観る</b>\n下の入力欄から、相手の生年月日＋「相性」を送ると、相性が観られます。\n\n<b>お名前鑑定</b>\n名前だけでも、ざっくりした性格が分かります。\n\n商談相手を攻略したい方（営業向け）は、上の「商談相手を攻略する（営業モード）」ボタンに切り替えてください。\n最終の深い鑑定は青龍孔一が承ります。');}}
 var HIST=[];function renderHist(){var box=document.getElementById("histbar");if(!box)return;box.innerHTML="";HIST.forEach(function(it){var t=document.createElement("div");t.className="htag";t.textContent=it.label;t.onclick=function(){document.getElementById("inp").value=it.q;go();};box.appendChild(t);});}function saveHist(q){var label=q.length>14?q.slice(0,14)+"…":q;HIST=HIST.filter(function(x){return x.q!==q;});HIST.unshift({q:q,label:label});if(HIST.length>10)HIST.pop();renderHist();}function go(){const inp=document.getElementById('inp');const text=inp.value.trim();if(!text)return;inp.value='';closeForm();add('user',text);if(/(19|20|１９|２０)[0-9０-９]{2}|[一-鿿]{2,}/.test(text)&&!/今日|今週|今月|吉日|見た目|相性|自分|スランプ|了解|お願|教/.test(text))saveHist(text);setTimeout(function(){var _r=respond(text);if(_r)add('bot',withCta(_r));},200);}
 document.getElementById('inp').addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();go();}});
 showHelp();
@@ -231,6 +235,8 @@ var FSEX='';
 })();
 function toggleForm(){document.getElementById('form').classList.toggle('closed');}
 function closeForm(){document.getElementById('form').classList.add('closed');}
+var APPMODE='self';
+function setMode(m){APPMODE=m;document.getElementById('modeSelf').classList.toggle('on',m==='self');document.getElementById('modeEigyo').classList.toggle('on',m==='eigyo');var eigyo=(m==='eigyo');document.getElementById('fheadTxt').textContent=eigyo?'お客様の情報を入れて観る':'あなたの生年月日を入れて観る';document.getElementById('flblTxt').textContent=eigyo?'お客様の情報を選んで「観る」を押してください':'あなたの生年月日を選んで「観る」を押してください';document.getElementById('miruTxt').textContent=eigyo?'このお客様を観る':'これで観る';document.getElementById('jobLbl').style.display=eigyo?'block':'none';var els=document.querySelectorAll('.eigyo-only');for(var i=0;i<els.length;i++)els[i].style.display=eigyo?'inline-flex':'none';document.getElementById('inp').placeholder=eigyo?'お客様の生年月日＋性別でアプローチ（例：1993/4/22 女）':'あなたの生年月日＋悩みで自分を観る（例：1991/8/18 スランプ）／気になる相手なら生年月日＋「相性」';}
 function selSex(g){FSEX=g;document.getElementById('gm').classList.toggle('on',g==='男');document.getElementById('gf').classList.toggle('on',g==='女');}
 function miruGo(){
   var y=document.getElementById('fy').value,m=document.getElementById('fm').value,d=document.getElementById('fd').value;
@@ -242,6 +248,7 @@ function miruGo(){
   if(h!==''){t+=' '+h+':'+(mi!==''?mi:'00');}
   t+=' '+FSEX;
   if(nm)t+=' '+nm;
+  if(APPMODE==='self')t+=' 自分';
   document.getElementById('form').classList.add('closed');
   closeForm();add('user',t);
   setTimeout(function(){add('bot',withCta(respond(t)));},200);
