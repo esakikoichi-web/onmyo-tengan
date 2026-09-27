@@ -1,0 +1,575 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>皇極経世書 講話帖</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@600;900&family=BIZ+UDPGothic:wght@400;700&display=swap">
+<style>
+:root{
+  --bg:#EDEFF3; --panel:#F8F9FB; --ink:#191C2A; --sub:#575C70; --line:#CFD3DE;
+  --acc:#35427F; --acc-soft:#DFE3F0; --gold:#9A7424; --gold-soft:#F1E8D2; --seal:#A8342A; --code:#E3E6EE;
+  --yang:#C9D0E6; --yin:#8E98BD;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1220; --panel:#161A2B; --ink:#E4E6EF; --sub:#9BA1BA; --line:#2A3048;
+    --acc:#9DAAE8; --acc-soft:#1E2542; --gold:#D8B45E; --gold-soft:#2C2616; --seal:#E0776B; --code:#1D2236;
+    --yang:#3A4470; --yin:#232A48; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1220; --panel:#161A2B; --ink:#E4E6EF; --sub:#9BA1BA; --line:#2A3048;
+  --acc:#9DAAE8; --acc-soft:#1E2542; --gold:#D8B45E; --gold-soft:#2C2616; --seal:#E0776B; --code:#1D2236;
+  --yang:#3A4470; --yin:#232A48; color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{background:var(--bg);color:var(--ink);font-family:"BIZ UDPGothic","Hiragino Sans","Yu Gothic",sans-serif;font-size:15.5px;line-height:1.9;padding-inline:16px;padding-block:0 72px}
+a{color:var(--acc)}
+a:focus-visible,input:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+header.top{max-width:1180px;margin:0 auto 28px;padding-block:40px 26px;border-bottom:1px solid var(--line);display:flex;gap:24px;align-items:flex-end;flex-wrap:wrap}
+.glyph{font-family:"Zen Old Mincho",serif;font-size:60px;line-height:1;color:var(--gold);letter-spacing:-.05em}
+header h1{font-family:"Zen Old Mincho",serif;font-weight:900;font-size:clamp(30px,5vw,46px);line-height:1.2;margin:0;letter-spacing:.06em;text-wrap:balance}
+header p{margin:6px 0 0;color:var(--sub);max-width:64ch}
+.seal{display:inline-block;border:2px solid var(--seal);color:var(--seal);font-family:"Zen Old Mincho",serif;font-weight:900;padding:2px 8px;font-size:13px;letter-spacing:.12em;margin-left:auto;transform:rotate(-3deg)}
+.wrap{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:240px minmax(0,1fr);gap:44px}
+nav.side{position:sticky;top:env(safe-area-inset-top,0px);align-self:start;max-height:100vh;overflow:auto;padding-block:8px 24px;font-size:13.5px}
+nav.side h2{font-size:11px;letter-spacing:.16em;color:var(--sub);margin:16px 0 6px;font-weight:700}
+nav.side ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
+nav.side ol a{display:block;padding:4px 8px;border-radius:4px;text-decoration:none;color:var(--ink)}
+nav.side ol a:hover{background:var(--acc-soft)}
+nav.side ol ol{padding-left:10px;font-size:12.5px}
+.search{display:flex;flex-direction:column;gap:4px}
+.search label{font-size:11px;letter-spacing:.16em;color:var(--sub);font-weight:700}
+.search input{width:100%;font:inherit;padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:var(--panel);color:var(--ink)}
+.hint{font-size:12px;color:var(--sub);min-height:1.2em}
+main{min-width:0;max-width:790px}
+main h2{font-family:"Zen Old Mincho",serif;font-weight:900;font-size:26px;line-height:1.4;margin:60px 0 14px;padding-bottom:8px;border-bottom:2px solid var(--ink);text-wrap:balance;scroll-margin-top:16px;display:flex;gap:12px;align-items:baseline}
+main h2 .no{font-size:14px;color:var(--gold);font-family:"BIZ UDPGothic",sans-serif;font-weight:700;letter-spacing:.1em}
+main h3{font-family:"Zen Old Mincho",serif;font-weight:600;font-size:19.5px;margin:30px 0 8px;scroll-margin-top:16px;display:flex;align-items:baseline;gap:10px;text-wrap:balance}
+h3 .tag{font-family:"BIZ UDPGothic",sans-serif;font-size:12px;font-weight:700;color:var(--panel);background:var(--acc);border-radius:3px;padding:1px 7px;white-space:nowrap}
+main p{margin:8px 0}
+main ul,main ol{padding-left:1.3em;margin:6px 0}
+main li{margin:3px 0}
+.lead{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px 20px}
+.lead p{margin:6px 0}
+.kw{font-family:"Zen Old Mincho",serif;font-weight:600;color:var(--acc)}
+.star{color:var(--seal);font-weight:700}
+blockquote{margin:14px 0;padding:10px 16px;border-left:3px solid var(--gold);background:var(--gold-soft);border-radius:0 6px 6px 0}
+blockquote p{margin:4px 0}
+.kanbun{font-family:"Zen Old Mincho",serif;font-weight:600;letter-spacing:.08em}
+.tw{overflow-x:auto;margin:12px 0;border:1px solid var(--line);border-radius:6px;background:var(--panel)}
+table{border-collapse:collapse;width:100%;font-size:14px;line-height:1.65}
+th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--code);font-weight:700;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.figs{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0}
+.fig{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:10px 14px}
+.fig b{display:block;font-family:"Zen Old Mincho",serif;font-size:22px;font-variant-numeric:tabular-nums;color:var(--acc)}
+.fig span{font-size:12.5px;color:var(--sub)}
+figure{margin:18px 0;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:12px}
+figure svg{display:block;width:100%;max-width:420px;height:auto;margin:0 auto}
+figcaption{font-size:12.5px;color:var(--sub);text-align:center;margin-top:6px}
+svg .seg.yang{fill:var(--yang)} svg .seg.yin{fill:var(--yin)} svg .seg{stroke:var(--panel);stroke-width:2}
+svg .life{fill:var(--gold)}
+svg text{font-family:"Zen Old Mincho",serif;text-anchor:middle;dominant-baseline:middle;fill:var(--ink)}
+svg .shi{font-size:15px;font-weight:600} svg .ka{font-size:12px;fill:var(--sub)}
+svg .mk{stroke:var(--seal);stroke-width:1.5} svg .mkl{font-size:12px;fill:var(--seal);font-weight:600}
+svg .core{fill:var(--bg);stroke:var(--line)} svg .corel{font-size:13px;fill:var(--sub)}
+section.blk{border-top:1px dashed var(--line);padding-top:2px}
+.empty{color:var(--sub);padding:18px 0}
+.src{font-size:12.5px;color:var(--sub);margin-top:48px;border-top:1px solid var(--line);padding-top:12px}
+@media (max-width:860px){
+  .wrap{grid-template-columns:1fr;gap:0}
+  nav.side{position:static;max-height:none;border-bottom:1px solid var(--line);margin-bottom:10px}
+  .seal{margin-left:0}
+}
+</style>
+</head><body>
+
+<header class="top">
+  <div class="glyph" aria-hidden="true">☰☷</div>
+  <div>
+    <h1>皇極経世書 講話帖</h1>
+    <p>邵雍（康節）『皇極経世書』性理大全版（野口豊太訳）を通読し、先天易・元会運世・声音律呂・観物篇・漁樵問対を講話形式で整理した学習ノート。</p>
+  </div>
+  <span class="seal">青龍孔一 覚書</span>
+</header>
+
+<div class="wrap">
+  <nav class="side" aria-label="目次">
+    <div class="search">
+      <label for="q">語句で絞り込む</label>
+      <input id="q" type="search" placeholder="例：以物観物、開物、権、鬼神">
+      <div class="hint" id="hint"></div>
+    </div>
+    <h2>目次</h2>
+    <ol>
+      <li><a href="#c0">序　本書について</a></li>
+      <li><a href="#c1">第一講　先天易と加一倍法</a></li>
+      <li><a href="#c2">第二講　天地の四象</a></li>
+      <li><a href="#c3">第三講　元会運世</a></li>
+      <li><a href="#c4">第四講　声音律呂</a></li>
+      <li><a href="#c5">第五講　観物内篇</a>
+        <ol><li><a href="#n1">一〜三</a></li><li><a href="#n4">四〜六</a></li><li><a href="#n7">七〜九</a></li><li><a href="#n10">十〜十二</a></li></ol></li>
+      <li><a href="#c6">第六講　観物外篇</a>
+        <ol><li><a href="#g1">数理・易</a></li><li><a href="#g2">天地・自然</a></li><li><a href="#g3">人体</a></li><li><a href="#g4">修養・学問</a></li><li><a href="#g5">歴史・春秋</a></li></ol></li>
+      <li><a href="#c7">第七講　漁樵問対</a></li>
+      <li><a href="#c8">第八講　無名公伝</a></li>
+      <li><a href="#c9">第九講　諸家の評</a></li>
+      <li><a href="#c10">結び　占者の心得として</a></li>
+    </ol>
+  </nav>
+
+  <main id="content">
+    <div class="lead">
+      <p><b class="star">★</b> は、本書で繰り返し強調されている要点、または実占に使いやすい箇所です。</p>
+      <p>全体を貫く柱は三つです。<span class="kw">一を倍々に分ける（加一倍法）</span>、<span class="kw">天は日月星辰・地は水火土石</span>、<span class="kw">物を以て物を観る（以物観物）</span>。</p>
+    </div>
+
+    <section class="blk" data-t="序 本書について 邵雍 康節 性理大全 野口豊太 構成 伯温 陳摶 穆修 李之才">
+    <h2 id="c0"><span class="no">序</span>本書について</h2>
+    <ul>
+      <li><b>著者</b>：邵雍（1011–1077）。字は堯夫、諡は康節。北宋の人で、洛陽の「安楽窩」に住み、仕官しなかった。学統は 陳摶（希夷）→ 穆修（伯長）→ 李之才（挺之）→ 邵雍。</li>
+      <li><b>底本</b>：明代の『性理大全』巻七〜十三に収める版。原典十二巻の膨大な年表・音韻表を、蔡元定の図（『経世指要』）に置き換えて圧縮してある。子の邵伯温の解説つき。</li>
+      <li><b>訳注</b>：野口豊太訳（2022）。外篇には清の王植『皇極経世書解』の解説が「参考」として訳出されている。</li>
+    </ul>
+    <div class="tw"><table>
+      <thead><tr><th>性理大全の巻</th><th>内容</th></tr></thead>
+      <tbody>
+        <tr><td>巻七・八</td><td>図要：伏羲先天図、陽九陰六用数図、経世衍易図、天地四象図、天地始終之数図、一元消長之数図、四象体用之数図（声音図）</td></tr>
+        <tr><td>巻九・十</td><td>観物内篇 一〜十二（邵雍自著）</td></tr>
+        <tr><td>巻十一・十二</td><td>観物外篇 上・下（門弟子の語録、全424節）</td></tr>
+        <tr><td>巻十三</td><td>外書：漁樵問対、無名公伝、諸家の評</td></tr>
+      </tbody>
+    </table></div>
+    <p>伯温によると、原典の役割分担は次のとおり。巻一〜二は天地の数。巻三〜四は<span class="kw">以会経運</span>（天の時で人事を験す）。巻五〜六は<span class="kw">以運経世</span>（人事で天の時を験す）。巻七〜十は律呂声音による万物の数。巻十一〜十二が理論篇（観物篇）です。張岷は「内篇は理が深く数は略、外篇は数が詳しく理が顕れる。先天を学ぶ者は外篇から」と勧めています。</p>
+    </section>
+
+    <section class="blk" data-t="第一講 先天易 加一倍法 伏羲八卦 先天数 乾坤 大父母 復姤 小父母 六十四卦方円図 陽九陰六 万物の数 11520 216 144 360">
+    <h2 id="c1"><span class="no">第一講</span>先天易と加一倍法</h2>
+    <p>邵雍の方法は一つだけです。<b>一を二に、二を四に、四を八に</b>と倍々に分けていく。程顥はこれを見抜いて「堯夫の数は加一倍法にすぎない」と言い、邵雍を驚かせました。この分割を六回繰り返すと六十四卦になります。</p>
+    <div class="tw"><table>
+      <thead><tr><th>先天数</th><th class="num">1</th><th class="num">2</th><th class="num">3</th><th class="num">4</th><th class="num">5</th><th class="num">6</th><th class="num">7</th><th class="num">8</th></tr></thead>
+      <tbody><tr><td>卦</td><td>乾</td><td>兌</td><td>離</td><td>震</td><td>巽</td><td>坎</td><td>艮</td><td>坤</td></tr>
+      <tr><td>正位</td><td>南</td><td>東南</td><td>東</td><td>東北</td><td>西南</td><td>西</td><td>西北</td><td>北</td></tr></tbody>
+    </table></div>
+    <ul>
+      <li>乾坤が<b>大父母</b>、復姤が<b>小父母</b>。爻を入れ替えていくと六十四卦が生まれる。</li>
+      <li>六十四卦方円図：<b>円は天（動）</b>、<b>方は地（静）</b>。円図では陽が子（北）で生まれ午（南）で極まり、陰が午で生まれ子で極まる。</li>
+    </ul>
+    <h3>陽九陰六用数図と「万物の数」</h3>
+    <div class="figs">
+      <div class="fig"><b>216</b><span>乾の策（老陽36×6）</span></div>
+      <div class="fig"><b>144</b><span>坤の策（老陰24×6）</span></div>
+      <div class="fig"><b>360</b><span>216＋144＝一年の数</span></div>
+      <div class="fig"><b>11,520</b><span>万物の数（陽爻6,912＋陰爻4,608）</span></div>
+    </div>
+    <p>少陽七・少陰八で計算しても同じく 360 と 11,520 になります。周易が九六だけを用いて七八を書かないのはこのためだ、というのが蔡元定の説明です。</p>
+    </section>
+
+    <section class="blk" data-t="第二講 天地の四象 日月星辰 水火土石 暑寒昼夜 雨風露雷 性情形体 走飛草木 目耳鼻口 色声気味 五行 太極 両儀 経世衍易図">
+    <h2 id="c2"><span class="no">第二講</span>天地の四象</h2>
+    <p>経世衍易図では、<b>太極＝一動一静の間</b>、両儀＝動（天）と静（地）、四象＝陰・陽・剛・柔、八卦＝太陽・太陰・少陽・少陰（天）と太剛・太柔・少剛・少柔（地）となります。動の始めが陽、動の極みが陰。静の始めが柔、静の極みが剛です。</p>
+    <div class="tw"><table>
+      <thead><tr><th>天の四象</th><th>日（太陽）</th><th>月（太陰）</th><th>星（少陽）</th><th>辰（少陰）</th></tr></thead>
+      <tbody>
+        <tr><td>天の変</td><td>暑</td><td>寒</td><td>昼</td><td>夜</td></tr>
+        <tr><td>変えるもの</td><td>性</td><td>情</td><td>形</td><td>体</td></tr>
+        <tr><td>感ずる器官</td><td>目</td><td>耳</td><td>鼻</td><td>口</td></tr>
+        <tr><td>時間単位</td><td>元</td><td>会</td><td>運</td><td>世</td></tr>
+        <tr><td>先天卦</td><td>乾</td><td>兌</td><td>離</td><td>震</td></tr>
+      </tbody>
+    </table></div>
+    <div class="tw"><table>
+      <thead><tr><th>地の四象</th><th>火（太剛）</th><th>水（太柔）</th><th>石（少剛）</th><th>土（少柔）</th></tr></thead>
+      <tbody>
+        <tr><td>地の化</td><td>風</td><td>雨</td><td>雷</td><td>露</td></tr>
+        <tr><td>化するもの</td><td>飛（鳥）</td><td>走（獣）</td><td>木</td><td>草</td></tr>
+        <tr><td>応ずる働き</td><td>色</td><td>声</td><td>気</td><td>味</td></tr>
+        <tr><td>先天卦</td><td>艮</td><td>坤</td><td>巽</td><td>坎</td></tr>
+      </tbody>
+    </table></div>
+    <h3>なぜ五行ではなく水火土石なのか</h3>
+    <p>日月星辰と水火土石は<b>先天の本体</b>、金木水火土は<b>後天の作用</b>だからです。金は石から、木は土から出るので、五行は水火土石の中に含まれている、と伯温は説明します。洪範は用を、経世は体を説くという位置づけです。</p>
+    <p>人はこの天地の四象すべてに変化・感応するので、目・耳・鼻・口が万物の色・声・気・味を受け取り、さらに<b>心が万物の理を受け取る</b>。だから人は万物の霊である、というのが内篇一の結論です。</p>
+    </section>
+
+    <section class="blk" data-t="第三講 元会運世 129600 十二辟卦 十二消息卦 一元消長之数図 開物 閉物 唐堯 天開於子 地闢於丑 人生於寅 気盈 朔虚 360">
+    <h2 id="c3"><span class="no">第三講</span>元会運世 ── 宇宙の年表</h2>
+    <p>時間は 12 と 30 を交互に掛けて数えます。一元は一年の縮図で、十二会が十二か月、三百六十運が三百六十日、四千三百二十世が四千三百二十時にあたります。</p>
+    <div class="tw"><table>
+      <thead><tr><th>単位</th><th>天の象</th><th class="num">一元中の数</th><th class="num">年数</th><th>一年でいえば</th></tr></thead>
+      <tbody>
+        <tr><td>元</td><td>日（甲）</td><td class="num">1</td><td class="num">129,600年</td><td>一年</td></tr>
+        <tr><td>会</td><td>月（子〜亥）</td><td class="num">12</td><td class="num">10,800年</td><td>一か月</td></tr>
+        <tr><td>運</td><td>星</td><td class="num">360</td><td class="num">360年</td><td>一日</td></tr>
+        <tr><td>世</td><td>辰</td><td class="num">4,320</td><td class="num">30年</td><td>一時（とき）</td></tr>
+      </tbody>
+    </table></div>
+    <p>360 × 360 ＝ 129,600。元会運世歳月日辰のどれを単位にとっても 129,600 が現れます。元会運世歳月日辰を互いに掛け合わせた「天地始終之数図」は 8 × 8 ＝ 64 通りで尽きますが、<span class="kanbun">窮まれば則ち変じ、変ずれば則ち生ず</span>で、生生して終わることがありません。</p>
+
+    <figure>
+      <svg viewBox="0 0 400 400" role="img" aria-labelledby="ringT ringD">
+        <title id="ringT">経世一元消長之数図（十二会と十二辟卦）</title>
+        <desc id="ringD">子から巳までが陽の息、午から亥までが陰の消。金色の帯が開物（寅の会）から閉物（戌の会）までの、人と物が存在する期間。唐堯は巳と午の境、宋は未の会にある。</desc>
+        <circle class="core" cx="200" cy="200" r="88"/>
+        <text class="corel" x="200" y="186">一元</text>
+        <text class="corel" x="200" y="208">129,600年</text>
+        <path class="life" d="M60.1 277.6A160 160 0 1 1 338.6 280.0L329.9 275.0A150 150 0 1 0 68.8 272.7Z"/>
+        <path class="seg yang" d="M238.8 344.9A150 150 0 0 1 161.2 344.9L175.4 291.8A95 95 0 0 0 224.6 291.8Z"/>
+        <text class="shi" x="200.0" y="336.5">子</text><text class="ka" x="200.0" y="310.5">復</text>
+        <path class="seg yang" d="M161.2 344.9A150 150 0 0 1 93.9 306.1L132.8 267.2A95 95 0 0 0 175.4 291.8Z"/>
+        <text class="shi" x="131.8" y="318.2">丑</text><text class="ka" x="144.8" y="295.7">臨</text>
+        <path class="seg yang" d="M93.9 306.1A150 150 0 0 1 55.1 238.8L108.2 224.6A95 95 0 0 0 132.8 267.2Z"/>
+        <text class="shi" x="81.8" y="268.2">寅</text><text class="ka" x="104.3" y="255.2">泰</text>
+        <path class="seg yang" d="M55.1 238.8A150 150 0 0 1 55.1 161.2L108.2 175.4A95 95 0 0 0 108.2 224.6Z"/>
+        <text class="shi" x="63.5" y="200.0">卯</text><text class="ka" x="89.5" y="200.0">大壮</text>
+        <path class="seg yang" d="M55.1 161.2A150 150 0 0 1 93.9 93.9L132.8 132.8A95 95 0 0 0 108.2 175.4Z"/>
+        <text class="shi" x="81.8" y="131.8">辰</text><text class="ka" x="104.3" y="144.8">夬</text>
+        <path class="seg yang" d="M93.9 93.9A150 150 0 0 1 161.2 55.1L175.4 108.2A95 95 0 0 0 132.8 132.8Z"/>
+        <text class="shi" x="131.7" y="81.8">巳</text><text class="ka" x="144.7" y="104.3">乾</text>
+        <path class="seg yin" d="M161.2 55.1A150 150 0 0 1 238.8 55.1L224.6 108.2A95 95 0 0 0 175.4 108.2Z"/>
+        <text class="shi" x="200.0" y="63.5">午</text><text class="ka" x="200.0" y="89.5">姤</text>
+        <path class="seg yin" d="M238.8 55.1A150 150 0 0 1 306.1 93.9L267.2 132.8A95 95 0 0 0 224.6 108.2Z"/>
+        <text class="shi" x="268.2" y="81.8">未</text><text class="ka" x="255.2" y="104.3">遯</text>
+        <path class="seg yin" d="M306.1 93.9A150 150 0 0 1 344.9 161.2L291.8 175.4A95 95 0 0 0 267.2 132.8Z"/>
+        <text class="shi" x="318.2" y="131.7">申</text><text class="ka" x="295.7" y="144.7">否</text>
+        <path class="seg yin" d="M344.9 161.2A150 150 0 0 1 344.9 238.8L291.8 224.6A95 95 0 0 0 291.8 175.4Z"/>
+        <text class="shi" x="336.5" y="200.0">酉</text><text class="ka" x="310.5" y="200.0">観</text>
+        <path class="seg yin" d="M344.9 238.8A150 150 0 0 1 306.1 306.1L267.2 267.2A95 95 0 0 0 291.8 224.6Z"/>
+        <text class="shi" x="318.2" y="268.2">戌</text><text class="ka" x="295.7" y="255.2">剝</text>
+        <path class="seg yin" d="M306.1 306.1A150 150 0 0 1 238.8 344.9L224.6 291.8A95 95 0 0 0 267.2 267.2Z"/>
+        <text class="shi" x="268.2" y="318.2">亥</text><text class="ka" x="255.2" y="295.7">坤</text>
+        <line class="mk" x1="60.1" y1="277.6" x2="46.1" y2="285.3"/><text class="mkl" x="33.8" y="296.1">開物</text>
+        <line class="mk" x1="338.6" y1="280.0" x2="352.4" y2="288.0"/><text class="mkl" x="364.5" y="299.0">閉物</text>
+        <line class="mk" x1="158.6" y1="45.5" x2="154.4" y2="30.0"/><text class="mkl" x="150.8" y="20.5">唐堯</text>
+        <line class="mk" x1="257.3" y1="50.6" x2="263.1" y2="35.7"/><text class="mkl" x="268.1" y="26.6">宋</text>
+      </svg>
+      <figcaption>経世一元消長之数図を円にしたもの。淡色が陽の息（子〜巳）、濃色が陰の消（午〜亥）、金の帯が開物から閉物まで。</figcaption>
+    </figure>
+
+    <ul>
+      <li><b class="star">★</b><b>天は子に開き、地は丑に闢き、人は寅に生ず</b>（朱子・呉澄）。</li>
+      <li><b>開物</b>は寅の会・星の己七十六（一年なら啓蟄）、<b>閉物</b>は戌の会・星の戊三百十五（一年なら立冬）。この間だけ人と物がある。亥の会で天地は混沌に戻り、子の会でまた日月星辰が生まれる。</li>
+      <li><b>唐堯</b>の即位は巳の会・星の癸百八十・辰の二千百五十七。一元のちょうど中央で、前後それぞれ 64,800 年。朱子は「堯は乾の九五」、宋代はすでに未の会に入っていると言う。</li>
+      <li>384 爻から四正卦（乾坤坎離）の 24 爻を除くと 360。実際の一年は 366 日（気盈）と 354 日（朔虚）の間にあるが、「用を蔵す」ために 360 で代表させる。太初暦・大衍暦はこじつけとして退けられる。</li>
+    </ul>
+    </section>
+
+    <section class="blk" data-t="第四講 声音律呂 万物の数 声 音 律 呂 唱 和 反切 韻鏡 広韻 十声 十二音 112 152 17024 通数 邵古 伊川丈人">
+    <h2 id="c4"><span class="no">第四講</span>声音律呂 ── 音で万物を数える</h2>
+    <p>物には色・声・気・味がありますが、<b>声がいちばん顕著で、しかも文字で書き分けられる</b>。だから声と音の組み合わせで万物の数を窮める、というのが「経世四象体用之数図」の考え方です。</p>
+    <div class="tw"><table>
+      <thead><tr><th></th><th>声</th><th>音</th></tr></thead>
+      <tbody>
+        <tr><td>属するもの</td><td>日月星辰・天・律・唱</td><td>水火土石・地・呂・和</td></tr>
+        <tr><td>分類</td><td>平上去入（四声）・闢翕</td><td>開発収閉・清濁</td></tr>
+        <tr><td>数</td><td>十声</td><td>十二音</td></tr>
+        <tr><td>反切でいえば</td><td>韻母（反切下字）</td><td>声母（反切上字）</td></tr>
+      </tbody>
+    </table></div>
+    <div class="figs">
+      <div class="fig"><b>160 / 192</b><span>天の体数・地の体数</span></div>
+      <div class="fig"><b>112 / 152</b><span>用声・用音（相手の体数を引く）</span></div>
+      <div class="fig"><b>17,024</b><span>112×152＝動物の数・植物の数</span></div>
+      <div class="fig"><b>289,816,576</b><span>17,024²＝動植の通数</span></div>
+    </div>
+    <ul>
+      <li>訳者は『広韻』『韻鏡』・IPA で各字の発音を比定し、闢翕を韻鏡の開合に、開発収閉を一〜四等に当てている。</li>
+      <li>声音の説は父の<b>邵古（伊川丈人）</b>に由来する。邵古は「音に異同があるのではなく、人と風土に異同がある」と述べ、東は歯舌、南は唇舌、西は顎舌、北は喉舌で発音すると言う。</li>
+      <li>陽の数に 10、陰の数に 12 を使うのは、易が陽に九、陰に六を使うのと同じ理屈（10 から 1 を去れば 9、12 を二分すれば 6）。</li>
+    </ul>
+    </section>
+
+    <h2 id="c5"><span class="no">第五講</span>観物内篇 ── 邵雍自著の十二篇</h2>
+
+    <section class="blk" data-t="観物内篇一 天地も物 感応 変化 人は万物の霊 三才 性情形体 走飛草木">
+    <h3 id="n1"><span class="tag">内篇一</span>天地もまた物</h3>
+    <ul>
+      <li>物のうち最も大きいのは天地だが、天地も物なので尽きる所がある。天は動から、地は静から生じる。</li>
+      <li>暑寒昼夜が物の性情形体を変え、雨風露雷が物の走飛草木を化す。4×4＝16 通りの組み合わせで万物ができる。<b>感応の交錯がすなわち変化</b>。</li>
+      <li>人はすべてに変化・感応するので万物の霊となり、天地と並んで三才をなす。</li>
+    </ul>
+    </section>
+    <section class="blk" data-t="観物内篇二 声色気味 目耳鼻口 体用 至物 至人 聖人 兆物 兆人 一心で万心 妄知 妄言">
+    <h3 id="n2"><span class="tag">内篇二</span>至物と至人</h3>
+    <ul>
+      <li>声色気味は万物の<b>体</b>、目耳鼻口は人の<b>用</b>。体に定まった用はなく、用に定まった体はない。</li>
+      <li>一物で兆物に当たるのが<b>人（至物）</b>、一人で兆人に当たるのが<b>聖人（至人）</b>。聖人は一心で万心を、一身で万身を、一物で万物を、一世で万世を観る。</li>
+      <li>聖人の心は天意に、口は天言に、手は天工に、身は天事に代わる（天は無心・無言・無為）。</li>
+      <li>天地の外にある天地は聖人も知らない。知らないことを知っていると言うのは<b>妄知・妄言</b>。</li>
+    </ul>
+    </section>
+    <section class="blk" data-t="観物内篇三 窮理尽性以至於命 理 性 命 道 昊天 聖人 四府 春夏秋冬 易書詩春秋">
+    <h3 id="n3"><span class="tag">内篇三</span>道と四府</h3>
+    <ul>
+      <li><span class="kanbun">窮理尽性以至於命</span>：理は物の理、性は天の性、命は理と性が落ち着く所。それを処するのが<b>道</b>。道は天地の本、天地は万物の本。道から観れば天地も万物の一つ。</li>
+      <li>天が物に尽くすのが<b>昊天</b>、人が民に尽くすのが<b>聖人</b>。天下に二つの道はなく、聖人に二つの心はない。</li>
+      <li>昊天の四府は<b>春夏秋冬</b>（生長収蔵）、聖人の四府は<b>易書詩春秋</b>。天は時を人に授け、聖人は経によって天に法る。</li>
+    </ul>
+    </section>
+    <section class="blk" data-t="観物内篇四 三皇 五帝 三王 五伯 意言象数 仁礼義智 性情形体 聖賢才術 道徳功力 化教勧率 心迹 権 無為 譲 政 争">
+    <h3 id="n4"><span class="tag">内篇四</span>皇帝王伯の 4×4</h3>
+    <div class="tw"><table>
+      <thead><tr><th>四府</th><th>時代</th><th>用（心）</th><th>尽くすもの</th><th>治め方</th><th>尚ぶもの</th></tr></thead>
+      <tbody>
+        <tr><td>春・易・生</td><td>三皇</td><td>意</td><td>道</td><td>化</td><td>自然・無為</td></tr>
+        <tr><td>夏・書・長</td><td>五帝</td><td>言</td><td>徳</td><td>教</td><td>譲</td></tr>
+        <tr><td>秋・詩・収</td><td>三王</td><td>象</td><td>功</td><td>勧</td><td>政（＝正）</td></tr>
+        <tr><td>冬・春秋・蔵</td><td>五伯</td><td>数</td><td>力</td><td>率</td><td>争</td></tr>
+      </tbody>
+    </table></div>
+    <ul>
+      <li>生生＝意、生長＝言…と掛け合わせて 16 の徳目（意言象数・仁礼義智・性情形体・聖賢才術）を作り、それぞれに歴史上の人物（有虞・夏・商・周、文王・武王・周公・召公、秦穆・晋文・斉桓・楚荘）を配する。</li>
+      <li><b class="star">★</b><b>用は心、体は迹</b>。心と迹の間にあるのが<b>権</b>（その時々の最適）で、これを行えるのが聖人。迹だけ真似るのは膠柱鼓瑟・刻舟求剣であり、聖人の迹を盗んで悪をなしたのが王莽・董卓。</li>
+      <li>民を利する者を王と言い、害する者を賊と言う。帝が足りなければ王、王が足りなければ伯、伯が足りなければ夷狄。ただし五伯にも、周の王室を守った功はある。</li>
+    </ul>
+    </section>
+    <section class="blk" data-t="観物内篇五 四つの命 正命 受命 改命 摂命 因 革 一世 十世 百世 千世 万世 仲尼 古今 旦暮 否泰 損益 一動一静の間 天地の心 聖の時">
+    <h3 id="n5"><span class="tag">内篇五</span>四つの命と一動一静の間</h3>
+    <div class="tw"><table>
+      <thead><tr><th>命</th><th>型</th><th>季節</th><th>事業の長さ</th><th>道</th></tr></thead>
+      <tbody>
+        <tr><td>正命</td><td>因って因る</td><td>春</td><td>千世</td><td>三皇</td></tr>
+        <tr><td>受命</td><td>因って革める</td><td>夏</td><td>百世</td><td>五帝</td></tr>
+        <tr><td>改命</td><td>革めて因る</td><td>秋</td><td>十世</td><td>三王</td></tr>
+        <tr><td>摂命</td><td>革めて革める</td><td>冬</td><td>一世</td><td>五伯</td></tr>
+      </tbody>
+    </table></div>
+    <ul>
+      <li>「因るべきは因り、革むべきは革む」のが<b>仲尼（孔子）の万世の事業</b>。皇帝王伯は位のある「命世」、孔子は位のない「不世」だが、その道は帝王の上にある。</li>
+      <li>古今は天地の間では朝と夕のようなもの。今も後から見れば古、古も自らは今。</li>
+      <li>時には消長があって否泰が尽くし、経には因革があって損益が尽くす。</li>
+      <li><b class="star">★</b><span class="kanbun">一動一静は天地の至妙、一動一静の間は天地人の至妙至妙</span>。天地の心（復卦）は動にも静にも無にも偏らず、その「間」に見える。孔子が「聖の時なる者」と言われるのはこのため。</li>
+    </ul>
+    </section>
+    <section class="blk" data-t="観物内篇六 祖宗子孫 春秋 刑賞 富貴 功徳 命 積功累行 暴君 庸君 好生 好殺 秦穆公">
+    <h3 id="n6"><span class="tag">内篇六</span>祖宗子孫と庸君の害</h3>
+    <ul>
+      <li>孔子は易を賛して三皇を<b>祖</b>、書を序して五帝を<b>宗</b>、詩を刪って三王を<b>子</b>、春秋を修めて五伯を<b>孫</b>とした。</li>
+      <li>富貴は天にあり、功徳は人にある。積功累行しても得られないもの、それを「命」と言う。</li>
+      <li><b class="star">★</b><b>暴君の害は浅く、庸君の害は深い</b>。桀紂や隋煬帝の後にはすぐ湯武や唐が興ったが、東周・後漢・唐後半の凡庸な君主の後には数百年の乱が続いた。</li>
+      <li>生を好む者は生の徒、殺を好む者は死の徒。天は周秦漢楚を選ぶのではなく、善悪を選ぶ。</li>
+    </ul>
+    </section>
+    <section class="blk" data-t="観物内篇七 禅譲 放伐 心 迹 邪正 上の好む所 泰 否 君子 小人 伊尹 周公 口 身 心 神が知る">
+    <h3 id="n7"><span class="tag">内篇七</span>口・身・心</h3>
+    <ul>
+      <li>禅譲も放伐も、心は同じで迹が違うだけ。徳を一等下げれば功、放を一等下げれば殺。</li>
+      <li>邪正は<b>上の好む所</b>で決まる。君子が内にいれば泰、小人が内にいれば否。内外とは、在位か在野かではなく、信任か疎遠かである。</li>
+      <li>伊尹が太甲を放ったのは習坎、周公が兄弟を処断したのは豫。その位・時・徳・心があれば可、なければ簒奪。</li>
+      <li><b class="star">★</b><b>口に言う＜身に行う＜心に尽くす</b>。それぞれ、人が聞く・人が見る・神が知る。口の過ちを無くすのは易しく、心の過ちを無くすのは難しい。</li>
+    </ul>
+    </section>
+    <section class="blk" data-t="観物内篇八 武王 斉桓 漢 秦 虐政は白刃より甚だし 独夫 天の禍福 民の去就 忠臣 死生 正不正 張良 狄仁傑">
+    <h3 id="n8"><span class="tag">内篇八</span>虐政と天の禍福</h3>
+    <ul>
+      <li>武王は舜に一等下るが天下の倒懸を解いた。斉桓は武王に及ばないが夷狄よりはるかに勝る。漢はその中間。</li>
+      <li><b>虐政は白刃より甚だしい</b>（白刃からは逃げられても、虐政からは逃げ場がない）。人心が去れば、君主は「独夫」にすぎない。</li>
+      <li>天の禍福は民の去就に、民の去就は君の仁・不仁（民を利するか害するか）に表れる。</li>
+      <li>天下の事に死ぬのは易しく、成すのは難しい。君子は死生ではなく<b>正か不正か</b>を選ぶ。天下を成して正を失わずに生きた例が張良と狄仁傑。</li>
+    </ul>
+    </section>
+    <section class="blk" data-t="観物内篇九 三変 百年 皇帝王伯 春夏秋冬 温燠凄冽 人事を尽くして天を言う 正道 邪道 名分 人倫 陽一陰二 治世少なく乱世多し">
+    <h3 id="n9"><span class="tag">内篇九</span>三変と名分</h3>
+    <ul>
+      <li>極乱から極治へは<b>必ず三変</b>する。一世三十年の三倍でほぼ百年。</li>
+      <li>三皇は春（温）、五帝は夏（燠）、三王は秋（凄）、五伯は冬（冽）。</li>
+      <li>邪正は人がなし、それを行わせるのは天。ただし<b>人事を尽くしてから天を言え</b>。種も蒔かずに歳（作柄）を責めるようなことをするな。</li>
+      <li>正道とは、君が君の事を、臣が臣の事を、父が父の事を行うこと（名分）。治世が少なく乱世が多いのは、<b>陽が一（奇）で陰が二（偶）</b>だから。</li>
+    </ul>
+    </section>
+    <section class="blk" data-t="観物内篇十 元の元 会の会 春行春 皇の皇 伯の伯 権変 歴代評 漢 晋 三国 十六国 隋 唐 五代">
+    <h3 id="n10"><span class="tag">内篇十</span>歴代の評</h3>
+    <p>元会運世を掛け合わせる「元の元＝春で春を行く」「皇の皇＝道で道の事を行う」などの 16 通りを示したうえで、堯から宋までの三千余年を評します。</p>
+    <div class="tw"><table>
+      <tbody>
+        <tr><th>戦国七雄</th><td>冬の余寒</td><th>漢</th><td>王としては足りない</td></tr>
+        <tr><th>晋</th><td>伯としては余りある</td><th>三国</th><td>伯の雄</td></tr>
+        <tr><th>十六国</th><td>伯の叢（寄せ集め）</td><th>南朝</th><td>伯の借乗</td></tr>
+        <tr><th>北朝</th><td>伯の伝舎（はたご）</td><th>隋</th><td>晋の子</td></tr>
+        <tr><th>唐</th><td>漢の弟</td><th>後五代</th><td>日がまだ出ない時の星</td></tr>
+      </tbody>
+    </table></div>
+    </section>
+    <section class="blk" data-t="観物内篇十一 体数 用数 変数 化数 動数 植数 大衍 九六 十十二 極数 太玄">
+    <h3 id="n11"><span class="tag">内篇十一</span>経世の数と大衍の数</h3>
+    <p>経世は 10 と 12（極数）、易は 9 と 6 を使う。10 から 1 を去れば 9、12 を二分すれば 6。どちらも四（四象）を本にしている。揚雄の太玄は三を使う。立て方は違っても、数とする理由は一つだ、と伯温は言います。</p>
+    </section>
+    <section class="blk" data-t="観物内篇十二 観物 以物観物 反観 無我 有我 目 心 理 鑑 水 聖人 真知 至神至聖 皇皇の民 士農工商">
+    <h3 id="n12"><span class="tag">内篇十二</span>観物 ── 理で観る</h3>
+    <blockquote><p class="kanbun">非以目観之也、非観之以目而観之以心也、非観之以心而観之以理也。</p><p>目で観るのでも、心で観るのでもない。理で観るのである。</p></blockquote>
+    <ul>
+      <li>目で観れば物の<b>形</b>、心で観れば物の<b>情</b>、理で観れば物の<b>性</b>を尽くす。理は窮めて、性は尽くして、命は至って知る。この三つが真知。</li>
+      <li><b>鑑（鏡）＜水＜聖人</b>。鏡は形を隠さず、水は形を一にし、聖人は万物の情を一にする。これが<b>反観</b>、すなわち<b class="star">★</b><span class="kw">以物観物</span>（我を以て物を観ず、物を以て物を観る）。</li>
+      <li><b>天下の害は「有我」より大なるはなし</b>。君子の患いは我に蔽われること、衆人の患いは物に蔽われること。</li>
+      <li>我も人、人も我、我と人は皆物。天下の目・耳・口・心を己のものとすれば、見聞論謀は広く遠く高く大きくなり、至神至聖に至る。</li>
+      <li>物を 16 類（飛飛〜草草）、民を 16 類（皇皇の民＝士士〜伯伯の民＝商商）に分け、一の一（兆に当たる巨物・巨民）から千の千（一に当たる細物・細民）まで等級をつける。</li>
+    </ul>
+    </section>
+
+    <h2 id="c6"><span class="no">第六講</span>観物外篇 ── 門弟子の語録</h2>
+    <p>全 424 節。訳者は王植の解説と、そこに引かれる黄畿・張行成・鮑雲龍・朱子らの説を添えています。テーマ別に要点を拾います（数字は節番号）。</p>
+
+    <section class="blk" data-t="外篇 数理 易 体数 用数 不用 自然 道 天地人 不易 反易 384 360 252 十の七 蓍 閏 大衍 算法 意言象数 筌蹄 魚兎 理 術 先天の学は心 後天の学は迹 誠 逆数 堯以前 先天 後天 文王 悔 吝">
+    <h3 id="g1"><span class="tag">外篇</span>数理・易</h3>
+    <ul>
+      <li><b>体数四・用数三・不用一</b>（1）。無体の一は自然、不用の一は道、用の三は天地人にたとえられる。</li>
+      <li>八卦は不易4・反易2 で六変、六十四卦は不易8・反易28 で三十六変。不変だからこそ能く変ずる（2・29）。</li>
+      <li>体数384 → 用数360 → 体数の用270 → 用数の用252（生物の時）（26）。人も物も働くのは十のうち七。<b class="star">★</b>凡そ事をなす極は、十の七に近ければ止めるべし（152）。</li>
+      <li>蓍の50本は閏年、49本は一年、帰奇掛一は閏にあたる（37）。大衍の数は<b>算法の源</b>。乗は数を生じ、除は数を消す（51・53）。</li>
+      <li><b class="star">★</b><b>意 → 言 → 象 → 数</b>。象数は筌蹄（道具）、言意は魚兎（目的）。道具を捨てて目的は得られない（107）。</li>
+      <li><b class="star">★</b>象は形に、数は質に、名は言に、意は用に起こる。<b>天下の数は理を出ず。理に違えば術に入る</b>。世人は数から入って術に堕ち、理を失う（117）。</li>
+      <li><b class="star">★</b><span class="kw">先天の学は心なり、後天の学は迹なり</span>（197）。<span class="kw">先天の学は誠を主とす</span>（293）。図は皆中より起こり、万化万事は心に生ず（292）。</li>
+      <li><b>往を数えるは順、来を知るは逆</b>。易は逆数で、四時を逆に知る（357）。時は逆に知ることができ、物は順に成る（72）。</li>
+      <li>先天から後天へ：乾坤が交わって泰、坎離が交わって既済。乾は西北、坤は西南に退き、長子の震が事を用い、長女の巽が母に代わる（109）。<b>堯以前は先天、堯以後は後天</b>（145）。</li>
+      <li>元亨利貞は天の変、吉凶悔吝は人の応。<b class="star">★</b><b>悔は吉の先、吝は凶の本</b>。だから君子は天に従う（108）。</li>
+      <li>復は剝に次ぎ（治は乱から生まれ）、姤は夬に次ぐ（乱は治から生まれる）。聖人は未然の防ぎを貴ぶ。これが易の大綱（291）。</li>
+    </ul>
+    </section>
+    <section class="blk" data-t="外篇 天地 自然 天円地方 渾天 蓋天 日 月 閏 呼吸 潮 気 神 無方 雨 風 雲 雷 動物 植物 反生 温泉 寒火">
+    <h3 id="g2"><span class="tag">外篇</span>天地・自然</h3>
+    <ul>
+      <li>天は円、地は方。天は南が高く北が低い、地は西北が高く東南が低い（だから東南に水、西北に山）（91）。天は理で尽くせても形で尽くすことはできない（120）。</li>
+      <li>日は遅くして進み、月は速くして退く。一会ごとの半日の加減が閏余になる（95）。冬至の後は呼、夏至の後は吸で、天地一年の呼吸（174）。海の潮は地の喘息で、月に応じる（346）。</li>
+      <li>気は一つで、それを主るのは乾。神も一つで、気に乗って変化し、有無死生の間を出入りする。<b>神は方なく、易は体なし</b>（157・330）。</li>
+      <li>陽が陰を得て雨、陰が陽を得て風、剛が柔を得て雲、柔が剛を得て雷（106）。雨にも水雨（霖）・火雨（暴）・土雨（濛）・石雨（雹）の別がある（132）。</li>
+      <li>動物は横で首から生じ、植物は縦で根から生じる（反生）。人は縦で、最も貴い（81・348）。温泉はあっても寒い火はない（384）。</li>
+    </ul>
+    </section>
+    <section class="blk" data-t="外篇 人体 心肺 肝胆 腎 膀胱 脾胃 目 耳 鼻 口 神 気 形 魂 魄 精 指節 掌紋 寸関尺">
+    <h3 id="g3"><span class="tag">外篇</span>人体</h3>
+    <ul>
+      <li>陽×剛で心肺、陽×柔で肝胆、柔×陰で腎膀胱、剛×陰で脾胃が生じる。心→目、胆→耳、脾→鼻、腎→口（84。王植は一部に錯簡があると指摘）。</li>
+      <li>神は心に、気は腎に、形は首に統べられる。形と気が交わり、神がその中を主る。これが三才の道（88）。</li>
+      <li>神は、寝ようとすると脾、熟睡すると腎、起きようとすると肝胆、起きると心にある（202）。</li>
+      <li>天に四時、地に四方、人に四肢がある。指節で天を、掌紋で地を観る（87）。</li>
+      <li>魂は気に随って変じ、魄は形に随って止まる（220）。</li>
+    </ul>
+    </section>
+    <section class="blk" data-t="外篇 修養 学問 心は太極 道は太極 虚心 以物観物 性 情 我 術 至誠 楽 身を潤す 読書 天理 才 徳 慎独 鬼神 分に安んず 皇帝王覇 無為 恩信 公正 智力 権">
+    <h3 id="g4"><span class="tag">外篇</span>修養・学問</h3>
+    <ul>
+      <li><b class="star">★</b><span class="kw">心は太極、道も太極</span>（170）。心は一で分かれないが、万変に応じる（虚心不動）（227）。</li>
+      <li><b class="star">★</b><b>物を以て物を観るのは性、我を以て物を観るのは情</b>。性は公で明るく、情は偏って暗い（203）。我に任せると情→蔽→昏、物に因ると性→神→明（190）。</li>
+      <li><b class="star">★</b>物理の学は、通じない所を強いて通じさせると我が入り、理を失って術に入る（224）。理に至る学は、至誠でなければ至らない（223）。</li>
+      <li><b class="star">★</b><span class="kw">学、楽に至らざれば学と謂うべからず</span>（276）。君子の学は身を潤すことが本で、人を治めるのは余事（246）。</li>
+      <li>書を読む者は多いが、能く読む者は少ない。天理の真楽を得れば、どんな書も読め、どんな難所も破れる（265）。</li>
+      <li>才（剸劇）・智（明弁）・徳（寛弘）の三つは一つも欠けてはいけない（247）。<b>才は恃むべからず、徳はなかるべからず</b>（280）。</li>
+      <li>失うことを得ることの前に置けば、得ても驕らず、失っても苦しまない（261）。天下の事は重く始めても軽く終わるので、君子は軽薄に過ぎることを患う（395）。</li>
+      <li><b class="star">★</b><b>心に萌した思慮は、鬼神がすでに知っている</b>。だから君子は独りを慎む（216・421）。人は鬼を畏れるが、善を積めば鬼の方が人を畏れる（222）。</li>
+      <li>事に大小なく道がある。<b>分に安んずるのが道</b>（332）。修身は人、遇不遇は天。得失に心を動かさないのが天に順うこと（317）。</li>
+      <li>皇帝王覇は古代だけの話ではない。<b>無為＝皇、恩信＝帝、公正＝王、智力＝覇</b>。それより下は夷狄、禽獣（300）。</li>
+    </ul>
+    </section>
+    <section class="blk" data-t="外篇 歴史 春秋 刑書 五覇 功の首 罪の魁 名分 告朔の餼羊 権 湯武 放伐 秦穆公 天地の気運 北 南 治乱 仏氏 荘子 老子">
+    <h3 id="g5"><span class="tag">外篇</span>歴史・春秋・諸子</h3>
+    <ul>
+      <li>春秋は孔子の刑書。功と過は相殺しない。<b>五覇は功の首であり、罪の魁でもある</b>（304）。春秋は名分の書（310）。</li>
+      <li>名が残って実が亡ぶ方が、名実ともに亡ぶよりまし（告朔の餼羊）（308）。</li>
+      <li><b>権</b>とは物の軽重を平らかにすること。漢儒の「経に反して道に合う」は一端にすぎない（287）。湯武の放伐は弑ではなく権。夷斉は仁、湯武は義（374）。</li>
+      <li>天地の気運は、北から南へ向かえば治まり、南から北へ向かえば乱れる（189）。</li>
+      <li>仏教は君臣父子夫婦の道を棄てるので、自然の理ではない（404）。荘子の雄弁は数千年に一人（273）、老子五千言は大抵物理を明らかにする（274）。</li>
+    </ul>
+    </section>
+
+    <section class="blk" data-t="第七講 漁樵問対 漁者 樵者 伊水 体 用 薪 火 水 温泉 性 情 形 体 意 言 象 数 無心 無意 名は実の客 利は害の主 命 分 鬼 人の影 小人 君子 六分 四分 才 毒薬 六物 天">
+    <h2 id="c7"><span class="no">第七講</span>漁樵問対 ── 釣り人と木こりの問答</h2>
+    <p>伊水のほとりで、漁師が木こりの問いに答えていく形で、邵雍の思想を平明にまとめた一篇です。</p>
+    <ul>
+      <li><b>釣りの利害</b>：魚は餌で利を得て害を受け、人は魚で利を得る。魚が餌を得られないのも、人が魚を得られないのも害。利害は彼と我で同じ。「あなたは体を言って用を知らない」。</li>
+      <li><b>薪と火</b>：薪は火の体、火は薪の用。火は用が本で動き、水は体が本で静まる。だから<b>温泉はあっても寒い火はない</b>。</li>
+      <li><b class="star">★</b><b>意で得るのは物の性、言で伝えるのは物の情、象で求めるのは物の形、数で取るのは物の体</b>。用は言葉では伝えられない。聖人も言葉では伝えられない。</li>
+      <li><b>無心＝無意</b>：物を我としないので、能く物を物とする。我で物に従えば我も物、物で我に従えば物も我。</li>
+      <li><b class="star">★</b><span class="kw">名は実の客、利は害の主</span>。賄賂を贈るのも受けるのも一つの物、誉れと謗りも一つの事。争いは利を取る端、譲りは名に走る本。</li>
+      <li><b>命と分</b>：善をして禍に遇い、悪をして福を得ることがある。幸不幸は「命」、当たるか当たらないかは「分」。</li>
+      <li>百斤は負えても十斤足すと傷つく。力の分の外は一毫でも害になる。力を量って動くのが智。</li>
+      <li><b>人は鬼の形、鬼は人の影</b>：神魂は天へ（陽）、精魄は地へ（陰）。死後に知が無いとは信じない。</li>
+      <li><b>小人は無くせない</b>：陰がなければ陽は成らない。治世は君子が六分・小人四分、乱世はその逆。</li>
+      <li>正しい才は人を利して身に及び、不正の才は身を利して人を害する。毒薬と同じく、一度は使ってよいが二度目はいけない。</li>
+      <li>竿・綸・浮・沈・鈎・餌の<b>六物をそろえるのは人、魚が釣れるかどうかは天</b>。</li>
+    </ul>
+    </section>
+
+    <section class="blk" data-t="第八講 無名公伝 自伝 滓 里人 郷人 国人 古人 天地 無名公 太極 弄丸 安楽窩 太和湯 撃壌集">
+    <h2 id="c8"><span class="no">第八講</span>無名公伝 ── 邵雍の自画像</h2>
+    <div class="tw"><table>
+      <thead><tr><th>年齢</th><th>誰に学んだか</th><th>去った滓（私心）</th></tr></thead>
+      <tbody>
+        <tr><td class="num">10歳</td><td>里人</td><td>一、二割</td></tr>
+        <tr><td class="num">20歳</td><td>郷人</td><td>三、四割</td></tr>
+        <tr><td class="num">30歳</td><td>国人</td><td>五、六割</td></tr>
+        <tr><td class="num">40歳</td><td>古人</td><td>七、八割</td></tr>
+        <tr><td class="num">50歳</td><td>天地</td><td>去るべき滓が残っていない</td></tr>
+      </tbody>
+    </table></div>
+    <ul>
+      <li>里人は「偏屈か」、郷人は「八方美人か」、国人は「狭量か」と疑い、順に上の者に問うたが、最後に天地に問うても答えがない。そこで「<b>無名公</b>」と号した。体はあるが迹がなく、用はあるが心がない。太極が名づけようのないのと同じ。</li>
+      <li>自賛の句は「丸（太極）を弄ぶ余暇、閑かに往き閑かに来る」。</li>
+      <li>福を祈らない（そもそも不善をしない）。災いを祓わない（むやみに祭らない）。</li>
+      <li>酒は「太和湯」と呼んでほろ酔いでやめる。住まいは「安楽窩」で、冬暖かく夏涼しければ足りる。</li>
+      <li>身分の低い人とも和し、貴人に媚びない。謗られても怒らず、誉められても喜ばない。家は貧しくとも人に求めず、贈られれば少しでも受け取る。門を出ずに天地に遊ぶ。</li>
+    </ul>
+    </section>
+
+    <section class="blk" data-t="第九講 諸家の評 程顥 程頤 雷 加一倍法 張岷 楊時 朱子 推歩 術 陳希夷 百原 魏了翁 風流人豪 訳者 梅花心易">
+    <h2 id="c9"><span class="no">第九講</span>諸家の評</h2>
+    <ul>
+      <li><b>程顥（明道）</b>：墓誌銘で「純一にして雑ならず、汪洋浩大」と評し、自得するところが多いと言う。邵雍の数を「加一倍法」と見抜いた。</li>
+      <li><b>程頤（伊川）との雷問答</b>：「今年の雷はどこに起こるか」と問われて「起こる所に起こる」と答え、邵雍を驚かせた。物理の因果に基づくという意味。</li>
+      <li><b>張岷</b>：研精極思三十年、元会運世で天地の消長を経紀し、唐虞から五代まで天道に基づいて人事を質した。</li>
+      <li><b>楊時（亀山）</b>：孔子が言わなかったことだが、古今の治乱成敗の変に符節を合わせるように合う。ただ先天の学は後に伝わらなかった。</li>
+      <li><b>朱子</b>：易は卜筮の書、経世は推歩（暦算）の書。「生あれば死、盛あれば衰」の理を明らかにするのが本で、未来を当てるだけなら占い師と変わらない。四で数を起こす整然さは周易以後で唯一。ただし聖人は理で天命を知るが、康節は<b>術</b>による。数学の源流は陳摶。百原山の書斎で夜更けまで灯の下に端坐していた。</li>
+      <li><b>魏了翁</b>：心術の精微は『皇極経世』に、情意は『伊川撃壌集』にある。「風流人豪」。</li>
+      <li><b>訳者あとがき</b>：外篇は口述筆記で難解。本書は<b>梅花心易を生む土壌</b>であり、後天易の理解にもつながると述べる。</li>
+    </ul>
+    </section>
+
+    <section class="blk" data-t="結び 占者の心得 先天数 梅花心易 時 命 分 以物観物 慎独 十の七">
+    <h2 id="c10"><span class="no">結び</span>占者の心得として</h2>
+    <p>本書は占いの手引きではなく、宇宙論・数理・修養論の書です。そのうえで、実占に持ち帰れる考え方を拾っておきます（青龍孔一の所見）。</p>
+    <ul>
+      <li><b>先天数</b>（乾1〜坤8）は梅花心易の起卦にそのまま使う数。</li>
+      <li><b>一元は一年のごとし</b>。一日・一年・一元を同じ十二消息卦の構造で読む。相談者の運気の「今どの会にいるか」を見る目安になる。</li>
+      <li><b>時は逆に知り、物は順に成る</b>。春を見て秋を知るのは理による予測で、理を外れた当てものは「術」に堕ちる。</li>
+      <li>徳を行っても<b>時に違えば凶</b>（外篇 123・125）。鑑定では卦だけでなく時を読む。</li>
+      <li><b>禍福は天、善悪は人</b>。幸不幸は「命」、当たり外れは「分」。相談者に、運命と努力の境目を示す枠組みとして使える。</li>
+      <li><b>以物観物</b>と<b>慎独</b>は、占者自身が私心を去るための心得。鬼神は思慮が萌した段階で知っている。</li>
+      <li>何事も<b>十の七で止める</b>。言い過ぎず、やり過ぎない。</li>
+    </ul>
+    </section>
+
+    <p class="empty" id="empty" hidden>該当する項目が見つかりませんでした。別の語句で試してください。</p>
+
+    <p class="src">底本：野口豊太 訳『性理大全版 皇極経世書』（ブイツーソリューション、2022）。本ページは内容を要約・再構成したもので、訳文の転載ではありません。引用は原典（漢文）の短い語句に限っています。スキャンPDFの文字読み取りに由来する誤りがありうるので、細部は原本で確認してください。</p>
+  </main>
+</div>
+
+<script>
+(function(){
+  var q=document.getElementById('q'),hint=document.getElementById('hint'),empty=document.getElementById('empty');
+  var blocks=[].slice.call(document.querySelectorAll('section.blk'));
+  var heads=[].slice.call(document.querySelectorAll('main > h2'));
+  function run(){
+    var v=q.value.trim(); var n=0;
+    blocks.forEach(function(b){
+      var hit=!v||(b.dataset.t+' '+b.textContent).indexOf(v)>=0;
+      b.hidden=!hit; if(hit)n++;
+    });
+    heads.forEach(function(h){
+      var nx=h.nextElementSibling,any=false;
+      while(nx&&nx.tagName!=='H2'){ if(nx.matches('section.blk')&&!nx.hidden)any=true; if(nx.matches('p')&&!nx.classList.contains('empty')&&!nx.classList.contains('src'))any=any; nx=nx.nextElementSibling; }
+      h.hidden=v?!any:false;
+      var p=h.nextElementSibling; if(p&&p.tagName==='P'&&!p.classList.contains('empty')) p.hidden=v?!any:false;
+    });
+    empty.hidden=!(v&&n===0);
+    hint.textContent=v?(n+' 項目が該当'):'';
+  }
+  q.addEventListener('input',run);
+})();
+</script>
+
+</body></html>
