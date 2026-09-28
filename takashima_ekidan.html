@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>高島易断講話</title>
+<meta name="description" content="吞象・高島嘉右衛門『増補 高島易断』上巻（乾為天〜離為火の三十卦）の講説と占例を、卦辞・六爻ごとに現代語で整理した講話集">
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f6f1e6;--panel:#fffdf7;--ink:#241f17;--dim:#6f6553;--gold:#8a6a1f;--bright:#6f5414;--bad:#a8412c;--line:rgba(138,106,31,.30);--soft:rgba(176,141,60,.10);--page:#e9e2d2}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#1d1a15;--panel:#26221b;--ink:#ece3cf;--dim:#b3a78e;--gold:#d2ad5a;--bright:#e6c77a;--bad:#e0806a;--line:rgba(210,173,90,.28);--soft:rgba(210,173,90,.10);--page:#15130f}}
+:root[data-theme="dark"]{--bg:#1d1a15;--panel:#26221b;--ink:#ece3cf;--dim:#b3a78e;--gold:#d2ad5a;--bright:#e6c77a;--bad:#e0806a;--line:rgba(210,173,90,.28);--soft:rgba(210,173,90,.10);--page:#15130f}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--page);color:var(--ink);font-family:"Shippori Mincho B1","Hiragino Mincho ProN","Yu Mincho",serif;line-height:1.85}
+.wrap{max-width:720px;margin:0 auto;background:var(--bg);min-height:100vh;box-shadow:0 0 40px rgba(0,0,0,.08);padding-bottom:84px}
+header{position:sticky;top:0;z-index:50;background:var(--bg);border-bottom:1px solid var(--line);padding:10px 16px 8px;text-align:center}
+header .ttl{font-size:15px;letter-spacing:.35em;color:var(--gold);font-weight:700}
+header .sub{font-size:11px;color:var(--dim);margin-top:2px;letter-spacing:.08em}
+nav.tabs{position:fixed;bottom:0;left:0;right:0;z-index:60;background:var(--bg);border-top:1px solid var(--line);display:flex;justify-content:center;padding:6px 4px calc(6px + env(safe-area-inset-bottom))}
+nav.tabs .in{display:flex;width:100%;max-width:720px}
+nav.tabs a{flex:1;text-align:center;text-decoration:none;color:var(--dim);font-size:11px;padding:4px 2px;border-radius:8px;line-height:1.3}
+nav.tabs a b{display:block;font-size:17px;color:var(--gold);font-weight:700}
+nav.tabs a.on{background:var(--soft);color:var(--bright)}
+main{padding:16px}
+h2.sec{font-size:17px;color:var(--gold);letter-spacing:.12em;border-left:4px solid var(--gold);padding-left:10px;margin:22px 0 12px}
+h3{font-size:15px;color:var(--bright);margin:18px 0 8px;letter-spacing:.05em}
+p{margin:8px 0;font-size:15px}
+.dim{color:var(--dim)}
+.small{font-size:13px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px;margin:12px 0}
+.orig{font-size:17px;font-weight:700;color:var(--bright);letter-spacing:.06em;line-height:1.7}
+.yomi{font-size:14px;color:var(--dim);margin-top:4px}
+.lbl{display:inline-block;font-size:11px;color:var(--bg);background:var(--gold);border-radius:4px;padding:1px 7px;margin-right:6px;letter-spacing:.1em;vertical-align:2px}
+.rei{border-left:3px solid var(--gold);background:var(--soft);border-radius:0 8px 8px 0;padding:10px 12px;margin:10px 0}
+.rei .rt{font-weight:700;color:var(--bright);font-size:14px}
+.rei .rb{font-size:14px;margin-top:4px}
+ul.sen{list-style:none;margin:6px 0}
+ul.sen li{position:relative;padding-left:18px;margin:5px 0;font-size:15px}
+ul.sen li:before{content:"◆";position:absolute;left:0;top:1px;font-size:10px;color:var(--gold)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+@media(min-width:560px){.grid{grid-template-columns:repeat(5,1fr)}}
+.gcard{display:block;text-decoration:none;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 4px 8px;text-align:center}
+.gcard:active{transform:scale(.98)}
+.gcard .no{font-size:11px;color:var(--dim)}
+.gcard .nm{font-size:14px;font-weight:700;color:var(--bright);margin-top:4px}
+.hex{display:inline-flex;flex-direction:column-reverse;gap:3px;margin:6px auto 2px}
+.hex i{display:block;height:5px;width:38px;background:var(--gold);border-radius:1px}
+.hex i.y{background:linear-gradient(90deg,var(--gold) 0 42%,transparent 42% 58%,var(--gold) 58%)}
+.hex.big{gap:6px}.hex.big i{height:10px;width:78px}
+.ghead{text-align:center;padding:10px 0 4px}
+.ghead .no{font-size:12px;color:var(--dim);letter-spacing:.2em}
+.ghead .nm{font-size:26px;font-weight:800;color:var(--bright);letter-spacing:.2em;margin-top:6px}
+.ghead .yo{font-size:13px;color:var(--dim)}
+.ghead .tri{font-size:13px;color:var(--dim);margin-top:6px}
+details.yao{background:var(--panel);border:1px solid var(--line);border-radius:10px;margin:12px 0;overflow:hidden}
+details.yao>summary{list-style:none;cursor:pointer;padding:12px 14px;display:flex;align-items:baseline;gap:10px;border-bottom:1px solid transparent}
+details.yao[open]>summary{border-bottom-color:var(--line);background:var(--soft)}
+details.yao>summary::-webkit-details-marker{display:none}
+details.yao>summary .p{font-size:13px;color:var(--bg);background:var(--gold);border-radius:4px;padding:0 7px;white-space:nowrap}
+details.yao>summary .t{font-size:16px;font-weight:700;color:var(--bright)}
+details.yao .body{padding:4px 14px 12px}
+.pager{display:flex;justify-content:space-between;gap:8px;margin:22px 0 6px}
+.pager a{flex:1;text-decoration:none;color:var(--bright);background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px;font-size:13px;text-align:center}
+.pager a.dis{visibility:hidden}
+.back{display:inline-block;margin:4px 0 0;color:var(--gold);text-decoration:none;font-size:13px}
+table.tri{width:100%;border-collapse:collapse;font-size:13px;margin:8px 0}
+table.tri th,table.tri td{border:1px solid var(--line);padding:6px 5px;text-align:left;vertical-align:top}
+table.tri th{background:var(--soft);color:var(--bright);white-space:nowrap}
+.search{width:100%;font:inherit;font-size:16px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.chip{font:inherit;font-size:12px;color:var(--gold);border:1px solid var(--line);border-radius:999px;padding:5px 11px;background:transparent;cursor:pointer}
+.chip.on{background:var(--gold);color:var(--bg)}
+.tag{display:inline-block;font-size:11px;color:var(--gold);border:1px solid var(--line);border-radius:4px;padding:0 6px;margin-right:6px}
+a.inl{color:var(--gold)}
+.note{font-size:12px;color:var(--dim);border-top:1px dashed var(--line);margin-top:24px;padding-top:10px;line-height:1.7}
+.toc a{display:block;text-decoration:none;color:var(--ink);padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--panel);margin:8px 0}
+.toc a b{color:var(--bright)}
+.toc a span{display:block;font-size:12px;color:var(--dim)}
+.themebtn{position:absolute;right:12px;top:10px;font:inherit;font-size:12px;background:transparent;border:1px solid var(--line);color:var(--dim);border-radius:6px;padding:2px 7px;cursor:pointer}
+.count{font-size:12px;color:var(--dim);margin:6px 2px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="ttl">高 島 易 断 講 話</div>
+  <div class="sub">吞象 高島嘉右衛門『増補 高島易断』上巻 ／ 監修 青龍孔一</div>
+  <button class="themebtn" id="themebtn" aria-label="表示切替">◐</button>
+</header>
+<main id="app"></main>
+</div>
+<nav class="tabs"><div class="in">
+  <a href="#home" data-t="home"><b>序</b>はじめに</a>
+  <a href="#jo" data-t="jo"><b>理</b>易義例</a>
+  <a href="#gua" data-t="gua"><b>卦</b>三十卦</a>
+  <a href="#rei" data-t="rei"><b>占</b>占例集</a>
+  <a href="#furoku" data-t="furoku"><b>附</b>附録</a>
+</div></nav>
+
+<script>window.TK={jo:null,gua:[],furoku:[]};</script>
+<script src="takashima_data0.js"></script>
+<script src="takashima_data1.js"></script>
+<script src="takashima_data2.js"></script>
+<script src="takashima_data3.js"></script>
+<script src="takashima_data4.js"></script>
+<script src="takashima_data5.js"></script>
+<script>
+(function(){
+var TRI={"乾":{b:[1,1,1],s:"☰",o:"天"},"兌":{b:[1,1,0],s:"☱",o:"沢"},"離":{b:[1,0,1],s:"☲",o:"火"},"震":{b:[1,0,0],s:"☳",o:"雷"},"巽":{b:[0,1,1],s:"☴",o:"風"},"坎":{b:[0,1,0],s:"☵",o:"水"},"艮":{b:[0,0,1],s:"☶",o:"山"},"坤":{b:[0,0,0],s:"☷",o:"地"}};
+var app=document.getElementById("app");
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];});}
+function paras(a){if(!a)return"";if(typeof a==="string")a=[a];return a.map(function(x){return"<p>"+esc(x)+"</p>";}).join("");}
+function list(a){if(!a||!a.length)return"";return'<ul class="sen">'+a.map(function(x){return"<li>"+esc(x)+"</li>";}).join("")+"</ul>";}
+function hex(g,big){var b=TRI[g.lo].b.concat(TRI[g.up].b);return'<span class="hex'+(big?" big":"")+'">'+b.map(function(v){return'<i class="'+(v?"":"y")+'"></i>';}).join("")+"</span>";}
+function reis(a){if(!a||!a.length)return"";return a.map(function(r){return'<div class="rei"><div class="rt">'+esc(r.t)+'</div><div class="rb">'+esc(r.b)+"</div></div>";}).join("");}
+function setTab(t){[].forEach.call(document.querySelectorAll("nav.tabs a"),function(a){a.classList.toggle("on",a.getAttribute("data-t")===t);});}
+
+function vHome(){
+  var J=TK.jo||{};
+  var h='<h2 class="sec">高島易断とは</h2>'+paras(J.about);
+  h+='<h2 class="sec">この講話の見方</h2><div class="toc">'+
+   '<a href="#jo"><b>易義例・占筮法・八卦類象</b><span>易の用語、高島流の略筮法、八卦の象意一覧</span></a>'+
+   '<a href="#gua"><b>三十卦 講話（乾為天〜離為火）</b><span>卦辞・彖伝・大象・高島の講説・六爻と占例</span></a>'+
+   '<a href="#rei"><b>占例集（検索できます）</b><span>明治の政治・外交・商売・病気・天候など実占の記録</span></a>'+
+   '<a href="#furoku"><b>附録　日清・日露戦争の占ほか</b><span>開戦から講和まで、時局の節目ごとの占断</span></a></div>';
+  h+='<h2 class="sec">序言（要旨）</h2>'+paras(J.jogen);
+  h+='<h2 class="sec">著者 高島嘉右衛門</h2>'+paras(J.author);
+  h+='<div class="note">'+esc(J.source||"")+"</div>";
+  app.innerHTML=h;
+}
+function vJo(){
+  var J=TK.jo||{};var h='<h2 class="sec">易義例 ― 易の言葉</h2>';
+  (J.gireki||[]).forEach(function(x){h+='<div class="card"><div class="orig">'+esc(x.k)+"</div>"+paras(x.v)+"</div>";});
+  h+='<h2 class="sec">易占筮儀 ― 高島流の立て方</h2>'+paras(J.zeigi_intro)+list(J.zeigi);
+  h+='<h3>残数と八卦</h3><table class="tri"><tr><th>残数</th><th>卦</th><th>象</th></tr>'+
+   [["一","乾 ☰","天"],["二","兌 ☱","沢"],["三","離 ☲","火"],["四","震 ☳","雷"],["五","巽 ☴","風"],["六","坎 ☵","水"],["七","艮 ☶","山"],["八（零）","坤 ☷","地"]].map(function(r){return"<tr><td>"+r[0]+"</td><td>"+r[1]+"</td><td>"+r[2]+"</td></tr>";}).join("")+"</table>";
+  h+='<h2 class="sec">八卦の象意（高島の類象）</h2>';
+  (J.hakke||[]).forEach(function(x){h+='<div class="card"><div class="orig">'+esc(x.k)+'</div><p class="small dim">'+esc(x.meta)+"</p>"+paras(x.v)+"</div>";});
+  h+='<h2 class="sec">爻の位と中・正・応・比</h2>'+list(J.kou);
+  app.innerHTML=h;
+}
+function vGuaList(){
+  var h='<h2 class="sec">周易上経 三十卦</h2><p class="small dim">上巻は乾為天から離為火まで。卦をタップすると講話が開きます。</p><div class="grid">';
+  TK.gua.slice().sort(function(a,b){return a.n-b.n;}).forEach(function(g){h+='<a class="gcard" href="#gua/'+g.n+'"><div class="no">第'+g.n+"卦</div>"+hex(g)+'<div class="nm">'+esc(g.name)+"</div></a>";});
+  app.innerHTML=h+"</div>";
+}
+function vGua(n){
+  var G=TK.gua.slice().sort(function(a,b){return a.n-b.n;});
+  var i=G.findIndex(function(g){return g.n===n;});if(i<0){vGuaList();return;}
+  var g=G[i],U=TRI[g.up],L=TRI[g.lo];
+  var h='<a class="back" href="#gua">← 三十卦一覧</a><div class="ghead"><div class="no">周易上経 第'+g.n+"卦</div>"+hex(g,true)+'<div class="nm">'+esc(g.name)+'</div><div class="yo">'+esc(g.yomi)+'</div><div class="tri">上卦 '+g.up+" "+U.s+" "+U.o+"　／　下卦 "+g.lo+" "+L.s+" "+L.o+"</div></div>";
+  if(g.meaning)h+='<h2 class="sec">卦の名と象</h2>'+paras(g.meaning);
+  if(g.kaji)h+='<h2 class="sec">卦辞</h2><div class="card"><div class="orig">'+esc(g.kaji.t)+'</div><div class="yomi">'+esc(g.kaji.y)+"</div>"+paras(g.kaji.k)+"</div>";
+  if(g.tuan)h+='<h2 class="sec">彖伝</h2><div class="card"><div class="orig">'+esc(g.tuan.t)+"</div>"+paras(g.tuan.k)+"</div>";
+  if(g.kosetsu)h+='<h2 class="sec">高島の講説</h2>'+paras(g.kosetsu);
+  if(g.kokka)h+='<h3>国家・人事に観る</h3>'+paras(g.kokka);
+  if(g.rei&&g.rei.length)h+='<h3>卦全体の占例・附記</h3>'+reis(g.rei);
+  if(g.daisho)h+='<h2 class="sec">大象</h2><div class="card"><div class="orig">'+esc(g.daisho.t)+"</div>"+paras(g.daisho.k)+"</div>";
+  if(g.sen)h+='<h2 class="sec">此の卦を得る時（占断）</h2>'+list(g.sen);
+  h+='<h2 class="sec">六爻</h2>';
+  (g.yao||[]).forEach(function(y){
+    h+='<details class="yao" open><summary><span class="p">'+esc(y.p)+'</span><span class="t">'+esc(y.t)+"</span></summary><div class=\"body\">";
+    if(y.s)h+='<p class="small dim"><span class="lbl">象伝</span>'+esc(y.s)+"</p>";
+    h+=paras(y.k);
+    if(y.sen)h+='<p><span class="lbl">占</span>'+esc(y.sen)+"</p>";
+    h+=reis(y.rei)+"</div></details>";
+  });
+  h+='<div class="pager"><a class="'+(i>0?"":"dis")+'" href="#gua/'+(i>0?G[i-1].n:"")+'">← '+(i>0?esc(G[i-1].name):"")+'</a><a class="'+(i<G.length-1?"":"dis")+'" href="#gua/'+(i<G.length-1?G[i+1].n:"")+'">'+(i<G.length-1?esc(G[i+1].name):"")+" →</a></div>";
+  app.innerHTML=h;
+}
+var CAT=[["すべて",""],["国家・政治","国家|政府|議会|大臣|内閣|征韓|条約|憲法|国会|貴顕|公|伯"],["戦争・外交","戦争|戦|清|露|朝鮮|韓国|艦隊|軍|講和|談判"],["商売・事業","商|会社|銀行|事業|店|相場|石炭|鉄道|開墾|株"],["家・人事","家|子|妻|婚|親族|養子|官吏|昇進|進退"],["病気・生死","病|死|産|疾|怪我|負傷"],["天候・豊凶","豊凶|作|晴雨|大漁|米"]];
+var curCat=0,curQ="";
+function allRei(){
+  var out=[];
+  TK.gua.slice().sort(function(a,b){return a.n-b.n;}).forEach(function(g){
+    (g.rei||[]).forEach(function(r){out.push({src:g.name,href:"#gua/"+g.n,t:r.t,b:r.b});});
+    (g.yao||[]).forEach(function(y){(y.rei||[]).forEach(function(r){out.push({src:g.name+"・"+y.p,href:"#gua/"+g.n,t:r.t,b:r.b});});});
+  });
+  (TK.furoku||[]).forEach(function(s){(s.items||[]).forEach(function(r){out.push({src:"附録・"+s.title,href:"#furoku",t:r.t,b:r.b});});});
+  return out;
+}
+function vRei(){
+  var h='<h2 class="sec">占例集</h2><p class="small dim">高島が実際に筮した記録。語句で絞り込めます（例：伊藤、石炭、選挙、病）。</p><input class="search" id="q" type="search" placeholder="キーワードで検索" value="'+esc(curQ)+'"><div class="chips">'+CAT.map(function(c,i){return'<button class="chip'+(i===curCat?" on":"")+'" data-i="'+i+'">'+c[0]+"</button>";}).join("")+'</div><div id="cnt" class="count"></div><div id="rl"></div>';
+  app.innerHTML=h;
+  var q=document.getElementById("q");
+  q.addEventListener("input",function(){curQ=q.value;drawRei();});
+  [].forEach.call(app.querySelectorAll(".chip"),function(b){b.addEventListener("click",function(){curCat=+b.getAttribute("data-i");[].forEach.call(app.querySelectorAll(".chip"),function(x){x.classList.toggle("on",x===b);});drawRei();});});
+  drawRei();
+}
+function drawRei(){
+  var A=allRei(),re=CAT[curCat][1]?new RegExp(CAT[curCat][1]):null,q=curQ.trim();
+  var R=A.filter(function(r){var s=r.t+r.b+r.src;return(!re||re.test(s))&&(!q||s.indexOf(q)>=0);});
+  document.getElementById("cnt").textContent=R.length+" 件 ／ 全 "+A.length+" 件";
+  document.getElementById("rl").innerHTML=R.map(function(r){return'<div class="rei"><div class="small"><a class="tag" href="'+r.href+'">'+esc(r.src)+'</a></div><div class="rt">'+esc(r.t)+'</div><div class="rb">'+esc(r.b)+"</div></div>";}).join("");
+}
+function vFuroku(){
+  var h='<h2 class="sec">附録</h2><p class="small dim">上巻巻末の附録（別丁）より。日清・日露戦争をはじめ、時局・国運・商況・豊凶などの占断。</p>';
+  (TK.furoku||[]).forEach(function(s){h+="<h3>"+esc(s.title)+"</h3>"+paras(s.intro)+reis(s.items);});
+  app.innerHTML=h;
+}
+function route(){
+  var hsh=(location.hash||"#home").slice(1),p=hsh.split("/");
+  if(p[0]==="gua"&&p[1]){setTab("gua");vGua(+p[1]);}
+  else if(p[0]==="gua"){setTab("gua");vGuaList();}
+  else if(p[0]==="jo"){setTab("jo");vJo();}
+  else if(p[0]==="rei"){setTab("rei");vRei();}
+  else if(p[0]==="furoku"){setTab("furoku");vFuroku();}
+  else{setTab("home");vHome();}
+  window.scrollTo(0,0);
+}
+window.addEventListener("hashchange",route);
+var tb=document.getElementById("themebtn");
+try{var st=localStorage.getItem("tk-theme");if(st)document.documentElement.setAttribute("data-theme",st);}catch(e){}
+tb.addEventListener("click",function(){var cur=document.documentElement.getAttribute("data-theme");var dark=cur?cur==="dark":matchMedia("(prefers-color-scheme: dark)").matches;var nx=dark?"light":"dark";document.documentElement.setAttribute("data-theme",nx);try{localStorage.setItem("tk-theme",nx);}catch(e){}});
+route();
+})();
+</script>
+</body>
+</html>
