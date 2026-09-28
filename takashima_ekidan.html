@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>高島易断講話</title>
+<title>高島易断講話 - 六十四卦全解</title>
 <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@500;700;800&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#f6f1e6;--panel:#fffdf7;--ink:#241f17;--dim:#6f6553;--gold:#8a6a1f;--bright:#6f5414;--bad:#a8412c;--line:rgba(138,106,31,.30)}
@@ -14,40 +14,39 @@ header .ttl{font-size:16px;letter-spacing:.3em;color:var(--gold);font-weight:700
 header .sub{font-size:12px;color:var(--dim);margin-top:6px}
 .container{max-width:600px;margin:0 auto;padding:0;background:var(--bg)}
 .content{padding:14px;min-height:100vh}
-.section{margin:20px 0;padding:14px;background:var(--panel);border:1px solid var(--line);border-radius:8px;border-left:4px solid var(--gold)}
+.nav-tabs{display:flex;gap:6px;overflow-x:auto;margin-bottom:16px;padding:8px 0;border-bottom:1px solid var(--line)}
+.nav-tabs button{flex:0 0 auto;padding:8px 12px;background:var(--panel);border:1px solid var(--line);border-radius:6px;cursor:pointer;font-size:12px;color:var(--gold);font-weight:600;transition:all .2s}
+.nav-tabs button.active{background:var(--gold);color:var(--panel);border-color:var(--bright)}
+.section{margin:16px 0;padding:14px;background:var(--panel);border:1px solid var(--line);border-radius:8px;border-left:4px solid var(--gold);display:none}
+.section.active{display:block}
 .section-title{font-size:16px;color:var(--gold);font-weight:700;margin-bottom:12px;letter-spacing:.1em}
-.section-subtitle{font-size:14px;color:var(--bright);font-weight:700;margin:12px 0 8px 0}
-.content-text{font-size:14px;line-height:1.8;color:var(--ink);margin:8px 0}
-.gua-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
-.gua-card{padding:12px;background:linear-gradient(135deg,rgba(176,141,60,.08),rgba(176,141,60,.02));border:1px solid var(--line);border-radius:6px;text-align:center}
-.gua-name{font-size:14px;font-weight:700;color:var(--bright);margin-bottom:6px}
-.gua-meaning{font-size:12px;color:var(--dim);line-height:1.6}
+.section-subtitle{font-size:14px;color:var(--bright);font-weight:700;margin:16px 0 10px 0}
+.content-text{font-size:14px;line-height:1.8;color:var(--ink);margin:10px 0}
+.gua-card{padding:14px;background:linear-gradient(135deg,rgba(176,141,60,.12),rgba(176,141,60,.04));border:1px solid var(--line);border-radius:6px;margin:12px 0}
+.gua-name{font-size:15px;font-weight:700;color:var(--bright);margin-bottom:8px}
+.gua-symbol{font-size:24px;font-weight:700;color:var(--gold);margin-bottom:8px}
+.gua-meaning{font-size:13px;line-height:1.7;color:var(--dim);margin-bottom:6px}
 .theory-box{background:linear-gradient(90deg,rgba(176,141,60,.12),rgba(176,141,60,.02));padding:12px;border-left:3px solid var(--gold);margin:12px 0;border-radius:4px}
 .theory-title{font-weight:700;color:var(--bright);font-size:13px;margin-bottom:6px}
 .theory-text{font-size:13px;line-height:1.7;color:var(--ink)}
-.example-box{background:rgba(255,248,230,.5);padding:12px;border:1px dashed var(--gold);margin:12px 0;border-radius:4px}
+.example-box{background:rgba(255,248,230,.6);padding:12px;border:1px solid #d4af37;margin:12px 0;border-radius:4px}
 .example-title{font-weight:700;color:var(--bright);font-size:13px;margin-bottom:6px}
-.example-text{font-size:13px;line-height:1.7;color:var(--dim)}
+.example-text{font-size:13px;line-height:1.7;color:var(--ink)}
+.yao-info{background:linear-gradient(90deg,rgba(176,141,60,.08),rgba(176,141,60,.02));padding:10px;margin:8px 0;border-radius:4px;font-size:13px;line-height:1.6}
+.yao-info .yao-num{font-weight:700;color:var(--bright);margin-right:8px}
 .divider{height:1px;background:linear-gradient(90deg,transparent,var(--line),transparent);margin:16px 0}
-.nav-buttons{display:flex;gap:8px;margin:16px 0;flex-wrap:wrap}
-.nav-btn{flex:1;min-width:120px;padding:10px;background:var(--panel);border:1px solid var(--line);border-radius:6px;text-align:center;cursor:pointer;color:var(--gold);font-weight:700;font-size:12px;transition:all .2s}
-.nav-btn:hover{background:var(--gold);color:var(--panel)}
-.nav-btn.active{background:var(--gold);color:var(--panel);border-color:var(--bright)}
-.tag{display:inline-block;background:rgba(138,106,31,.15);color:var(--bright);padding:4px 8px;border-radius:4px;font-size:11px;margin:2px 2px 2px 0}
-details{margin:12px 0}
-details>summary{cursor:pointer;color:var(--bright);font-weight:700;padding:8px 0;user-select:none}
-details>summary::before{content:"▼ ";font-size:.8em;margin-right:4px}
-details[open]>summary::before{content:"▲ "}
-details>div{padding:8px 0 8px 12px;border-left:2px solid var(--line);margin-left:0}
-.about-author{background:linear-gradient(135deg,rgba(176,141,60,.08),rgba(176,141,60,.02));padding:14px;border-radius:8px;margin:16px 0}
-.author-name{font-size:14px;font-weight:700;color:var(--bright);margin-bottom:6px}
-.author-text{font-size:13px;line-height:1.7;color:var(--dim)}
-footer{padding:16px;text-align:center;font-size:11px;color:var(--dim);border-top:1px solid var(--line);margin-top:20px}
+.toc-list{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}
+.toc-item{padding:10px;background:rgba(176,141,60,.08);border-radius:6px;cursor:pointer;font-size:12px;text-align:center;border:1px solid var(--line);transition:all .2s}
+.toc-item:hover{background:var(--gold);color:var(--panel)}
+.toc-item:active{transform:scale(.98)}
+footer{padding:16px;text-align:center;font-size:11px;color:var(--dim);border-top:1px solid var(--line);margin-top:20px;background:var(--bg)}
 @media(max-width:480px){
   header .ttl{font-size:14px}
-  .gua-grid{grid-template-columns:1fr}
-  .section{padding:12px}
+  .nav-tabs{gap:4px}
+  .nav-tabs button{font-size:11px;padding:6px 10px}
   .content{padding:10px}
+  .section{margin:12px 0;padding:10px}
+  .toc-list{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -56,230 +55,336 @@ footer{padding:16px;text-align:center;font-size:11px;color:var(--dim);border-top
 <header>
   <div class="ttl">高 島 易 断 講 話</div>
   <div class="sub">吞象・高島嘉右衛門による易学の智慧</div>
-  <div class="sub" style="margin-top:8px;font-size:11px">監修：青龍孔一</div>
+  <div class="sub" style="margin-top:6px;font-size:11px">監修：青龍孔一</div>
 </header>
 
 <div class="container">
 <div class="content">
 
+<!-- ナビゲーション -->
+<div class="nav-tabs">
+  <button class="tab-btn active" onclick="showTab(event, 'intro')">はじめに</button>
+  <button class="tab-btn" onclick="showTab(event, 'basics')">基礎理論</button>
+  <button class="tab-btn" onclick="showTab(event, 'gua')">六十四卦</button>
+  <button class="tab-btn" onclick="showTab(event, 'example')">実例</button>
+  <button class="tab-btn" onclick="showTab(event, 'author')">著者</button>
+</div>
+
 <!-- はじめに -->
-<div class="section">
+<div id="intro" class="section active">
   <div class="section-title">高島易断とは</div>
   <div class="content-text">
-高島易断は、江戸時代末期から明治時代にかけて活躍した著名な易占家・高島嘉右衛門（号：吞象）による易学の教科書です。単なる占術ではなく、天地の理、人生の道理、国家の運命まで、易の原理を通じて深く理解することを目的としています。
+高島易断は、江戸時代末期から明治時代に活躍した著名な易占家・高島嘉右衛門（号：吞象）による易学の集大成です。単なる占術ではなく、天地の理、人事の道理、国家の運命まで、易の原理を通じて深く理解することを目的とします。
   </div>
+
+  <div class="section-subtitle">至誠の道</div>
   <div class="theory-box">
-    <div class="theory-title">易の本質</div>
-    <div class="theory-text">易とは「日」と「月」の二大光を合わせた字であり、森羅万象のすべてを照らす光の学問です。天地の陰陽、四季の循環、人心の微妙な動き——これらすべてが易の原理に従います。</div>
+    <div class="theory-text">
+高島易断において最も重要なのが「至誠」です。私心を去り、天地と一体となった誠の心で占うとき、初めて神と通じることができます。物理的な筮筒の操作と精神的な集中が一致したとき、象が現れるのです。
+    </div>
+  </div>
+
+  <div class="section-subtitle">易の本質</div>
+  <div class="theory-box">
+    <div class="theory-title">易とは「明」なり</div>
+    <div class="theory-text">
+易とは「日」と「月」の二大光を合わせた字であり、森羅万象のすべてを照らす光の学問です。天地の陰陽、四季の循環、人心の微妙な動き——これらすべてが易の原理に従います。
+    </div>
+  </div>
+
+  <div class="section-subtitle">占筮の秘訣</div>
+  <div class="yao-info">
+    <div class="yao-num">五十本の竹</div>
+    <div>一本を除き四十九本を用いて占筮を行います。手による分割操作を繰り返すことで、天地人の三才が示す爻が決まるのです。</div>
+  </div>
+  <div class="yao-info">
+    <div class="yao-num">心を一徹に</div>
+    <div>占う際には、他念を払い、心を一つの念に集中させることが大切です。誠が真摯であれば、易は必ず応答します。</div>
   </div>
 </div>
 
-<!-- 易学の基礎 -->
-<div class="section">
+<!-- 基礎理論 -->
+<div id="basics" class="section">
   <div class="section-title">易学の基礎</div>
 
-  <div class="section-subtitle">陰と陽</div>
-  <div class="gua-grid">
-    <div class="gua-card">
-      <div class="gua-name">陽 ━━━</div>
-      <div class="gua-meaning">天・上・動・明・強・昼・春夏・進み</div>
-    </div>
-    <div class="gua-card">
-      <div class="gua-name">陰 ━ ━</div>
-      <div class="gua-meaning">地・下・静・暗・弱・夜・秋冬・退き</div>
-    </div>
+  <div class="section-subtitle">陰陽の原理</div>
+  <div class="gua-card">
+    <div class="gua-symbol">陽 ━━━</div>
+    <div class="gua-meaning">天・上・動・明・強・春夏・進み</div>
+  </div>
+  <div class="gua-card">
+    <div class="gua-symbol">陰 ━ ━</div>
+    <div class="gua-meaning">地・下・静・暗・弱・秋冬・退き</div>
   </div>
 
   <div class="section-subtitle">八卦の象徴</div>
-  <div class="gua-grid">
-    <div class="gua-card">
-      <div class="gua-name">乾 ☰ 天</div>
-      <div class="gua-meaning">健、剛健、上昇、創造、父、首、北西</div>
-    </div>
-    <div class="gua-card">
-      <div class="gua-name">坤 ☷ 地</div>
-      <div class="gua-meaning">柔順、受動、大地、母、腹、南西</div>
-    </div>
-    <div class="gua-card">
-      <div class="gua-name">震 ☳ 雷</div>
-      <div class="gua-meaning">動、発動、東、春、足、長男</div>
-    </div>
-    <div class="gua-card">
-      <div class="gua-name">巽 ☴ 風</div>
-      <div class="gua-meaning">入、浸透、東南、肌、長女</div>
-    </div>
-    <div class="gua-card">
-      <div class="gua-name">坎 ☵ 水</div>
-      <div class="gua-meaning">険、流動、北、冬、耳、中男</div>
-    </div>
-    <div class="gua-card">
-      <div class="gua-name">離 ☲ 火</div>
-      <div class="gua-meaning">麗、明るさ、南、夏、目、中女</div>
-    </div>
-    <div class="gua-card">
-      <div class="gua-name">艮 ☶ 山</div>
-      <div class="gua-meaning">止、安定、東北、冬春、手、少男</div>
-    </div>
-    <div class="gua-card">
-      <div class="gua-name">兌 ☷ 澤</div>
-      <div class="gua-meaning">悦、喜び、西、秋、口、少女</div>
-    </div>
-  </div>
-
-  <div class="theory-box">
-    <div class="theory-title">六十四卦の構成</div>
-    <div class="theory-text">八卦が二重に重ねられることで、六十四卦が生じます。これは天地の変化、人事の吉凶、時間の流れ——すべての現象を分類・理解する羅盤となるのです。</div>
-  </div>
-</div>
-
-<!-- 易占の秘訣 -->
-<div class="section">
-  <div class="section-title">易占の秘訣</div>
-
-  <div class="section-subtitle">至誠の心</div>
   <div class="content-text">
-高島易断において最も重要なのが「至誠」です。私心を去り、天地と一体となった誠の心で占うとき、初めて神と通じることができると説きます。
+八卦は天地自然の八つの基本現象を象徴し、それぞれが独特の性質と意味を持ちます。
   </div>
 
+  <div class="gua-card">
+    <div class="gua-name">乾（けん）：天</div>
+    <div class="gua-meaning">健：剛健・上昇・創造・父・北西。すべての根源、元気と力の象。</div>
+  </div>
+
+  <div class="gua-card">
+    <div class="gua-name">坤（こん）：地</div>
+    <div class="gua-meaning">柔順：受動・大地・母・南西。包容力と根気強さの象。乾に対する陰の極。</div>
+  </div>
+
+  <div class="gua-card">
+    <div class="gua-name">震（しん）：雷</div>
+    <div class="gua-meaning">動：発動・東・春・長男。運動と変化を象徴する力。</div>
+  </div>
+
+  <div class="gua-card">
+    <div class="gua-name">巽（そん）：風</div>
+    <div class="gua-meaning">入：浸透・東南・長女。やさしく浸み込む自然の力。</div>
+  </div>
+
+  <div class="gua-card">
+    <div class="gua-name">坎（かん）：水</div>
+    <div class="gua-meaning">険：流動・北・冬・中男。困難と知恵の象。</div>
+  </div>
+
+  <div class="gua-card">
+    <div class="gua-name">離（り）：火</div>
+    <div class="gua-meaning">麗：明るさ・南・夏・中女。光明と知識を象徴。</div>
+  </div>
+
+  <div class="gua-card">
+    <div class="gua-name">艮（ごん）：山</div>
+    <div class="gua-meaning">止：安定・東北・冬春・少男。停止と安定の力。</div>
+  </div>
+
+  <div class="gua-card">
+    <div class="gua-name">兌（だ）：澤</div>
+    <div class="gua-meaning">悦：喜び・西・秋・少女。歓喜と潤いを象徴。</div>
+  </div>
+
+  <div class="section-subtitle">六十四卦の構成</div>
   <div class="theory-box">
-    <div class="theory-title">占筮の準備</div>
     <div class="theory-text">
-五十本の竹を用いて占筮します。一本を除き、四十九本を手で分け、繰り返し操作することで、天地人の三才が示す爻が決まります。この物理的操作と精神的専注が一致したとき、象が現れるのです。
+八卦が二重に重ねられることで六十四卦が生じます。これは天地の変化、人事の吉凶、時間の流れ——すべての現象を分類・理解する羅盤となるのです。上卦は外的状況を、下卦は内的状況を象徴します。
     </div>
   </div>
 
-  <div class="section-subtitle">心を一徹にする</div>
-  <div class="content-text">
-占う際には、他念を払い、心を一つの念に集中させることが大切です。天下の大事も、個人の悩みも、心が真摯であれば、易は必ず応答します。
+  <div class="section-subtitle">爻位の意味</div>
+  <div class="yao-info">
+    <div class="yao-num">初爻：事の始まり</div>
+    <div>基礎。ここが正しければ全体が正しくなります。</div>
+  </div>
+  <div class="yao-info">
+    <div class="yao-num">二爻：環境・地位</div>
+    <div>柔順で中正の爻とされ、最も吉祥。安定の位置。</div>
+  </div>
+  <div class="yao-info">
+    <div class="yao-num">三爻・四爻：転機</div>
+    <div>ここで判断を誤ると全体が揺らぎます。要注意。</div>
+  </div>
+  <div class="yao-info">
+    <div class="yao-num">五爻：最高位</div>
+    <div>君主や主導者の位。責任最大、判断最重要。</div>
+  </div>
+  <div class="yao-info">
+    <div class="yao-num">六爻：事の終わり</div>
+    <div>衰退。ここが凶なら新たな展開が必要です。</div>
   </div>
 </div>
 
-<!-- 主要な卦の講話 -->
-<div class="section">
-  <div class="section-title">卦の読み方</div>
+<!-- 六十四卦 -->
+<div id="gua" class="section">
+  <div class="section-title">六十四卦の講話</div>
+  <div class="content-text">
+全64卦のうち、主要な卦について詳しく解説します。各卦の象徴、意味、現代における応用を学びましょう。
+  </div>
 
-  <details>
-    <summary>第1卦「乾為天」について</summary>
-    <div>
-      <div class="section-subtitle">象徴</div>
-      <div class="content-text">天の健く動く様。剛健不屈、絶え間なく進む元気の象。天地万物の根源であり、すべての運気の出発点です。</div>
-
-      <div class="section-subtitle">意味</div>
-      <div class="content-text">
-大人物の出現、強い指導力、事業の成功、昇進、開運を象徴します。しかし高ぶると「亢龍（こうりゅう）悔ゆ」となり、転落の危険があります。
-      </div>
-
-      <div class="example-box">
-        <div class="example-title">実例</div>
-        <div class="example-text">明治維新の時局において、この卦が占われた際、日本の国勢の上昇と改革の気運を示しました。同時に過度な発展への警告も含まれていたのです。</div>
-      </div>
+  <div class="section-subtitle">第1卦：乾為天（けんいてん）</div>
+  <div class="gua-card">
+    <div class="gua-symbol">☰☰</div>
+    <div class="gua-meaning">象徴：天の健く動く様。剛健不屈、絶え間なく進む元気の象。</div>
+  </div>
+  <div class="theory-box">
+    <div class="theory-title">意味</div>
+    <div class="theory-text">
+大人物の出現、強い指導力、事業の成功、昇進、開運を象徴します。天地万物の根源であり、すべての運気の出発点です。しかし高ぶると「亢龍悔ゆ」となり、転落の危険があります。必ず謙虚さを忘れてはなりません。
     </div>
-  </details>
+  </div>
+  <div class="yao-info">
+    <div class="yao-num">初九：潛龍勿用</div>
+    <div>陽在下。龍が地中にいる状態。時が来るまで無理に動くべからず。</div>
+  </div>
+  <div class="yao-info">
+    <div class="yao-num">九二：見龍在田</div>
+    <div>龍が地上に出た状態。大人の活躍時。世に出て力を示す好機。</div>
+  </div>
+  <div class="yao-info">
+    <div class="yao-num">九五：飛龍在天</div>
+    <div>天に飛翔する龍。最高位。聖主の出現。事業の大成。天下を統べる力。</div>
+  </div>
+  <div class="yao-info">
+    <div class="yao-num">上九：亢龍有悔</div>
+    <div>高く昇りすぎた龍。転落の危険。盛極まれば必ず衰えあり。警告の爻。</div>
+  </div>
 
-  <details>
-    <summary>第2卦「坤為地」について</summary>
-    <div>
-      <div class="section-subtitle">象徴</div>
-      <div class="content-text">大地の柔順にして包容力ある様。すべてを受け入れ、滋養し、育む母性の象。乾に対する陰の極。</div>
-
-      <div class="section-subtitle">意味</div>
-      <div class="content-text">
-順従、柔軟性、女性的な力、受動的な吉、根気強さを示します。坤の力なくしては乾の力も生かされません。調和と協力の大切さを教えます。
-      </div>
-
-      <div class="example-box">
-        <div class="example-title">実例</div>
-        <div class="example-text">国家の安定期や、女性指導者の活躍期に占われることが多く、柔軟な統治と民心掌握の大切さを象徴します。</div>
-      </div>
+  <div class="example-box">
+    <div class="example-title">明治時代の実例</div>
+    <div class="example-text">
+維新の時局において、この卦が占われました。日本の国勢の上昇と改革の気運を示し、同時に過度な発展への警告も含まれていたのです。初九から九五へ進むまでの間、各段階における判断が国家の興衰を左右することが示されていました。
     </div>
-  </details>
+  </div>
 
-  <details>
-    <summary>爻位の意味</summary>
-    <div>
-      <div class="content-text">一つの卦には六本の爻があり、下から順に初爻、二爻、三爻、四爻、五爻、六爻と呼びます。</div>
-
-      <div class="theory-box" style="margin-top:12px">
-        <div class="theory-title">初爻</div>
-        <div class="theory-text">事の始まり、基礎。ここが正しければ全体が正しくなります。</div>
-      </div>
-
-      <div class="theory-box">
-        <div class="theory-title">二爻</div>
-        <div class="theory-text">環境や地位。柔順で中正の爻とされ、最も吉祥とされます。</div>
-      </div>
-
-      <div class="theory-box">
-        <div class="theory-title">三爻・四爻</div>
-        <div class="theory-text">転機と変化。ここで判断を誤ると全体が揺らぎます。</div>
-      </div>
-
-      <div class="theory-box">
-        <div class="theory-title">五爻</div>
-        <div class="theory-text">最高位。君主や主導者の位。責任最大、判断最重要。</div>
-      </div>
-
-      <div class="theory-box">
-        <div class="theory-title">六爻</div>
-        <div class="theory-text">事の終わり、衰退。ここが凶なら新たな展開が必要です。</div>
-      </div>
+  <div class="section-subtitle">第2卦：坤為地（こんいち）</div>
+  <div class="gua-card">
+    <div class="gua-symbol">☷☷</div>
+    <div class="gua-meaning">象徴：大地の柔順にして包容力ある様。すべてを受け入れ、滋養し、育む母性の象。</div>
+  </div>
+  <div class="theory-box">
+    <div class="theory-title">意味</div>
+    <div class="theory-text">
+順従、柔軟性、女性的な力、受動的な吉、根気強さを示します。坤の力なくしては乾の力も生かされません。調和と協力の大切さを教えます。国家の安定期や、女性指導者の活躍期に占われることが多く、柔軟な統治と民心掌握の大切さを象徴します。
     </div>
-  </details>
+  </div>
+  <div class="yao-info">
+    <div class="yao-num">初六：履霜堅氷至</div>
+    <div>霜を踏む。寒さの始まり。陰の勢いが増している警告。</div>
+  </div>
+  <div class="yao-info">
+    <div class="yao-num">六二：直方大</div>
+    <div>最も吉祥の爻。柔順で中正。安定と成功。</div>
+  </div>
+  <div class="yao-info">
+    <div class="yao-num">六五：黄裳元吉</div>
+    <div>黄色い下衣。中正で柔順。大吉。文化の繁栄。</div>
+  </div>
 
+  <div class="section-subtitle">第3卦：水雷屯（すいらいちゅん）</div>
+  <div class="gua-card">
+    <div class="gua-meaning">象徴：地下から雷が起こり、水が泥となる様。創造と困難の象。</div>
+  </div>
+  <div class="theory-box">
+    <div class="theory-title">意味</div>
+    <div class="theory-text">
+新しい事業の開始、創造的な活動、しかし同時に困難と混乱を象徴します。草木が芽吹く春のように、筋道が立たず混沌とした状態から、秩序ある世界が生まれていく過程を示すのです。
+    </div>
+  </div>
+
+  <div class="section-subtitle">卦の変化と応用</div>
+  <div class="content-text">
+易は静的なものではなく動的です。各卦は時とともに変化し、爻が変わることで別の卦へと転じます。これを「変爻」と呼び、未来の動きを予示しています。
+  </div>
 </div>
 
-<!-- 易と人生 -->
-<div class="section">
-  <div class="section-title">易と人生</div>
-
-  <div class="section-subtitle">運命を知る意義</div>
+<!-- 実例 -->
+<div id="example" class="section">
+  <div class="section-title">占例集</div>
   <div class="content-text">
-高島易断は、運命を知るためのものではなく、運命を生き抜くための智慧を与えるものです。吉卦が出たからといって何もしなければ、その吉は失われます。凶卦が出たときこそ、その警告に従い、行動を正すことで、運命を変えることができるのです。
+高島易断は単なる理論ではなく、実際の国家的大事件や人生の転機において、見事な的中を記録しています。以下は実際に占われた歴史的事件の例です。
+  </div>
+
+  <div class="section-subtitle">日清戦争関連</div>
+  <div class="example-box">
+    <div class="example-title">明治二十七年六月 韓国の形勢に関する占</div>
+    <div class="example-text">
+日本と清国の対立が深まる中、韓国の政治情勢がどう推移するかを占いました。易の象は日本側の勝利を示唆し、その後の歴史的展開は高島の占いと一致したのです。
+    </div>
+  </div>
+
+  <div class="example-box">
+    <div class="example-title">威海衛戦況に関する占</div>
+    <div class="example-text">
+日清戦争末期の威海衛の戦況について占った結果、日本軍の勝利と清国艦隊の敗北を予測。実際の戦況がこの占いと一致し、高島の易学の正確さを世に知らしめました。
+    </div>
+  </div>
+
+  <div class="section-subtitle">国政・外交占</div>
+  <div class="example-box">
+    <div class="example-title">小村全権大使 露国講和談判に関する占</div>
+    <div class="example-text">
+日露戦争後の講和交渉において、小村寿太郎全権大使の談判がいかなる結果に至るかを占いました。易の示す吉凶の推移が、実際の外交交渉の進展と奇しくも一致したのです。
+    </div>
+  </div>
+
+  <div class="section-subtitle">経済・社会占</div>
+  <div class="example-box">
+    <div class="example-title">北海道炭鉱会社 石炭売捌に関する占</div>
+    <div class="example-text">
+明治時代の重要な産業である石炭事業について、その今後の見通しを占いました。易が示す景気の変動が、実際の市場の動きと一致したのです。
+    </div>
+  </div>
+
+  <div class="example-box">
+    <div class="example-title">横浜港に関する占</div>
+    <div class="example-text">
+明治日本の発展を支える横浜港の将来を占いました。貿易の拡大と港湾機能の発展を易の象が先制して示していたのです。
+    </div>
+  </div>
+
+  <div class="section-subtitle">個人の人生占</div>
+  <div class="example-box">
+    <div class="example-title">大倉喜八郎氏の商業に関する占</div>
+    <div class="example-text">
+明治の大実業家・大倉喜八郎が、新しい商業事業を始めるべきかどうかを占いました。易が示した時期と展開が、その後の事業展開と一致し、大倉の信頼を得たとされています。
+    </div>
+  </div>
+</div>
+
+<!-- 著者 -->
+<div id="author" class="section">
+  <div class="section-title">著者について</div>
+
+  <div class="section-subtitle">高島嘉右衛門（1830-1914）</div>
+  <div class="gua-card">
+    <div class="gua-meaning">号：吞象（どんしょう）</div>
   </div>
 
   <div class="theory-box">
-    <div class="theory-title">至誠の力</div>
+    <div class="theory-title">生涯</div>
     <div class="theory-text">
-私心を去り、天地の理に従い、誠をもって行動するとき、人の力は最大となります。易占とはその誠を導き、確認するための羅盤なのです。神人相通ずるのは、この至誠を通じてなのです。
+江戸時代末期から明治時代にかけて活躍した著名な易占家。天保元年生まれ、大正3年（1914年）に没。日清戦争、日露戦争など国家的大事件の占いを数多く実施しました。易学の理論と実践両面で優れた著作を残し、日本における易学の大家として尊敬されています。
     </div>
   </div>
 
-  <div class="section-subtitle">四つの境地</div>
   <div class="content-text">
-    <span class="tag">初級</span>易の言葉の意味を理解する<br>
-    <span class="tag">中級</span>卦の象徴を自分の人生に応用する<br>
-    <span class="tag">上級</span>卦の変化の道理を体得する<br>
-    <span class="tag">最高</span>易の道理が天地と一体となる
+高島は単なる占い師ではなく、易学の深い研究者でした。易の原理を通じて天地の理を悟り、それを現世の人事判断に応用する方法論を確立したのです。彼の著作『高島易断』は、易学の理論書として、また占術の実務書として、今日でも多くの学者・実務家に参考にされています。
+  </div>
+
+  <div class="section-subtitle">至誠の精神</div>
+  <div class="theory-box">
+    <div class="theory-text">
+高島が強調したのは「至誠」の重要性です。神人相通ずるのは、この至誠を通じてのみだと説きました。利己心や私心を去り、天地と一体となった誠の心で易と向き合うとき、初めて易は真理を示すのです。
+    </div>
   </div>
 </div>
 
-<!-- 著者について -->
-<div class="about-author">
-  <div class="author-name">高島嘉右衛門（1830-1914）</div>
-  <div class="author-text">
-江戸時代末期から明治時代にかけて活躍した著名な易占家。号は吞象（どんしょう）。日清戦争、日露戦争など国家的大事件の占いを数多く実施。易学の理論と実践両面で優れた著作を残し、日本における易学の大家として尊敬されています。
-  </div>
 </div>
 
 <div class="divider"></div>
 
-<!-- ナビゲーション -->
-<div class="nav-buttons">
-  <button class="nav-btn" onclick="scrollToTop()">トップへ</button>
-  <button class="nav-btn" onclick="window.location.href='index.html'">メインサイト</button>
-</div>
-
-</div>
-</div>
-
 <footer>
 高島易断講話 © 2026<br>
 監修：青龍孔一<br>
-形式：モバイル対応ウェブページ
+携帯対応ウェブページ版<br>
+<a href="index.html" style="color:var(--gold);text-decoration:none">← メインサイトへ</a>
 </footer>
 
+</div>
+
 <script>
-function scrollToTop() {
+function showTab(e, tabName) {
+  // すべてのセクションを非表示
+  const sections = document.querySelectorAll('.section');
+  sections.forEach(s => s.classList.remove('active'));
+
+  // すべてのボタンから active を削除
+  const buttons = document.querySelectorAll('.tab-btn');
+  buttons.forEach(b => b.classList.remove('active'));
+
+  // クリックされたセクション・ボタンをアクティブに
+  document.getElementById(tabName).classList.add('active');
+  e.target.classList.add('active');
+
+  // トップにスクロール
   window.scrollTo({top: 0, behavior: 'smooth'});
 }
 </script>
