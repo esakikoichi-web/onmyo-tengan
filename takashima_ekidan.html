@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>高島易断講話</title>
-<meta name="description" content="吞象・高島嘉右衛門『増補 高島易断』上巻（乾為天〜離為火の三十卦）の講説と占例を、卦辞・六爻ごとに現代語で整理した講話集">
+<meta name="description" content="吞象・高島嘉右衛門『増補 高島易断』上巻・下巻（乾為天〜火水未済の六十四卦）の講説と占例を、卦辞・六爻ごとに現代語で整理した講話集">
 <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@500;700;800&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#f6f1e6;--panel:#fffdf7;--ink:#241f17;--dim:#6f6553;--gold:#8a6a1f;--bright:#6f5414;--bad:#a8412c;--line:rgba(138,106,31,.30);--soft:rgba(176,141,60,.10);--page:#e9e2d2}
@@ -113,7 +113,7 @@ a.inl{color:var(--gold)}
 <div class="wrap">
 <header>
   <div class="ttl">高 島 易 断 講 話</div>
-  <div class="sub">吞象 高島嘉右衛門『増補 高島易断』上巻 ／ 監修 青龍孔一</div>
+  <div class="sub">吞象 高島嘉右衛門『増補 高島易断』上下巻 ／ 監修 青龍孔一</div>
   <button class="themebtn" id="themebtn" aria-label="表示切替">◐</button>
 </header>
 <main id="app"></main>
@@ -121,7 +121,7 @@ a.inl{color:var(--gold)}
 <nav class="tabs"><div class="in">
   <a href="#home" data-t="home"><b>序</b>はじめに</a>
   <a href="#jo" data-t="jo"><b>理</b>易義例</a>
-  <a href="#gua" data-t="gua"><b>卦</b>三十卦</a>
+  <a href="#gua" data-t="gua"><b>卦</b>六十四卦</a>
   <a href="#rei" data-t="rei"><b>占</b>占例集</a>
   <a href="#furoku" data-t="furoku"><b>附</b>附録</a>
 </div></nav>
@@ -134,6 +134,11 @@ a.inl{color:var(--gold)}
 <script src="takashima_data4.js"></script>
 <script src="takashima_data5.js"></script>
 <script src="takashima_kudashi.js"></script>
+<script src="takashima_data6.js"></script>
+<script src="takashima_data7.js"></script>
+<script src="takashima_data8.js"></script>
+<script src="takashima_data9.js"></script>
+<script src="takashima_data10.js"></script>
 <script>
 (function(){
 var TRI={"乾":{b:[1,1,1],s:"☰",o:"天"},"兌":{b:[1,1,0],s:"☱",o:"沢"},"離":{b:[1,0,1],s:"☲",o:"火"},"震":{b:[1,0,0],s:"☳",o:"雷"},"巽":{b:[0,1,1],s:"☴",o:"風"},"坎":{b:[0,1,0],s:"☵",o:"水"},"艮":{b:[0,0,1],s:"☶",o:"山"},"坤":{b:[0,0,0],s:"☷",o:"地"}};
@@ -167,8 +172,8 @@ function posTable(){var rows=[["上","第六爻","陰位（偶）","","三と応
  rows.forEach(function(r){h+="<tr><th>"+r[0]+'<div class="ln"><i class="'+(r[6]?"":"y")+'"></i></div></th><td>'+r[2]+"</td><td>"+(r[3]||"―")+"</td><td>"+r[4]+"</td><td>"+r[5]+"</td></tr>";});
  return h+'</table><p class="small dim">図の線は「その位に本来ふさわしい爻」（陽位には陽爻 ━━、陰位には陰爻 ━ ━）。上三爻が外卦（上卦）、下三爻が内卦（下卦）。卦は必ず下から上へ数える。</p>';}
 function table64(){var O=["乾","兌","離","震","巽","坎","艮","坤"];var h='<div style="overflow-x:auto"><table class="g64"><tr><th>下＼上</th>'+O.map(function(u){return"<th>"+TRI[u].s+"<br>"+u+"</th>";}).join("")+"</tr>";
- O.forEach(function(l){h+="<tr><th>"+TRI[l].s+"<br>"+l+"</th>";O.forEach(function(u){var g=null;for(var i=0;i<64;i++)if(G64[i].up===u&&G64[i].lo===l)g=G64[i];var inb=g.n<=30;h+='<td class="'+(inb?"in":"")+'">'+(inb?'<a href="#gua/'+g.n+'">':"")+'<span class="gl">'+g.gl+"</span>"+g.name+(inb?"</a>":"")+"</td>";});h+="</tr>";});
- return h+'</table></div><p class="small dim">縦が下卦、横が上卦。色付きの卦（乾為天〜離為火）は上巻収録で、タップすると講話へ飛ぶ。</p>';}
+ O.forEach(function(l){h+="<tr><th>"+TRI[l].s+"<br>"+l+"</th>";O.forEach(function(u){var g=null;for(var i=0;i<64;i++)if(G64[i].up===u&&G64[i].lo===l)g=G64[i];var inb=TK.gua.some(function(x){return x.n===g.n;});h+='<td class="'+(inb?"in":"")+'">'+(inb?'<a href="#gua/'+g.n+'">':"")+'<span class="gl">'+g.gl+"</span>"+g.name+(inb?"</a>":"")+"</td>";});h+="</tr>";});
+ return h+'</table></div><p class="small dim">縦が下卦、横が上卦。色付きの卦をタップすると講話へ飛ぶ（上経三十卦＝上巻、下経三十四卦＝下巻）。</p>';}
 
 function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];});}
 function paras(a){if(!a)return"";if(typeof a==="string")a=[a];return a.map(function(x){return"<p>"+glz(esc(x))+"</p>";}).join("");}
@@ -182,9 +187,9 @@ function vHome(){
   var h='<h2 class="sec">高島易断とは</h2>'+paras(J.about);
   h+='<h2 class="sec">この講話の見方</h2><div class="toc">'+
    '<a href="#jo"><b>易義例・占筮法・八卦類象</b><span>易の用語、高島流の略筮法、八卦の象意一覧</span></a>'+
-   '<a href="#gua"><b>三十卦 講話（乾為天〜離為火）</b><span>卦辞・彖伝・大象・高島の講説・六爻と占例</span></a>'+
+   '<a href="#gua"><b>六十四卦 講話（上経 乾為天〜離為火／下経 澤山咸〜火水未済）</b><span>卦辞・彖伝・大象・高島の講説・六爻と占例</span></a>'+
    '<a href="#rei"><b>占例集（検索できます）</b><span>明治の政治・外交・商売・病気・天候など実占の記録</span></a>'+
-   '<a href="#furoku"><b>附録　日清・日露戦争の占ほか</b><span>開戦から講和まで、時局の節目ごとの占断</span></a></div>';
+   '<a href="#furoku"><b>附録　日清・日露戦争の占・神道実用論ほか</b><span>上巻附録（時局の占断）と下巻附録（演説・序跋・性命道の説ほか）</span></a></div>';
   h+='<h2 class="sec">序言（要旨）</h2>'+paras(J.jogen);
   h+='<h2 class="sec">著者 高島嘉右衛門</h2>'+paras(J.author);
   h+='<div class="note">'+esc(J.source||"")+"</div>";
@@ -205,8 +210,8 @@ function vJo(){
   app.innerHTML=h;
 }
 function vGuaList(){
-  var h='<h2 class="sec">周易上経 三十卦</h2><p class="small dim">上巻は乾為天から離為火まで。卦をタップすると講話が開きます。</p><div class="grid">';
-  TK.gua.slice().sort(function(a,b){return a.n-b.n;}).forEach(function(g){h+='<a class="gcard" href="#gua/'+g.n+'"><div class="no">第'+g.n+"卦</div>"+hex(g)+'<div class="nm">'+esc(g.name)+"</div></a>";});
+  var h='<p class="small dim">上巻は上経（乾為天〜離為火）、下巻は下経（澤山咸〜火水未済）。卦をタップすると講話が開きます。</p>',cur=0;
+  TK.gua.slice().sort(function(a,b){return a.n-b.n;}).forEach(function(g){var k=g.n<=30?1:2;if(k!==cur){h+=(cur?"</div>":"")+'<h2 class="sec">'+(k===1?"周易上経 三十卦（上巻）":"周易下経 三十四卦（下巻）")+'</h2><div class="grid">';cur=k;}h+='<a class="gcard" href="#gua/'+g.n+'"><div class="no">第'+g.n+"卦</div>"+hex(g)+'<div class="nm">'+esc(g.name)+"</div></a>";});
   app.innerHTML=h+"</div>";
 }
 function kdl(t){return t?'<div class="kd"><span class="kl">書き下し</span>'+esc(t)+"</div>":"";}
@@ -214,7 +219,7 @@ function vGua(n){
   var G=TK.gua.slice().sort(function(a,b){return a.n-b.n;});
   var i=G.findIndex(function(g){return g.n===n;});if(i<0){vGuaList();return;}
   var g=G[i],U=TRI[g.up],L=TRI[g.lo];
-  var h='<a class="back" href="#gua">← 三十卦一覧</a><div class="ghead"><div class="no">周易上経 第'+g.n+"卦</div>"+hex(g,true)+'<div class="nm"><span class="gl">'+(g64(g.name)?g64(g.name).gl:"")+"</span>"+esc(g.name)+'</div><div class="yo">'+esc(g.yomi)+'</div><div class="trix"><div class="tb">上卦（外卦）'+tri3(g.up)+"<b>"+U.s+" "+g.up+"</b>"+U.o+'</div><div class="tb">下卦（内卦）'+tri3(g.lo)+"<b>"+L.s+" "+g.lo+"</b>"+L.o+'</div></div><div class="tri">'+U.o+"（"+g.up+"）が上、"+L.o+"（"+g.lo+"）が下にある卦</div></div>";
+  var h='<a class="back" href="#gua">← 六十四卦一覧</a><div class="ghead"><div class="no">周易'+(g.n<=30?"上経":"下経")+' 第'+g.n+"卦</div>"+hex(g,true)+'<div class="nm"><span class="gl">'+(g64(g.name)?g64(g.name).gl:"")+"</span>"+esc(g.name)+'</div><div class="yo">'+esc(g.yomi)+'</div><div class="trix"><div class="tb">上卦（外卦）'+tri3(g.up)+"<b>"+U.s+" "+g.up+"</b>"+U.o+'</div><div class="tb">下卦（内卦）'+tri3(g.lo)+"<b>"+L.s+" "+g.lo+"</b>"+L.o+'</div></div><div class="tri">'+U.o+"（"+g.up+"）が上、"+L.o+"（"+g.lo+"）が下にある卦</div></div>";
   if(g.meaning)h+='<h2 class="sec">卦の名と象</h2>'+paras(g.meaning);
   if(g.kaji)h+='<h2 class="sec">卦辞</h2><div class="card"><div class="orig">'+esc(g.kaji.t)+'</div><div class="yomi">'+esc(g.kaji.y)+"</div>"+paras(g.kaji.k)+"</div>";
   var KD=(TK.kd&&TK.kd[g.n])||{y:[]};
@@ -261,7 +266,7 @@ function drawRei(){
   document.getElementById("rl").innerHTML=R.map(function(r){return'<div class="rei"><div class="small"><a class="tag" href="'+r.href+'">'+esc(r.src)+'</a></div><div class="rt">'+esc(r.t)+'</div><div class="rb">'+esc(r.b)+"</div></div>";}).join("");
 }
 function vFuroku(){
-  var h='<h2 class="sec">附録</h2><p class="small dim">上巻巻末の附録（別丁）より。日清・日露戦争をはじめ、時局・国運・商況・豊凶などの占断。</p>';
+  var h='<h2 class="sec">附録</h2><p class="small dim">上巻巻末の附録（日清・日露戦争をはじめ、時局・国運・商況・豊凶などの占断）と、下巻巻末の附録（神道実用論・演説・序跋・霊魂不滅・性命道の説・清国名家の評）。</p>';
   (TK.furoku||[]).forEach(function(s){h+="<h3>"+esc(s.title)+"</h3>"+paras(s.intro)+reis(s.items);});
   app.innerHTML=h;
 }
