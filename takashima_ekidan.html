@@ -147,14 +147,6 @@ table.mon td{padding:5px 0;border-bottom:1px solid var(--line);line-height:1.7}
 <script src="takashima_data8.js"></script>
 <script src="takashima_data9.js"></script>
 <script src="takashima_data10.js"></script>
-<script src="takashima_ho1.js"></script>
-<script src="takashima_ho2.js"></script>
-<script src="takashima_ho3.js"></script>
-<script src="takashima_ho4.js"></script>
-<script src="takashima_ho5.js"></script>
-<script src="takashima_ho6.js"></script>
-<script src="takashima_ho7.js"></script>
-<script src="takashima_ho8.js"></script>
 <script>
 (function(){
 var TRI={"乾":{b:[1,1,1],s:"☰",o:"天"},"兌":{b:[1,1,0],s:"☱",o:"沢"},"離":{b:[1,0,1],s:"☲",o:"火"},"震":{b:[1,0,0],s:"☳",o:"雷"},"巽":{b:[0,1,1],s:"☴",o:"風"},"坎":{b:[0,1,0],s:"☵",o:"水"},"艮":{b:[0,0,1],s:"☶",o:"山"},"坤":{b:[0,0,0],s:"☷",o:"地"}};
@@ -214,7 +206,6 @@ function vHome(){
    '<a href="#gua"><b>六十四卦 講話（上経 乾為天〜離為火／下経 澤山咸〜火水未済）</b><span>卦辞・彖伝・大象・高島の講説・六爻と占例</span></a>'+
    '<a href="#rei"><b>占例集（検索できます）</b><span>明治の政治・外交・商売・病気・天候など実占の記録</span></a>'+
    '<a href="#furoku"><b>附録　日清・日露戦争の占・神道実用論ほか</b><span>上巻附録（時局の占断）と下巻附録（演説・序跋・性命道の説ほか）</span></a></div>';
-  h+='<div class="hobox"><span class="hol">補説</span>各卦の「卦の構造」「卦の詳説」「問事別の占断」と各爻の「補説」欄は、原本の文字が判読できない部分を補うため、易経の本文・古注（程伝・本義など）と高島流の占法に基づいて編者が加えた解説です。高島嘉右衛門の本文・占例とは区別してお読みください。</div>';
   h+='<h2 class="sec">序言（要旨）</h2>'+paras(J.jogen);
   h+='<h2 class="sec">著者 高島嘉右衛門</h2>'+paras(J.author);
   h+='<div class="note">'+esc(J.source||"")+"</div>";
@@ -246,24 +237,20 @@ function vGua(n){
   var g=G[i],U=TRI[g.up],L=TRI[g.lo];
   var h='<a class="back" href="#gua">← 六十四卦一覧</a><div class="ghead"><div class="no">周易'+(g.n<=30?"上経":"下経")+' 第'+g.n+"卦</div>"+hex(g,true)+'<div class="nm"><span class="gl">'+(g64(g.name)?g64(g.name).gl:"")+"</span>"+esc(g.name)+'</div><div class="yo">'+esc(g.yomi)+'</div><div class="trix"><div class="tb">上卦（外卦）'+tri3(g.up)+"<b>"+U.s+" "+g.up+"</b>"+U.o+'</div><div class="tb">下卦（内卦）'+tri3(g.lo)+"<b>"+L.s+" "+g.lo+"</b>"+L.o+'</div></div><div class="tri">'+U.o+"（"+g.up+"）が上、"+L.o+"（"+g.lo+"）が下にある卦</div></div>";
   if(g.meaning)h+='<h2 class="sec">卦の名と象</h2>'+paras(g.meaning);
-  h+=kouzou(g);var HO=(TK.ho&&TK.ho[g.n])||{};
   if(g.kaji)h+='<h2 class="sec">卦辞</h2><div class="card"><div class="orig">'+esc(g.kaji.t)+'</div><div class="yomi">'+esc(g.kaji.y)+"</div>"+paras(g.kaji.k)+"</div>";
   var KD=(TK.kd&&TK.kd[g.n])||{y:[]};
   if(g.tuan)h+='<h2 class="sec">彖伝</h2><div class="card"><div class="orig">'+esc(g.tuan.t)+"</div>"+kdl(KD.t)+paras(g.tuan.k)+"</div>";
   if(g.kosetsu)h+='<h2 class="sec">高島の講説</h2>'+paras(g.kosetsu);
   if(g.kokka)h+='<h3>国家・人事に観る</h3>'+paras(g.kokka);
   if(g.rei&&g.rei.length)h+='<h3>卦全体の占例・附記</h3>'+reis(g.rei);
-  if(HO.so)h+='<h2 class="sec">卦の詳説</h2><div class="hobox"><span class="hol">補説</span>'+paras(HO.so)+"</div>";
   if(g.daisho)h+='<h2 class="sec">大象</h2><div class="card"><div class="orig">'+esc(g.daisho.t)+"</div>"+kdl(KD.d)+paras(g.daisho.k)+"</div>";
   if(g.sen)h+='<h2 class="sec">此の卦を得る時（占断）</h2>'+list(g.sen);
-  if(HO.mon)h+='<h3>問事別の占断</h3><div class="hobox"><span class="hol">補説</span>'+monT(HO.mon)+"</div>";
   h+='<h2 class="sec">六爻</h2>';
   (g.yao||[]).forEach(function(y,yi){var ky=KD.y[yi]||[];
     h+='<details class="yao" open><summary><span class="p">'+esc(y.p)+'</span><span class="t">'+esc(y.t)+"</span></summary><div class=\"body\">"+kdl(ky[0])+yaoFig(g,y.p);
     if(y.s)h+='<p class="small dim"><span class="lbl">象伝</span>'+esc(y.s)+"</p>"+(ky[1]?'<p class="small">'+esc(ky[1])+"</p>":"");
     h+=paras(y.k);
     if(y.sen)h+='<p><span class="lbl">占</span>'+esc(y.sen)+"</p>";
-    var hy=(HO.y||[])[yi];if(hy)h+='<div class="hobox"><span class="hol">補説</span>'+paras(hy.kai)+monT(hy.mon)+"</div>";
     h+=reis(y.rei)+"</div></details>";
   });
   h+='<div class="pager"><a class="'+(i>0?"":"dis")+'" href="#gua/'+(i>0?G[i-1].n:"")+'">← '+(i>0?esc(G[i-1].name):"")+'</a><a class="'+(i<G.length-1?"":"dis")+'" href="#gua/'+(i<G.length-1?G[i+1].n:"")+'">'+(i<G.length-1?esc(G[i+1].name):"")+" →</a></div>";
