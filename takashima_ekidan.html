@@ -35,6 +35,7 @@ p{margin:8px 0;font-size:15px}
 .rei{border-left:3px solid var(--gold);background:var(--soft);border-radius:0 8px 8px 0;padding:10px 12px;margin:10px 0}
 .rei .rt{font-weight:700;color:var(--bright);font-size:14px}
 .rei .rb{font-size:14px;margin-top:4px}
+.plain{border-top:1px dashed var(--gold);padding-top:8px;margin-top:10px}
 ul.sen{list-style:none;margin:6px 0}
 ul.sen li{position:relative;padding-left:18px;margin:5px 0;font-size:15px}
 ul.sen li:before{content:"◆";position:absolute;left:0;top:1px;font-size:10px;color:var(--gold)}
@@ -193,6 +194,7 @@ function table64(){var O=["乾","兌","離","震","巽","坎","艮","坤"];var h
 
 function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];});}
 function paras(a){if(!a)return"";if(typeof a==="string")a=[a];return a.map(function(x){return"<p>"+glz(esc(x))+"</p>";}).join("");}
+function pl(x){return x?'<p class="plain">'+esc(x)+"</p>":"";}
 function list(a){if(!a||!a.length)return"";return'<ul class="sen">'+a.map(function(x){return"<li>"+esc(x).replace(/\n/g,"<br>")+"</li>";}).join("")+"</ul>";}
 function hex(g,big){var b=TRI[g.lo].b.concat(TRI[g.up].b);return'<span class="hex'+(big?" big":"")+'">'+b.map(function(v){return'<i class="'+(v?"":"y")+'"></i>';}).join("")+"</span>";}
 function reis(a){if(!a||!a.length)return"";return a.map(function(r){return'<div class="rei"><div class="rt">'+glz(esc(r.t))+'</div><div class="rb">'+glz(esc(r.b)).replace(/\n/g,"<br>")+"</div></div>";}).join("");}
@@ -237,13 +239,13 @@ function vGua(n){
   var g=G[i],U=TRI[g.up],L=TRI[g.lo];
   var h='<a class="back" href="#gua">← 六十四卦一覧</a><div class="ghead"><div class="no">周易'+(g.n<=30?"上経":"下経")+' 第'+g.n+"卦</div>"+hex(g,true)+'<div class="nm"><span class="gl">'+(g64(g.name)?g64(g.name).gl:"")+"</span>"+esc(g.name)+'</div><div class="yo">'+esc(g.yomi)+'</div><div class="trix"><div class="tb">上卦（外卦）'+tri3(g.up)+"<b>"+U.s+" "+g.up+"</b>"+U.o+'</div><div class="tb">下卦（内卦）'+tri3(g.lo)+"<b>"+L.s+" "+g.lo+"</b>"+L.o+'</div></div><div class="tri">'+U.o+"（"+g.up+"）が上、"+L.o+"（"+g.lo+"）が下にある卦</div></div>";
   if(g.meaning)h+='<h2 class="sec">卦の名と象</h2>'+paras(g.meaning);
-  if(g.kaji)h+='<h2 class="sec">卦辞</h2><div class="card"><div class="orig">'+esc(g.kaji.t)+'</div><div class="yomi">'+esc(g.kaji.y)+"</div>"+paras(g.kaji.k)+"</div>";
+  if(g.kaji)h+='<h2 class="sec">卦辞</h2><div class="card"><div class="orig">'+esc(g.kaji.t)+'</div><div class="yomi">'+esc(g.kaji.y)+"</div>"+paras(g.kaji.k)+pl(g.kaji.p)+"</div>";
   var KD=(TK.kd&&TK.kd[g.n])||{y:[]};
-  if(g.tuan)h+='<h2 class="sec">彖伝</h2><div class="card"><div class="orig">'+esc(g.tuan.t)+"</div>"+kdl(KD.t)+paras(g.tuan.k)+"</div>";
+  if(g.tuan)h+='<h2 class="sec">彖伝</h2><div class="card"><div class="orig">'+esc(g.tuan.t)+"</div>"+kdl(KD.t)+paras(g.tuan.k)+pl(g.tuan.p)+"</div>";
   if(g.kosetsu)h+='<h2 class="sec">高島の講説</h2>'+paras(g.kosetsu);
   if(g.kokka)h+='<h3>国家・人事に観る</h3>'+paras(g.kokka);
   if(g.rei&&g.rei.length)h+='<h3>卦全体の占例・附記</h3>'+reis(g.rei);
-  if(g.daisho)h+='<h2 class="sec">大象</h2><div class="card"><div class="orig">'+esc(g.daisho.t)+"</div>"+kdl(KD.d)+paras(g.daisho.k)+"</div>";
+  if(g.daisho)h+='<h2 class="sec">大象</h2><div class="card"><div class="orig">'+esc(g.daisho.t)+"</div>"+kdl(KD.d)+paras(g.daisho.k)+pl(g.daisho.p)+"</div>";
   if(g.sen)h+='<h2 class="sec">此の卦を得る時（占断）</h2>'+list(g.sen);
   h+='<h2 class="sec">六爻</h2>';
   (g.yao||[]).forEach(function(y,yi){var ky=KD.y[yi]||[];
