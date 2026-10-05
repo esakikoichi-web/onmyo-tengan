@@ -250,7 +250,7 @@ function vGua(n){
     h+='<details class="yao" open><summary><span class="p">'+esc(y.p)+'</span><span class="t">'+esc(y.t)+"</span></summary><div class=\"body\">"+kdl(ky[0])+yaoFig(g,y.p);
     if(y.s)h+='<p class="small dim"><span class="lbl">象伝</span>'+esc(y.s)+"</p>"+(ky[1]?'<p class="small">'+esc(ky[1])+"</p>":"");
     h+=paras(y.k);
-    if(y.sen)h+='<p><span class="lbl">占</span>'+esc(y.sen)+"</p>";
+    if(y.sen)h+='<p><span class="lbl">占</span>'+esc(y.sen).replace(/\n/g,"<br>")+"</p>";
     h+=reis(y.rei)+"</div></details>";
   });
   h+='<div class="pager"><a class="'+(i>0?"":"dis")+'" href="#gua/'+(i>0?G[i-1].n:"")+'">← '+(i>0?esc(G[i-1].name):"")+'</a><a class="'+(i<G.length-1?"":"dis")+'" href="#gua/'+(i<G.length-1?G[i+1].n:"")+'">'+(i<G.length-1?esc(G[i+1].name):"")+" →</a></div>";
