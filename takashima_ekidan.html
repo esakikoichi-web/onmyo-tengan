@@ -193,7 +193,7 @@ function table64(){var O=["乾","兌","離","震","巽","坎","艮","坤"];var h
 
 function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];});}
 function paras(a){if(!a)return"";if(typeof a==="string")a=[a];return a.map(function(x){return"<p>"+glz(esc(x))+"</p>";}).join("");}
-function list(a){if(!a||!a.length)return"";return'<ul class="sen">'+a.map(function(x){return"<li>"+esc(x)+"</li>";}).join("")+"</ul>";}
+function list(a){if(!a||!a.length)return"";return'<ul class="sen">'+a.map(function(x){return"<li>"+esc(x).replace(/\n/g,"<br>")+"</li>";}).join("")+"</ul>";}
 function hex(g,big){var b=TRI[g.lo].b.concat(TRI[g.up].b);return'<span class="hex'+(big?" big":"")+'">'+b.map(function(v){return'<i class="'+(v?"":"y")+'"></i>';}).join("")+"</span>";}
 function reis(a){if(!a||!a.length)return"";return a.map(function(r){return'<div class="rei"><div class="rt">'+glz(esc(r.t))+'</div><div class="rb">'+glz(esc(r.b)).replace(/\n/g,"<br>")+"</div></div>";}).join("");}
 function setTab(t){[].forEach.call(document.querySelectorAll("nav.tabs a"),function(a){a.classList.toggle("on",a.getAttribute("data-t")===t);});}
