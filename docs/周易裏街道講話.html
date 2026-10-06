@@ -123,6 +123,8 @@ ul.sen ul.sen li:before{content:"・";font-size:13px;top:0}
 blockquote{border-left:3px solid var(--gold);background:var(--soft);border-radius:0 8px 8px 0;padding:8px 12px;margin:10px 0}
 blockquote p{font-size:14px}
 .gcard[hidden]{display:none!important}
+.fig.garan svg{max-width:520px}
+.fig.garan .fc{text-align:left;font-size:13px;line-height:1.7}
 </style>
 <style>section.pg{display:none}section.pg:target{display:block}#app:not(:has(section.pg:target)) #home{display:block}</style>
 <div class="wrap">
@@ -346,7 +348,59 @@ blockquote p{font-size:14px}
 <li><strong>使い方の注意</strong>：「雑卦伝ではこうだから、こう判断した」と人に言ってはいけない。蒙の「山下出泉」のように、泉のありかは水煙に隠して見せず、ひそかに密用するものだとしています。</li>
 <li><strong>覚え方</strong>：雑卦伝は卦を二つずつ対にして書いている（萃と升、震と艮など）。片方を覚えれば、もう片方は少し変えるだけで覚えられる（著者はエスペラント語の反対語の作り方にたとえています）。</li>
 <li>以下、各項目は「字の解き」→「<b class="star">★</b>即断・言い方」の順に書きます。</li>
-</ul>
+</ul><figure class="fig garan"><svg viewBox="0 0 360 430" role="img" aria-label="易の大伽藍の図。表門から入る表街道は本堂（上経・下経）と別館（序卦伝・繋辞伝・文言伝）を調べ尽くしても易の首に届かない。裏門から入る裏街道は、裏の低い納屋＝雑卦伝に踏み込んで易の中枢を取る。">
+<defs>
+<marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--dim)"/></marker>
+<marker id="ahr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--bad)"/></marker>
+</defs>
+<!-- 塀 -->
+<path d="M160,40 H20 V380 H160 M200,380 H340 V40 H200" fill="none" style="stroke:var(--gold)" stroke-width="2"/>
+<text x="206" y="57" font-size="12" font-weight="700" style="fill:var(--bad)">裏門</text>
+<text x="206" y="372" font-size="12" font-weight="700" style="fill:var(--dim)">表門</text>
+<!-- 納屋 -->
+<rect x="130" y="62" width="100" height="44" rx="3" style="fill:var(--soft);stroke:var(--bad)" stroke-width="2"/>
+<path d="M124,62 L180,50 L236,62" fill="none" style="stroke:var(--bad)" stroke-width="2"/>
+<text x="180" y="82" text-anchor="middle" font-size="14" font-weight="800" style="fill:var(--bad)">雑卦伝</text>
+<text x="180" y="98" text-anchor="middle" font-size="10" style="fill:var(--ink)">低い納屋（炭小屋）</text>
+<text x="300" y="80" text-anchor="middle" font-size="10" style="fill:var(--bad)">易の中枢</text>
+<text x="300" y="94" text-anchor="middle" font-size="10" style="fill:var(--bad)">＝吉良の居場所</text>
+<line x1="270" y1="84" x2="234" y2="84" style="stroke:var(--bad)" stroke-width="1" stroke-dasharray="2 2"/>
+<!-- 本堂 -->
+<path d="M52,150 L115,128 L178,150" fill="none" style="stroke:var(--gold)" stroke-width="2"/>
+<rect x="60" y="150" width="110" height="100" style="fill:var(--panel);stroke:var(--gold)" stroke-width="2"/>
+<path d="M182,150 L245,128 L308,150" fill="none" style="stroke:var(--gold)" stroke-width="2"/>
+<rect x="190" y="150" width="110" height="100" style="fill:var(--panel);stroke:var(--gold)" stroke-width="2"/>
+<g style="stroke:var(--line)" stroke-width="1">
+<line x1="60" y1="200" x2="170" y2="200"/><line x1="96.7" y1="150" x2="96.7" y2="250"/><line x1="133.3" y1="150" x2="133.3" y2="250"/>
+<line x1="190" y1="200" x2="300" y2="200"/><line x1="226.7" y1="150" x2="226.7" y2="250"/><line x1="263.3" y1="150" x2="263.3" y2="250"/>
+</g>
+<rect x="76" y="182" width="78" height="38" rx="3" style="fill:var(--panel)"/>
+<text x="115" y="198" text-anchor="middle" font-size="14" font-weight="800" style="fill:var(--bright)">上経</text>
+<text x="115" y="214" text-anchor="middle" font-size="10" style="fill:var(--dim)">30の部屋</text>
+<rect x="206" y="182" width="78" height="38" rx="3" style="fill:var(--panel)"/>
+<text x="245" y="198" text-anchor="middle" font-size="14" font-weight="800" style="fill:var(--bright)">下経</text>
+<text x="245" y="214" text-anchor="middle" font-size="10" style="fill:var(--dim)">34の部屋</text>
+<text x="180" y="124" text-anchor="middle" font-size="11" style="fill:var(--dim)">大伽藍（本堂二棟）</text>
+<!-- 別館 -->
+<rect x="40" y="320" width="62" height="30" rx="3" style="fill:var(--panel);stroke:var(--gold)" stroke-width="1.5"/>
+<text x="71" y="339" text-anchor="middle" font-size="11" style="fill:var(--ink)">序卦伝</text>
+<rect x="106" y="320" width="62" height="30" rx="3" style="fill:var(--panel);stroke:var(--gold)" stroke-width="1.5"/>
+<text x="137" y="339" text-anchor="middle" font-size="11" style="fill:var(--ink)">繋辞伝</text>
+<rect x="196" y="320" width="62" height="30" rx="3" style="fill:var(--panel);stroke:var(--gold)" stroke-width="1.5"/>
+<text x="227" y="339" text-anchor="middle" font-size="11" style="fill:var(--ink)">文言伝</text>
+<text x="298" y="339" text-anchor="middle" font-size="11" style="fill:var(--dim)">＝別館</text>
+<!-- 表街道 -->
+<line x1="180" y1="412" x2="180" y2="262" style="stroke:var(--dim)" stroke-width="2" marker-end="url(#ah)"/>
+<text x="188" y="280" font-size="11" font-weight="700" style="fill:var(--dim)">表街道</text>
+<text x="188" y="295" font-size="10" style="fill:var(--dim)">本堂・別館を調べ尽くす</text>
+<text x="188" y="310" font-size="10" font-weight="700" style="fill:var(--dim)">× 首は見つからない</text>
+<!-- 裏街道 -->
+<line x1="180" y1="6" x2="180" y2="48" style="stroke:var(--bad)" stroke-width="2.5" marker-end="url(#ahr)"/>
+<text x="172" y="16" text-anchor="end" font-size="11" font-weight="700" style="fill:var(--bad)">裏街道</text>
+<text x="188" y="16" font-size="10" font-weight="700" style="fill:var(--bad)">○ 納屋に踏み込み「易の首」を取る</text>
+</svg>
+<figcaption class="fc">本堂（上経・下経）と別館（序卦伝・繋辞伝・文言伝）を表から調べ尽くしても、「易の首」は見つからない。裏門から入り、裏の低い納屋＝雑卦伝に踏み込んだ者だけが、易の中枢を取れる（赤穂浪士が吉良を見つけたのは炭小屋だった）。</figcaption></figure>
+
 <h2 class="sec">5-1 乾は剛、坤は柔</h2>
 <ul class="sen">
 <li><strong>字の解き</strong><ul class="sen">
