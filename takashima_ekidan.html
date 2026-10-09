@@ -254,6 +254,8 @@ function vHome(){
 function vJo(){
   var J=TK.jo||{};var h='';
   if(J.kihon){h+='<h2 class="sec">易の基本的な考え方</h2><p class="small dim">高島の講説・占例に出てくる考え方を、出典を添えてまとめたもの。</p>';J.kihon.forEach(function(x){h+='<div class="card"><div class="orig">'+esc(x.k)+"</div>"+paras(x.v)+"</div>";});}
+  h+='<h2 class="sec">十二消息卦（陰陽消長の一年）</h2><p class="small dim">剥の講説：「剥は陰陽消長十二卦の一つ。乾の時、一陰が始めて下に生じて姤となり、遯となり、陰柔はますます長じ、陽剛はしだいに消える」「夬の一陰が尽きれば姤の一陰が下に生じ、剥の一陽が尽きれば復の一陽が下に生じる。これが消息盈虚、天行の循環である」。月は旧暦。</p><table class="tri"><tr><th>月</th><th>卦</th><th>陰陽</th></tr>'+[["十一月","地雷復","一陽来復（冬至）"],["十二月","地沢臨","二陽"],["正月","地天泰","三陽"],["二月","雷天大壮","四陽"],["三月","沢天夬","五陽"],["四月","乾為天","純陽"],["五月","天風姤","一陰始生（夏至）"],["六月","天山遯","二陰"],["七月","天地否","三陰"],["八月","風地観","四陰"],["九月","山地剥","五陰"],["十月","坤為地","純陰"]].map(function(r){var z=g64(r[1]);return"<tr><td>"+r[0]+"</td><td>"+(z?hexb(bits(z),"sm")+" "+zlink(z):esc(r[1]))+"</td><td>"+r[2]+"</td></tr>";}).join("")+"</table>";
+  h+='<h2 class="sec">八卦早見表</h2><table class="tri"><tr><th>卦</th><th>家族・体・方位・数など</th><th>主な象</th></tr>'+(J.hakke||[]).map(function(x){var t=String(x.k).charAt(0);return"<tr><td>"+(TRI[t]?tri3(t):"")+" <b>"+esc(x.k)+"</b></td><td>"+esc(x.meta)+"</td><td>"+esc(String((x.v||[""])[0]).split("・").slice(0,6).join("・"))+"</td></tr>";}).join("")+'</table><p class="small dim">高島の類象による。くわしくは下の「八卦の象意」。</p>';
   h+='<h2 class="sec">易義例 ― 易の言葉</h2>';
   (J.gireki||[]).forEach(function(x){h+='<div class="card"><div class="orig">'+esc(x.k)+"</div>"+paras(x.v)+"</div>";});
   h+='<h2 class="sec">易占筮儀 ― 高島流の立て方</h2>'+paras(J.zeigi_intro)+list(J.zeigi);
