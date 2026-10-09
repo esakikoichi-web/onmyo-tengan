@@ -66,6 +66,12 @@ ul.sen li:before{content:"◆";position:absolute;left:0;top:1px;font-size:10px;c
 .about .lb{font-size:12px;color:var(--gold)}
 .about .th{font-size:18px;font-weight:700;color:var(--bright);margin:4px 0}
 .about p{margin:6px 0}
+.ng{border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin:12px 0;background:var(--panel)}
+.ng .lb{font-size:12px;color:var(--gold);margin-bottom:4px}
+.ng table{width:100%;border-collapse:collapse;font-size:13px}
+.ng th,.ng td{border-bottom:1px solid var(--line);padding:5px 4px;text-align:center;vertical-align:middle}
+.ng td:first-child{text-align:left;color:var(--dim);white-space:nowrap}
+.ng p{margin:8px 0 2px;font-size:14px}
 .flow .fk{display:block;font-size:13px;color:var(--dim);margin-bottom:3px}
 details.yao{background:var(--panel);border:1px solid var(--line);border-radius:10px;margin:12px 0;overflow:hidden}
 details.yao>summary{list-style:none;cursor:pointer;padding:12px 14px;display:flex;align-items:baseline;gap:10px;border-bottom:1px solid transparent}
@@ -287,11 +293,19 @@ function yaoBody(g,y,yi,KD){var ky=(KD.y||[])[yi]||[],kr=(KD.ry||[])[yi]||[];var
  if(y.sen)h+='<p><span class="lbl">占</span>'+esc(y.sen).replace(/\n/g,"<br>")+"</p>";
  return h+reis(y.rei);}
 function kdl(t,r){return t?'<div class="kd"><span class="kl">書き下し</span>'+esc(t)+(r?'<div class="rd">'+esc(r)+"</div>":"")+"</div>":"";}
+var SEI={"乾":"剛健・強く進む","坤":"柔順・受け入れる","震":"動く・奮い立つ","巽":"入る・従う","坎":"険しい・悩み・陥る","離":"明らか・つき従う","艮":"止まる・動かない","兌":"悦ぶ・言葉"};
+function naigai(g){var U=TRI[g.up],L=TRI[g.lo],su=SEI[g.up],sl=SEI[g.lo];
+ return'<div class="ng"><div class="lb">この卦の「内」と「外」</div><table><tr><th></th><th>下卦（内）<br>'+tri3(g.lo)+" "+L.o+"＝"+g.lo+'</th><th>上卦（外）<br>'+tri3(g.up)+" "+U.o+"＝"+g.up+"</th></tr>"+
+ "<tr><td>性質</td><td>"+sl+"</td><td>"+su+"</td></tr>"+
+ "<tr><td>人間関係で</td><td>自分</td><td>相手・まわり</td></tr>"+
+ "<tr><td>一人の人で</td><td>内面（本心）</td><td>外面（態度）</td></tr>"+
+ "<tr><td>時間で</td><td>今・先</td><td>これから・後</td></tr></table>"+
+ '<p>人間関係で読むと：<b>自分は「'+sl+'」、相手・まわりは「'+su+'」</b>という形。<br>一人の人で読むと：<b>心の中は「'+sl+'」、外に見せる姿は「'+su+'」</b>。</p><p class="small dim">卦は下から上へ。下の三本が内（自分）、上の三本が外（相手）。<a href="#jo">→ 易の基本</a></p></div>';}
 function vGua(n){
   var G=TK.gua.slice().sort(function(a,b){return a.n-b.n;});
   var i=G.findIndex(function(g){return g.n===n;});if(i<0){vGuaList();return;}
   var g=G[i],U=TRI[g.up],L=TRI[g.lo];
-  var h='<a class="back" href="#gua">← 六十四卦一覧</a><div class="ghead"><div class="no">周易'+(g.n<=30?"上経":"下経")+' 第'+g.n+"卦</div>"+hex(g,true)+'<div class="nm"><span class="gl">'+(g64(g.name)?g64(g.name).gl:"")+"</span>"+esc(g.name)+'</div><div class="yo">'+esc(g.yomi)+'</div><div class="trix"><div class="tb">上卦（外卦）'+tri3(g.up)+"<b>"+U.s+" "+g.up+"</b>"+U.o+'</div><div class="tb">下卦（内卦）'+tri3(g.lo)+"<b>"+L.s+" "+g.lo+"</b>"+L.o+'</div></div><div class="tri">'+U.o+"（"+g.up+"）が上、"+L.o+"（"+g.lo+'）が下にある卦<br><span class="small dim">上卦＝外（相手・後／人なら外面）、下卦＝内（自分・先／人なら内面）　<a href="#jo">→ 易の基本</a></span></div></div>';
+  var h='<a class="back" href="#gua">← 六十四卦一覧</a><div class="ghead"><div class="no">周易'+(g.n<=30?"上経":"下経")+' 第'+g.n+"卦</div>"+hex(g,true)+'<div class="nm"><span class="gl">'+(g64(g.name)?g64(g.name).gl:"")+"</span>"+esc(g.name)+'</div><div class="yo">'+esc(g.yomi)+'</div><div class="trix"><div class="tb">上卦（外卦）'+tri3(g.up)+"<b>"+U.s+" "+g.up+"</b>"+U.o+'</div><div class="tb">下卦（内卦）'+tri3(g.lo)+"<b>"+L.s+" "+g.lo+"</b>"+L.o+'</div></div><div class="tri">'+U.o+"（"+g.up+"）が上、"+L.o+"（"+g.lo+'）が下にある卦</div></div>'+naigai(g);
   var TH=(TK.theme||{})[g.n];
   if(TH||(g.kaji&&g.kaji.p))h+='<div class="about"><div class="lb">この卦に書いてあること</div>'+(TH?'<div class="th">【 '+esc(TH)+' 】</div>':"")+(g.kaji&&g.kaji.p?"<p>"+esc(g.kaji.p)+"</p>":"")+'<p class="small dim">各爻の段階は下の「六爻の流れ」へ。</p></div>';
   if(g.meaning)h+='<h2 class="sec">卦の名と象</h2>'+paras(g.meaning);
