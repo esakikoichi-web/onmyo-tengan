@@ -233,7 +233,7 @@ function vHome(){
   var J=TK.jo||{};
   var h='<h2 class="sec">高島易断とは</h2>'+paras(J.about);
   h+='<h2 class="sec">この講話の見方</h2><div class="toc">'+
-   '<a href="#jo"><b>易義例・占筮法・八卦類象</b><span>易の用語、高島流の略筮法、八卦の象意一覧</span></a>'+
+   '<a href="#jo"><b>易の基本・易義例・占筮法・八卦類象</b><span>内卦と外卦・爻の位など易の基本的な考え方、易の用語、高島流の略筮法、八卦の象意一覧</span></a>'+
    '<a href="#hiku"><b>爻を引く（得卦から開く）</b><span>卦と爻の番号から、その爻のページへ直接</span></a>'+
    '<a href="#gua"><b>六十四卦 講話（上経 乾為天〜離為火／下経 澤山咸〜火水未済）</b><span>卦辞・彖伝・大象・高島の講説・六爻と占例</span></a>'+
    '<a href="#rei"><b>占例集（検索できます）</b><span>明治の政治・外交・商売・病気・天候など実占の記録</span></a>'+
@@ -252,7 +252,9 @@ function vHome(){
   app.innerHTML=h;
 }
 function vJo(){
-  var J=TK.jo||{};var h='<h2 class="sec">易義例 ― 易の言葉</h2>';
+  var J=TK.jo||{};var h='';
+  if(J.kihon){h+='<h2 class="sec">易の基本的な考え方</h2><p class="small dim">高島の講説・占例に出てくる考え方を、出典を添えてまとめたもの。</p>';J.kihon.forEach(function(x){h+='<div class="card"><div class="orig">'+esc(x.k)+"</div>"+paras(x.v)+"</div>";});}
+  h+='<h2 class="sec">易義例 ― 易の言葉</h2>';
   (J.gireki||[]).forEach(function(x){h+='<div class="card"><div class="orig">'+esc(x.k)+"</div>"+paras(x.v)+"</div>";});
   h+='<h2 class="sec">易占筮儀 ― 高島流の立て方</h2>'+paras(J.zeigi_intro)+list(J.zeigi);
   if(J.mushoku)h+='<h3>至誠無息 ― 筮竹を分ける時</h3>'+paras(J.mushoku);
@@ -287,7 +289,7 @@ function vGua(n){
   var G=TK.gua.slice().sort(function(a,b){return a.n-b.n;});
   var i=G.findIndex(function(g){return g.n===n;});if(i<0){vGuaList();return;}
   var g=G[i],U=TRI[g.up],L=TRI[g.lo];
-  var h='<a class="back" href="#gua">← 六十四卦一覧</a><div class="ghead"><div class="no">周易'+(g.n<=30?"上経":"下経")+' 第'+g.n+"卦</div>"+hex(g,true)+'<div class="nm"><span class="gl">'+(g64(g.name)?g64(g.name).gl:"")+"</span>"+esc(g.name)+'</div><div class="yo">'+esc(g.yomi)+'</div><div class="trix"><div class="tb">上卦（外卦）'+tri3(g.up)+"<b>"+U.s+" "+g.up+"</b>"+U.o+'</div><div class="tb">下卦（内卦）'+tri3(g.lo)+"<b>"+L.s+" "+g.lo+"</b>"+L.o+'</div></div><div class="tri">'+U.o+"（"+g.up+"）が上、"+L.o+"（"+g.lo+"）が下にある卦</div></div>";
+  var h='<a class="back" href="#gua">← 六十四卦一覧</a><div class="ghead"><div class="no">周易'+(g.n<=30?"上経":"下経")+' 第'+g.n+"卦</div>"+hex(g,true)+'<div class="nm"><span class="gl">'+(g64(g.name)?g64(g.name).gl:"")+"</span>"+esc(g.name)+'</div><div class="yo">'+esc(g.yomi)+'</div><div class="trix"><div class="tb">上卦（外卦）'+tri3(g.up)+"<b>"+U.s+" "+g.up+"</b>"+U.o+'</div><div class="tb">下卦（内卦）'+tri3(g.lo)+"<b>"+L.s+" "+g.lo+"</b>"+L.o+'</div></div><div class="tri">'+U.o+"（"+g.up+"）が上、"+L.o+"（"+g.lo+'）が下にある卦<br><span class="small dim">上卦＝外（相手・後）、下卦＝内（自分・先）　<a href="#jo">→ 易の基本</a></span></div></div>';
   var TH=(TK.theme||{})[g.n];
   if(TH||(g.kaji&&g.kaji.p))h+='<div class="about"><div class="lb">この卦に書いてあること</div>'+(TH?'<div class="th">【 '+esc(TH)+' 】</div>':"")+(g.kaji&&g.kaji.p?"<p>"+esc(g.kaji.p)+"</p>":"")+'<p class="small dim">各爻の段階は下の「六爻の流れ」へ。</p></div>';
   if(g.meaning)h+='<h2 class="sec">卦の名と象</h2>'+paras(g.meaning);
