@@ -72,6 +72,11 @@ ul.sen li:before{content:"◆";position:absolute;left:0;top:1px;font-size:10px;c
 .ng th,.ng td{border-bottom:1px solid var(--line);padding:5px 4px;text-align:center;vertical-align:middle}
 .ng td:first-child{text-align:left;color:var(--dim);white-space:nowrap}
 .ng p{margin:8px 0 2px;font-size:14px}
+.pz{border:1px dashed var(--line);border-radius:8px;padding:8px 10px;margin:8px 0;font-size:14px}
+.pz .lb,.my .lb{font-size:12px;color:var(--gold);margin-bottom:3px}
+.ng td.chg{background:var(--soft);font-weight:700}
+.my{border:1px solid var(--gold);border-radius:10px;padding:10px 12px;margin:10px 0}
+.my .rt{font-weight:700;margin-top:6px}
 .flow .fk{display:block;font-size:13px;color:var(--dim);margin-bottom:3px}
 details.yao{background:var(--panel);border:1px solid var(--line);border-radius:10px;margin:12px 0;overflow:hidden}
 details.yao>summary{list-style:none;cursor:pointer;padding:12px 14px;display:flex;align-items:baseline;gap:10px;border-bottom:1px solid transparent}
@@ -183,6 +188,7 @@ table.mon td{padding:5px 0;border-bottom:1px solid var(--line);line-height:1.7}
 <script src="takashima_data10.js"></script>
 <script src="takashima_yomi.js"></script>
 <script src="takashima_theme.js"></script>
+<script src="takashima_myrei.js"></script>
 <script>
 (function(){
 var TRI={"乾":{b:[1,1,1],s:"☰",o:"天"},"兌":{b:[1,1,0],s:"☱",o:"沢"},"離":{b:[1,0,1],s:"☲",o:"火"},"震":{b:[1,0,0],s:"☳",o:"雷"},"巽":{b:[0,1,1],s:"☴",o:"風"},"坎":{b:[0,1,0],s:"☵",o:"水"},"艮":{b:[0,0,1],s:"☶",o:"山"},"坤":{b:[0,0,0],s:"☷",o:"地"}};
@@ -287,11 +293,34 @@ function kotoba(txt){var out=[],seen={};TERMS.forEach(function(t){if(seen[t[1]])
 function yIdx(p){var c=p.charAt(0)==="初"||p.charAt(0)==="上"?p.charAt(0):p.charAt(1);return POS[c];}
 function zhi(g,i){var b=bits(g),nb=b.slice();nb[i]=nb[i]?0:1;return findBits(nb);}
 function zlink(z){if(!z)return"";var has=TK.gua.some(function(x){return x.n===z.n;});return(has?'<a href="#gua/'+z.n+'">':"")+'<span class="gl">'+z.gl+"</span>"+esc(z.name)+(has?"</a>":"");}
-function yaoBody(g,y,yi,KD){var ky=(KD.y||[])[yi]||[],kr=(KD.ry||[])[yi]||[];var h=kdl(ky[0],kr[0])+yaoFig(g,y.p)+kotoba(y.t+(y.s||""));
+var PN=["初","二","三","四","五","上"];
+function yname(g,i){var y=(g.yao||[])[i];return y?y.p:PN[i];}
+function posInfo(g,i){var b=bits(g),me=b[i],yang=i%2===0,L=[];
+ L.push((me?"陽":"陰")+"の爻が"+(yang?"陽":"陰")+"の位にいる → "+(me===(yang?1:0)?"<b>正</b>（位にかなう）":"<b>不正</b>（位にかなわない）"));
+ L.push(i===1?"内卦（下卦）の真ん中 → <b>中</b>を得る":i===4?"外卦（上卦）の真ん中 → <b>中</b>を得る":"真ん中ではない → 中を得ない");
+ var j=i<3?i+3:i-3;L.push("応じる相手は"+yname(g,j)+" → "+(b[j]!==me?"<b>応</b>じる（陰陽が合う）":"応じない（"+(me?"陽と陽":"陰と陰")+"）"));
+ var nb=[];[i-1,i+1].forEach(function(k){if(k>=0&&k<6&&b[k]!==me)nb.push(yname(g,k));});
+ L.push(nb.length?"隣の"+nb.join("・")+"と<b>比</b>する（陰陽で親しむ）":"隣と比さない");
+ if(i===0)L.push("初爻 → 事の始め");else if(i===5)L.push("上爻 → 事の終わり・極み");
+ return'<div class="pz"><div class="lb">この爻の位置</div>'+L.map(function(x){return"<div>・"+x+"</div>";}).join("")+'<div class="small dim">正・中・応・比の意味は<a href="#jo">易の基本</a>へ。</div></div>';}
+function jiki(g,i){if(i>=5)return'<div class="pz"><div class="lb">時期の目安</div><div>上爻は卦の終わり。この卦の時がまもなく極まり、次の段階へ移る。</div></div>';
+ var a=[];for(var k=i+1;k<6;k++)a.push(yname(g,k)+"（"+(k-i)+"年後）");
+ return'<div class="pz"><div class="lb">時期の目安（一爻を一年とした場合）</div><div>'+esc(yname(g,i))+"（今）→ "+a.join(" → ")+'</div><div class="small dim">高島「凡そ卦爻は一爻を一年と為す」（坎・離の占例）。月で観る例は井上六の占例（四爻＝七・八月、五爻＝九・十月、上爻＝十一・十二月）。</div></div>';}
+function hikaku(g,i){var z=zhi(g,i);if(!z)return"";var ch=i<3?"lo":"up";
+ function cell(t,c){return"<td"+(c?' class="chg"':"")+">"+tri3(t)+" "+TRI[t].o+"＝"+t+"<br><span class=\"small\">"+SEI[t]+"</span></td>";}
+ return'<div class="ng"><div class="lb">本卦と之卦の「内」と「外」</div><table><tr><th></th><th>本卦<br>'+esc(g.name)+'</th><th>之卦<br>'+zlink(z)+"</th></tr>"+
+ "<tr><td>外（相手・外面・後）</td>"+cell(g.up,0)+cell(z.up,ch==="up")+"</tr>"+
+ "<tr><td>内（自分・内面・今）</td>"+cell(g.lo,0)+cell(z.lo,ch==="lo")+"</tr></table>"+
+ '<p class="small">'+(ch==="lo"?"変わるのは<b>内（自分・内面）</b>："+SEI[g.lo]+" → "+SEI[z.lo]:"変わるのは<b>外（相手・外面）</b>："+SEI[g.up]+" → "+SEI[z.up])+"</p></div>";}
+function myreis(n,i){var a=(TK.myrei||[]).filter(function(r){return r.n===n&&r.yi===i;});if(!a.length)return"";
+ return'<div class="my"><div class="lb">青龍孔一の占例</div>'+a.map(function(r){return'<div class="rt">'+esc(r.date)+"　"+esc(r.t)+'</div><div class="rb">'+esc(r.d)+(r.r?'<br><span class="small">結果：'+esc(r.r)+"</span>":"")+"</div>";}).join("")+"</div>";}
+function yaoBody(g,y,yi,KD){var ky=(KD.y||[])[yi]||[],kr=(KD.ry||[])[yi]||[],pi=yIdx(y.p);var h=kdl(ky[0],kr[0])+yaoFig(g,y.p)+kotoba(y.t+(y.s||""));
+ if(pi!=null)h+=posInfo(g,pi);
  if(y.s)h+='<p class="small dim"><span class="lbl">象伝</span>'+esc(y.s)+"</p>"+(ky[1]?'<p class="small">'+esc(ky[1])+(kr[1]?'<span class="rd">'+esc(kr[1])+"</span>":"")+"</p>":"");
  h+=paras(y.k);
  if(y.sen)h+='<p><span class="lbl">占</span>'+esc(y.sen).replace(/\n/g,"<br>")+"</p>";
- return h+reis(y.rei);}
+ if(pi!=null)h+=hikaku(g,pi)+jiki(g,pi);
+ return h+reis(y.rei)+(pi!=null?myreis(g.n,pi):"");}
 function kdl(t,r){return t?'<div class="kd"><span class="kl">書き下し</span>'+esc(t)+(r?'<div class="rd">'+esc(r)+"</div>":"")+"</div>":"";}
 var SEI={"乾":"剛健・強く進む","坤":"柔順・受け入れる","震":"動く・奮い立つ","巽":"入る・従う","坎":"険しい・悩み・陥る","離":"明らか・つき従う","艮":"止まる・動かない","兌":"悦ぶ・言葉"};
 function naigai(g){var U=TRI[g.up],L=TRI[g.lo],su=SEI[g.up],sl=SEI[g.lo];
@@ -343,7 +372,8 @@ function vRei(k){
   var A=allRei(),R=A,lbl="すべて";
   if(k&&k.charAt(0)==="t"){var c=TYP[+k.slice(1)];lbl="占的の型："+c[0];var re=new RegExp(c[1]);R=A.filter(function(r){return re.test(r.t);});}
   else if(k&&k.charAt(0)==="f"){var c2=CAT[+k.slice(1)];lbl="分野："+c2[0];var re2=new RegExp(c2[1]);R=A.filter(function(r){return re2.test(r.t+r.b+r.src);});}
-  var h='<h2 class="sec">占例集</h2><p class="small dim">高島が実際に筮した記録。題をタップすると、その爻のページで本文が読めます。占的の型は題の言葉から機械的に分けたもので、目安です。</p>'+reiChips(k||"all")+'<div class="count">'+esc(lbl)+"　"+R.length+" 件 ／ 全 "+A.length+' 件</div><div class="rl">'+R.map(function(r){return'<a href="'+r.href+'"><small>'+esc(r.src)+"</small>"+esc(r.t)+"</a>";}).join("")+"</div>";
+  var MY=(TK.myrei||[]);var myh=MY.length&&!k?'<h2 class="sec">青龍孔一の占例</h2><div class="rl">'+MY.slice().reverse().map(function(r){var g=null;TK.gua.forEach(function(x){if(x.n===r.n)g=x;});return'<a href="#y/'+r.n+"/"+r.yi+'"><small>'+esc(r.date)+"　"+(g?esc(g.name)+"・"+esc(yname(g,r.yi)):"")+"</small>"+esc(r.t)+"</a>";}).join("")+"</div>":"";
+  var h=myh+'<h2 class="sec">占例集</h2><p class="small dim">高島が実際に筮した記録。題をタップすると、その爻のページで本文が読めます。占的の型は題の言葉から機械的に分けたもので、目安です。</p>'+reiChips(k||"all")+'<div class="count">'+esc(lbl)+"　"+R.length+" 件 ／ 全 "+A.length+' 件</div><div class="rl">'+R.map(function(r){return'<a href="'+r.href+'"><small>'+esc(r.src)+"</small>"+esc(r.t)+"</a>";}).join("")+"</div>";
   app.innerHTML=h;
 }
 function vYao(n,yi){
