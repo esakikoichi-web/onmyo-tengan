@@ -82,6 +82,19 @@ table.tri th{background:var(--soft);color:var(--bright);white-space:nowrap}
 .tag{display:inline-block;font-size:11px;color:var(--gold);border:1px solid var(--line);border-radius:4px;padding:0 6px;margin-right:6px}
 a.inl{color:var(--gold)}
 .note{font-size:12px;color:var(--dim);border-top:1px dashed var(--line);margin-top:24px;padding-top:10px;line-height:1.7}
+.yl{display:grid;grid-template-columns:repeat(6,1fr);gap:4px;margin:4px 0 10px}
+.yl a{display:block;text-align:center;text-decoration:none;border:1px solid var(--line);border-radius:6px;padding:6px 0;font-size:13px;color:var(--ink);background:var(--panel)}
+.hk{display:flex;align-items:center;gap:8px;margin-top:10px}
+.hk a.nm{text-decoration:none;color:var(--bright);font-weight:700}
+.kotoba{border:1px dashed var(--line);border-radius:8px;padding:6px 10px;margin:8px 0;font-size:13px}
+.kotoba b{color:var(--gold);margin-right:4px}
+.kotoba div{margin:2px 0}
+.flow a.fl{display:flex;gap:10px;align-items:baseline;text-decoration:none;color:inherit;flex:1}
+.flow .fz{font-size:12px;color:var(--dim);white-space:nowrap}
+.rl a{display:block;text-decoration:none;color:var(--ink);padding:8px 10px;border-bottom:1px solid var(--line)}
+.rl a small{display:block;color:var(--gold);font-size:11px}
+.chips a.chip{text-decoration:none}
+.guide li{margin:6px 0}
 .toc a{display:block;text-decoration:none;color:var(--ink);padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--panel);margin:8px 0}
 .toc a b{color:var(--bright)}
 .toc a span{display:block;font-size:12px;color:var(--dim)}
@@ -137,6 +150,7 @@ table.mon td{padding:5px 0;border-bottom:1px solid var(--line);line-height:1.7}
 <nav class="tabs"><div class="in">
   <a href="#home" data-t="home"><b>序</b>はじめに</a>
   <a href="#jo" data-t="jo"><b>理</b>易義例</a>
+  <a href="#hiku" data-t="hiku"><b>引</b>爻を引く</a>
   <a href="#gua" data-t="gua"><b>卦</b>六十四卦</a>
   <a href="#rei" data-t="rei"><b>占</b>占例集</a>
   <a href="#furoku" data-t="furoku"><b>附</b>附録</a>
@@ -179,7 +193,7 @@ function kouzou(g){var b=bits(g);var go=findBits([b[1],b[2],b[3],b[2],b[3],b[4]]
  return h;}
 var POS={"初":0,"二":1,"三":2,"四":3,"五":4,"上":5};
 function yaoFig(g,p){var c=p.charAt(0)==="初"||p.charAt(0)==="上"?p.charAt(0):p.charAt(1);var i=POS[c];if(i==null)return"";var b=bits(g),nb=b.slice();nb[i]=nb[i]?0:1;var z=findBits(nb);var me=g64(g.name);
- return'<div class="yfig">'+hexb(b,"sm",i)+'<span class="arr">→</span>'+hexb(nb,"sm",i)+'<div class="cap">'+esc(p)+"（下から"+(i+1)+"番目の"+(b[i]?"陽":"陰")+"爻）が変ずれば<br><b>"+(z?'<span class="gl">'+z.gl+"</span>"+esc(z.name):"")+"</b>（之卦）</div></div>";}
+ return'<div class="yfig">'+hexb(b,"sm",i)+'<span class="arr">→</span>'+hexb(nb,"sm",i)+'<div class="cap">'+esc(p)+"（下から"+(i+1)+"番目の"+(b[i]?"陽":"陰")+"爻）が変ずれば<br><b>"+zlink(z)+"</b>（之卦）</div></div>";}
 function svgBagua(order,title,cap){
  var dirs=["南","南西","西","北西","北","北東","東","南東"];var cx=170,cy=170,R=118,h='<div class="fig"><div class="orig" style="font-size:15px">'+title+'</div><svg viewBox="0 0 340 340" role="img" aria-label="'+title+'">';
  h+='<circle cx="170" cy="170" r="150" fill="none" stroke="var(--line)"/><circle cx="170" cy="170" r="40" fill="var(--soft)" stroke="var(--line)"/><text x="170" y="176" text-anchor="middle" font-size="16" fill="var(--gold)">太極</text>';
@@ -212,9 +226,18 @@ function vHome(){
   var h='<h2 class="sec">高島易断とは</h2>'+paras(J.about);
   h+='<h2 class="sec">この講話の見方</h2><div class="toc">'+
    '<a href="#jo"><b>易義例・占筮法・八卦類象</b><span>易の用語、高島流の略筮法、八卦の象意一覧</span></a>'+
+   '<a href="#hiku"><b>爻を引く（得卦から開く）</b><span>卦と爻の番号から、その爻のページへ直接</span></a>'+
    '<a href="#gua"><b>六十四卦 講話（上経 乾為天〜離為火／下経 澤山咸〜火水未済）</b><span>卦辞・彖伝・大象・高島の講説・六爻と占例</span></a>'+
    '<a href="#rei"><b>占例集（検索できます）</b><span>明治の政治・外交・商売・病気・天候など実占の記録</span></a>'+
    '<a href="#furoku"><b>附録　日清・日露戦争の占・神道実用論ほか</b><span>上巻附録（時局の占断）と下巻附録（演説・序跋・性命道の説ほか）</span></a></div>';
+  h+='<h2 class="sec">筮したあとの読み方（このサイトの使い方）</h2><ol class="guide">'+
+   '<li><b>爻を開く</b>　下の「引 爻を引く」で、得た卦の爻の番号をタップする。</li>'+
+   '<li><b>爻辞と象伝を読む</b>　原文・書き下しの下に、出てくる易の言葉（貞・孚・厲など）の意味が出る。</li>'+
+   '<li><b>高島の講説と「占」を読む</b>　「占」の一行目が高島の占断、二行目がそのわかりやすい言い換え。</li>'+
+   '<li><b>占例を読む</b>　同じ爻を得た高島の実占。自分の占的に近いものを探す。</li>'+
+   '<li><b>之卦を見る</b>　爻が変じた先の卦。リンクから開ける。</li>'+
+   '<li><b>卦の全体に戻る</b>　「六爻の流れ」で、その爻が卦の中のどの段階かを確かめる。</li></ol>'+
+   '<p class="small dim">高島は「三百八十四爻の別は、すなわち時の緩急、事の難易を示すもの」と述べている（『増補高島易断』序）。筮竹を分ける時の心得は<a href="#jo">易義例</a>の「至誠無息」へ。</p>';
   h+='<h2 class="sec">序言（要旨）</h2>'+paras(J.jogen);
   h+='<h2 class="sec">著者 高島嘉右衛門</h2>'+paras(J.author);
   h+='<div class="note">'+esc(J.source||"")+"</div>";
@@ -240,6 +263,17 @@ function vGuaList(){
   TK.gua.slice().sort(function(a,b){return a.n-b.n;}).forEach(function(g){var k=g.n<=30?1:2;if(k!==cur){h+=(cur?"</div>":"")+'<h2 class="sec">'+(k===1?"周易上経 三十卦（上巻）":"周易下経 三十四卦（下巻）")+'</h2><div class="grid">';cur=k;}h+='<a class="gcard" href="#gua/'+g.n+'"><div class="no">第'+g.n+"卦</div>"+hex(g)+'<div class="nm">'+esc(g.name)+"</div></a>";});
   app.innerHTML=h+"</div>";
 }
+var TERMS=[["元亨利貞","元亨利貞","乾の四徳。元＝始め・大（人では仁）、亨＝通る（礼）、利＝宜しい（義）、貞＝正しい（智）。"],["悔亡","悔亡ぶ","悔いが消える。貞（正）であれば吉にして悔いは亡ぶ。"],["元吉","元吉","吉の尽善なるもの。最上の吉。"],["无咎|無咎","无咎","咎無し。過ちを補う義。"],["有攸往|攸往","往く攸","「往く攸有るに利し」＝進んで事を行うのによい（大過では「行健」、損では「時と偕に行く」）。"],["涉大川|渉大川","大川を渉る","危険を冒して大きな事を成すこと。"],["孚","孚","信。心をもって互いに通じ合うこと。"],["貞","貞","正。貞正・貞常・貞固の義を兼ねる。"],["厲","厲","危。常に危ぶみ懼れる心を存すべきこと。"],["吝","吝","小さな悪を改めず恥ずべき状態にあり、いずれ大きな悪となる勢い。"],["悔","悔","過ちを犯し、それを悔いて善に向かうこと。"],["君子","君子","徳ある者の称。易の例では陽を君子とする。"],["小人","小人","易の例では陰を小人とする。ただ利を務め、国家の盛衰を顧みない者。"],["大人","大人","天地とその徳を合わせ、日月とその明を合わせる者。"],["志","志","心の之く所。"],["光","光","光明正大で、成功を奏しうること。"]];
+function kotoba(txt){var out=[],seen={};TERMS.forEach(function(t){if(seen[t[1]])return;if(new RegExp(t[0]).test(txt)){if(t[1]==="元亨利貞"){seen["貞"]=1;}if(t[1]==="悔亡ぶ")seen["悔"]=1;if(t[1]==="元吉")seen["元吉"]=1;seen[t[1]]=1;out.push(t);}});
+ if(!out.length)return"";return'<div class="kotoba">'+out.map(function(t){return"<div><b>"+esc(t[1])+"</b>"+esc(t[2])+"</div>";}).join("")+'<div class="small dim">→ 詳しくは<a href="#jo">易義例</a></div></div>';}
+function yIdx(p){var c=p.charAt(0)==="初"||p.charAt(0)==="上"?p.charAt(0):p.charAt(1);return POS[c];}
+function zhi(g,i){var b=bits(g),nb=b.slice();nb[i]=nb[i]?0:1;return findBits(nb);}
+function zlink(z){if(!z)return"";var has=TK.gua.some(function(x){return x.n===z.n;});return(has?'<a href="#gua/'+z.n+'">':"")+'<span class="gl">'+z.gl+"</span>"+esc(z.name)+(has?"</a>":"");}
+function yaoBody(g,y,yi,KD){var ky=(KD.y||[])[yi]||[];var h=kdl(ky[0])+yaoFig(g,y.p)+kotoba(y.t+(y.s||""));
+ if(y.s)h+='<p class="small dim"><span class="lbl">象伝</span>'+esc(y.s)+"</p>"+(ky[1]?'<p class="small">'+esc(ky[1])+"</p>":"");
+ h+=paras(y.k);
+ if(y.sen)h+='<p><span class="lbl">占</span>'+esc(y.sen).replace(/\n/g,"<br>")+"</p>";
+ return h+reis(y.rei);}
 function kdl(t){return t?'<div class="kd"><span class="kl">書き下し</span>'+esc(t)+"</div>":"";}
 function vGua(n){
   var G=TK.gua.slice().sort(function(a,b){return a.n-b.n;});
@@ -247,7 +281,7 @@ function vGua(n){
   var g=G[i],U=TRI[g.up],L=TRI[g.lo];
   var h='<a class="back" href="#gua">← 六十四卦一覧</a><div class="ghead"><div class="no">周易'+(g.n<=30?"上経":"下経")+' 第'+g.n+"卦</div>"+hex(g,true)+'<div class="nm"><span class="gl">'+(g64(g.name)?g64(g.name).gl:"")+"</span>"+esc(g.name)+'</div><div class="yo">'+esc(g.yomi)+'</div><div class="trix"><div class="tb">上卦（外卦）'+tri3(g.up)+"<b>"+U.s+" "+g.up+"</b>"+U.o+'</div><div class="tb">下卦（内卦）'+tri3(g.lo)+"<b>"+L.s+" "+g.lo+"</b>"+L.o+'</div></div><div class="tri">'+U.o+"（"+g.up+"）が上、"+L.o+"（"+g.lo+"）が下にある卦</div></div>";
   if(g.meaning)h+='<h2 class="sec">卦の名と象</h2>'+paras(g.meaning);
-  if(g.kaji)h+='<h2 class="sec">卦辞</h2><div class="card"><div class="orig">'+esc(g.kaji.t)+'</div><div class="yomi">'+esc(g.kaji.y)+"</div>"+paras(g.kaji.k)+pl(g.kaji.p)+"</div>";
+  if(g.kaji)h+='<h2 class="sec">卦辞</h2><div class="card"><div class="orig">'+esc(g.kaji.t)+'</div><div class="yomi">'+esc(g.kaji.y)+"</div>"+kotoba(g.kaji.t)+paras(g.kaji.k)+pl(g.kaji.p)+"</div>";
   var KD=(TK.kd&&TK.kd[g.n])||{y:[]};
   if(g.tuan)h+='<h2 class="sec">彖伝</h2><div class="card"><div class="orig">'+esc(g.tuan.t)+"</div>"+kdl(KD.t)+paras(g.tuan.k)+pl(g.tuan.p)+"</div>";
   if(g.kosetsu)h+='<h2 class="sec">高島の講説</h2>'+paras(g.kosetsu);
@@ -255,43 +289,49 @@ function vGua(n){
   if(g.rei&&g.rei.length)h+='<h3>卦全体の占例・附記</h3>'+reis(g.rei);
   if(g.daisho)h+='<h2 class="sec">大象</h2><div class="card"><div class="orig">'+esc(g.daisho.t)+"</div>"+kdl(KD.d)+paras(g.daisho.k)+pl(g.daisho.p)+"</div>";
   var fl=(g.yao||[]).filter(function(y){return !/^用/.test(y.p)&&y.sen;});
-  if(fl.length)h+='<h2 class="sec">六爻の流れ</h2><ol class="flow">'+fl.map(function(y){var v=/九/.test(y.p);return'<li><span class="fp"><i class="'+(v?"":"y")+'"></i>'+esc(y.p)+'</span><span class="ft">'+esc(y.sen.split("\n")[0])+"</span></li>";}).join("")+'</ol><p class="small dim">初爻（始まり）から上爻（終わり）へ。各爻の占断の一行目。</p>';
+  if(fl.length)h+='<h2 class="sec">六爻の流れ</h2><ol class="flow">'+fl.map(function(y){var v=/九/.test(y.p);var yi=yIdx(y.p),z=zhi(g,yi);return'<li><a class="fl" href="#y/'+g.n+"/"+yi+'"><span class="fp"><i class="'+(v?"":"y")+'"></i>'+esc(y.p)+'</span><span class="ft">'+esc(y.sen.split("\n")[0])+(z?'<span class="fz">　→ '+esc(z.name)+"</span>":"")+"</span></a></li>";}).join("")+'</ol><p class="small dim">初爻（始まり）から上爻（終わり）へ。各爻の占断の一行目と之卦。タップでその爻だけを開く。</p>';
   if(g.sen)h+='<h2 class="sec">此の卦を得る時（占断）</h2>'+list(g.sen);
   h+='<h2 class="sec">六爻</h2>';
-  (g.yao||[]).forEach(function(y,yi){var ky=KD.y[yi]||[];
-    h+='<details class="yao" open><summary><span class="p">'+esc(y.p)+'</span><span class="t">'+esc(y.t)+"</span></summary><div class=\"body\">"+kdl(ky[0])+yaoFig(g,y.p);
-    if(y.s)h+='<p class="small dim"><span class="lbl">象伝</span>'+esc(y.s)+"</p>"+(ky[1]?'<p class="small">'+esc(ky[1])+"</p>":"");
-    h+=paras(y.k);
-    if(y.sen)h+='<p><span class="lbl">占</span>'+esc(y.sen).replace(/\n/g,"<br>")+"</p>";
-    h+=reis(y.rei)+"</div></details>";
+  (g.yao||[]).forEach(function(y,yi){
+    h+='<details class="yao" open><summary><span class="p">'+esc(y.p)+'</span><span class="t">'+esc(y.t)+"</span></summary><div class=\"body\">"+yaoBody(g,y,yi,KD)+"</div></details>";
   });
   h+='<div class="pager"><a class="'+(i>0?"":"dis")+'" href="#gua/'+(i>0?G[i-1].n:"")+'">← '+(i>0?esc(G[i-1].name):"")+'</a><a class="'+(i<G.length-1?"":"dis")+'" href="#gua/'+(i<G.length-1?G[i+1].n:"")+'">'+(i<G.length-1?esc(G[i+1].name):"")+" →</a></div>";
   app.innerHTML=h;
 }
 var CAT=[["すべて",""],["国家・政治","国家|政府|議会|大臣|内閣|征韓|条約|憲法|国会|貴顕|公|伯"],["戦争・外交","戦争|戦|清|露|朝鮮|韓国|艦隊|軍|講和|談判"],["商売・事業","商|会社|銀行|事業|店|相場|石炭|鉄道|開墾|株"],["家・人事","家|子|妻|婚|親族|養子|官吏|昇進|進退"],["病気・生死","病|死|産|疾|怪我|負傷"],["天候・豊凶","豊凶|作|晴雨|大漁|米"]];
-var curCat=0,curQ="";
+var TYP=[["気運・運勢","気運|運気|時運|命運|国運|聖運|の運|行運|身事|社運"],["成否・可否・吉凶","成否|成敗|可否|吉凶|得失|盈虧|損益|利害|当落|勝敗|賛否|諾否|良否|真偽|有無|か否か|成就|功効|准否|虚実|駿駑|選挙|進退|解約"],["時期","の期|時期|完成の時|解停"],["結果・成り行き","結果|結局|形勢|帰結|顛末|見通し|前途|後来|将来|方向|治乱|興敗|盛衰|動静|院議|議会|施政|開戦|景況|戦況|和戦|真意|商務|財政"],["方策・処置","策|処置|方策|方法|教導|維持|処分|取立|仲裁|処理|準則|改革|家政"],["交際・人との関係","交際|援助|依頼|懇請|談判|使命|周旋|縁談|婚|娶|養子|養嗣"],["病気・出産・生死","病|大患|疾|分娩|産|腹痛|死|命の終|痞結|痔|懐妊"],["行方・失せ物・盗難","行方|失踪|出奔|失物|紛失|所在|盗|消息|帰国|遅延"],["天候・作柄","豊歉|豊凶|米作|晴雨|天候|作柄|洪水"]];
 function allRei(){
   var out=[];
   TK.gua.slice().sort(function(a,b){return a.n-b.n;}).forEach(function(g){
     (g.rei||[]).forEach(function(r){out.push({src:g.name,href:"#gua/"+g.n,t:r.t,b:r.b});});
-    (g.yao||[]).forEach(function(y){(y.rei||[]).forEach(function(r){out.push({src:g.name+"・"+y.p,href:"#gua/"+g.n,t:r.t,b:r.b});});});
+    (g.yao||[]).forEach(function(y){var yi=yIdx(y.p);(y.rei||[]).forEach(function(r){out.push({src:g.name+"・"+y.p,href:yi==null?"#gua/"+g.n:"#y/"+g.n+"/"+yi,t:r.t,b:r.b});});});
   });
   (TK.furoku||[]).forEach(function(s){(s.items||[]).forEach(function(r){out.push({src:"附録・"+s.title,href:"#furoku",t:r.t,b:r.b});});});
   return out;
 }
-function vRei(){
-  var h='<h2 class="sec">占例集</h2><p class="small dim">高島が実際に筮した記録。語句で絞り込めます（例：伊藤、石炭、選挙、病）。</p><input class="search" id="q" type="search" placeholder="キーワードで検索" value="'+esc(curQ)+'"><div class="chips">'+CAT.map(function(c,i){return'<button class="chip'+(i===curCat?" on":"")+'" data-i="'+i+'">'+c[0]+"</button>";}).join("")+'</div><div id="cnt" class="count"></div><div id="rl"></div>';
+function reiChips(cur){return'<p class="small dim">占的の型で選ぶ</p><div class="chips"><a class="chip'+(cur==="all"?" on":"")+'" href="#rei">すべて</a>'+TYP.map(function(c,i){return'<a class="chip'+(cur==="t"+i?" on":"")+'" href="#rei/t'+i+'">'+c[0]+"</a>";}).join("")+'</div><p class="small dim">分野で選ぶ</p><div class="chips">'+CAT.slice(1).map(function(c,i){return'<a class="chip'+(cur==="f"+(i+1)?" on":"")+'" href="#rei/f'+(i+1)+'">'+c[0]+"</a>";}).join("")+"</div>";}
+function vRei(k){
+  var A=allRei(),R=A,lbl="すべて";
+  if(k&&k.charAt(0)==="t"){var c=TYP[+k.slice(1)];lbl="占的の型："+c[0];var re=new RegExp(c[1]);R=A.filter(function(r){return re.test(r.t);});}
+  else if(k&&k.charAt(0)==="f"){var c2=CAT[+k.slice(1)];lbl="分野："+c2[0];var re2=new RegExp(c2[1]);R=A.filter(function(r){return re2.test(r.t+r.b+r.src);});}
+  var h='<h2 class="sec">占例集</h2><p class="small dim">高島が実際に筮した記録。題をタップすると、その爻のページで本文が読めます。占的の型は題の言葉から機械的に分けたもので、目安です。</p>'+reiChips(k||"all")+'<div class="count">'+esc(lbl)+"　"+R.length+" 件 ／ 全 "+A.length+' 件</div><div class="rl">'+R.map(function(r){return'<a href="'+r.href+'"><small>'+esc(r.src)+"</small>"+esc(r.t)+"</a>";}).join("")+"</div>";
   app.innerHTML=h;
-  var q=document.getElementById("q");
-  q.addEventListener("input",function(){curQ=q.value;drawRei();});
-  [].forEach.call(app.querySelectorAll(".chip"),function(b){b.addEventListener("click",function(){curCat=+b.getAttribute("data-i");[].forEach.call(app.querySelectorAll(".chip"),function(x){x.classList.toggle("on",x===b);});drawRei();});});
-  drawRei();
 }
-function drawRei(){
-  var A=allRei(),re=CAT[curCat][1]?new RegExp(CAT[curCat][1]):null,q=curQ.trim();
-  var R=A.filter(function(r){var s=r.t+r.b+r.src;return(!re||re.test(s))&&(!q||s.indexOf(q)>=0);});
-  document.getElementById("cnt").textContent=R.length+" 件 ／ 全 "+A.length+" 件";
-  document.getElementById("rl").innerHTML=R.map(function(r){return'<div class="rei"><div class="small"><a class="tag" href="'+r.href+'">'+esc(r.src)+'</a></div><div class="rt">'+esc(r.t)+'</div><div class="rb">'+esc(r.b)+"</div></div>";}).join("");
+function vYao(n,yi){
+  var g=null;TK.gua.forEach(function(x){if(x.n===n)g=x;});if(!g){vGuaList();return;}
+  var y=null,KD=(TK.kd&&TK.kd[g.n])||{y:[]},idx=-1;(g.yao||[]).forEach(function(x,k){if(yIdx(x.p)===yi){y=x;idx=k;}});if(!y){vGua(n);return;}
+  var z=zhi(g,yi);
+  var h='<a class="back" href="#gua/'+g.n+'">← '+esc(g.name)+' の全体（卦辞・六爻の流れ）</a><div class="hk">'+hexb(bits(g),"sm",yi)+'<div><a class="nm" href="#gua/'+g.n+'"><span class="gl">'+(g64(g.name)?g64(g.name).gl:"")+"</span>"+esc(g.name)+"</a>　"+esc(y.p)+'<div class="small dim">之卦 '+zlink(z)+"</div></div></div>";
+  h+='<div class="yl">'+["初","二","三","四","五","上"].map(function(c,k){return'<a href="#y/'+g.n+"/"+k+'"'+(k===yi?' style="background:var(--soft);font-weight:700"':"")+">"+c+"</a>";}).join("")+"</div>";
+  h+='<details class="yao" open><summary><span class="p">'+esc(y.p)+'</span><span class="t">'+esc(y.t)+'</span></summary><div class="body">'+yaoBody(g,y,idx,KD)+"</div></details>";
+  if(g.kaji)h+='<h3>卦辞（参考）</h3><div class="card"><div class="orig">'+esc(g.kaji.t)+'</div><div class="yomi">'+esc(g.kaji.y)+"</div>"+pl(g.kaji.p)+"</div>";
+  app.innerHTML=h;
+}
+function vHiku(){
+  var h='<h2 class="sec">爻を引く</h2><p class="small dim">筮して得た卦の、得た爻の番号をタップすると、その爻のページ（爻辞・象伝・講説・占断・占例・之卦）が開きます。卦の並びは六十四卦の順。下の早見表で上卦と下卦から卦名を探せます。</p>';
+  TK.gua.slice().sort(function(a,b){return a.n-b.n;}).forEach(function(g){h+='<div class="hk">'+hex(g)+'<a class="nm" href="#gua/'+g.n+'">'+g.n+"　"+esc(g.name)+'</a></div><div class="yl">'+["初","二","三","四","五","上"].map(function(c,k){return'<a href="#y/'+g.n+"/"+k+'">'+c+"</a>";}).join("")+"</div>";});
+  h+='<h2 class="sec">早見表（上卦×下卦）</h2>'+table64();
+  app.innerHTML=h;
 }
 function vFuroku(){
   var h='<h2 class="sec">附録</h2><p class="small dim">上巻巻末の附録（日清・日露戦争をはじめ、時局・国運・商況・豊凶などの占断）と、下巻巻末の附録（神道実用論・演説・序跋・霊魂不滅・性命道の説・清国名家の評）。</p>';
@@ -300,10 +340,12 @@ function vFuroku(){
 }
 function route(){
   var hsh=(location.hash||"#home").slice(1),p=hsh.split("/");
-  if(p[0]==="gua"&&p[1]){setTab("gua");vGua(+p[1]);}
+  if(p[0]==="y"&&p[1]){setTab("hiku");vYao(+p[1],+p[2]);}
+  else if(p[0]==="hiku"){setTab("hiku");vHiku();}
+  else if(p[0]==="gua"&&p[1]){setTab("gua");vGua(+p[1]);}
   else if(p[0]==="gua"){setTab("gua");vGuaList();}
   else if(p[0]==="jo"){setTab("jo");vJo();}
-  else if(p[0]==="rei"){setTab("rei");vRei();}
+  else if(p[0]==="rei"){setTab("rei");vRei(p[1]);}
   else if(p[0]==="furoku"){setTab("furoku");vFuroku();}
   else{setTab("home");vHome();}
   window.scrollTo(0,0);
