@@ -217,6 +217,7 @@ function vJo(){
   var J=TK.jo||{};var h='<h2 class="sec">易義例 ― 易の言葉</h2>';
   (J.gireki||[]).forEach(function(x){h+='<div class="card"><div class="orig">'+esc(x.k)+"</div>"+paras(x.v)+"</div>";});
   h+='<h2 class="sec">易占筮儀 ― 高島流の立て方</h2>'+paras(J.zeigi_intro)+list(J.zeigi);
+  if(J.mushoku)h+='<h3>至誠無息 ― 筮竹を分ける時</h3>'+paras(J.mushoku);
   h+='<h3>残数と八卦</h3><table class="tri"><tr><th>残数</th><th>卦</th><th>象</th></tr>'+
    [["一","乾 ☰","天"],["二","兌 ☱","沢"],["三","離 ☲","火"],["四","震 ☳","雷"],["五","巽 ☴","風"],["六","坎 ☵","水"],["七","艮 ☶","山"],["八（零）","坤 ☷","地"]].map(function(r){return"<tr><td>"+r[0]+"</td><td>"+r[1]+"</td><td>"+r[2]+"</td></tr>";}).join("")+"</table>";
   h+='<h2 class="sec">八卦の象意（高島の類象）</h2>';
