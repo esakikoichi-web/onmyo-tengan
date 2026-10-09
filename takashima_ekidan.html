@@ -62,6 +62,10 @@ ul.sen li:before{content:"◆";position:absolute;left:0;top:1px;font-size:10px;c
 .flow .fp i.y{background:linear-gradient(90deg,var(--gold) 0 40%,transparent 40% 60%,var(--gold) 60%)}
 .flow .ft{font-size:15px}
 .kd .rd,.rd{display:block;font-size:11px;color:var(--dim);letter-spacing:.05em;margin-top:2px}
+.about{border:1px solid var(--gold);border-radius:10px;padding:10px 14px;margin:14px 0;background:var(--soft)}
+.about .lb{font-size:12px;color:var(--gold)}
+.about .th{font-size:18px;font-weight:700;color:var(--bright);margin:4px 0}
+.about p{margin:6px 0}
 .flow .fk{display:block;font-size:13px;color:var(--dim);margin-bottom:3px}
 details.yao{background:var(--panel);border:1px solid var(--line);border-radius:10px;margin:12px 0;overflow:hidden}
 details.yao>summary{list-style:none;cursor:pointer;padding:12px 14px;display:flex;align-items:baseline;gap:10px;border-bottom:1px solid transparent}
@@ -172,6 +176,7 @@ table.mon td{padding:5px 0;border-bottom:1px solid var(--line);line-height:1.7}
 <script src="takashima_data9.js"></script>
 <script src="takashima_data10.js"></script>
 <script src="takashima_yomi.js"></script>
+<script src="takashima_theme.js"></script>
 <script>
 (function(){
 var TRI={"乾":{b:[1,1,1],s:"☰",o:"天"},"兌":{b:[1,1,0],s:"☱",o:"沢"},"離":{b:[1,0,1],s:"☲",o:"火"},"震":{b:[1,0,0],s:"☳",o:"雷"},"巽":{b:[0,1,1],s:"☴",o:"風"},"坎":{b:[0,1,0],s:"☵",o:"水"},"艮":{b:[0,0,1],s:"☶",o:"山"},"坤":{b:[0,0,0],s:"☷",o:"地"}};
@@ -263,7 +268,7 @@ function vJo(){
 }
 function vGuaList(){
   var h='<p class="small dim">上巻は上経（乾為天〜離為火）、下巻は下経（澤山咸〜火水未済）。卦をタップすると講話が開きます。</p>',cur=0;
-  TK.gua.slice().sort(function(a,b){return a.n-b.n;}).forEach(function(g){var k=g.n<=30?1:2;if(k!==cur){h+=(cur?"</div>":"")+'<h2 class="sec">'+(k===1?"周易上経 三十卦（上巻）":"周易下経 三十四卦（下巻）")+'</h2><div class="grid">';cur=k;}h+='<a class="gcard" href="#gua/'+g.n+'"><div class="no">第'+g.n+"卦</div>"+hex(g)+'<div class="nm">'+esc(g.name)+"</div></a>";});
+  TK.gua.slice().sort(function(a,b){return a.n-b.n;}).forEach(function(g){var k=g.n<=30?1:2;if(k!==cur){h+=(cur?"</div>":"")+'<h2 class="sec">'+(k===1?"周易上経 三十卦（上巻）":"周易下経 三十四卦（下巻）")+'</h2><div class="grid">';cur=k;}h+='<a class="gcard" href="#gua/'+g.n+'"><div class="no">第'+g.n+"卦</div>"+hex(g)+'<div class="nm">'+esc(g.name)+"</div>"+((TK.theme||{})[g.n]?'<div class="small dim">'+esc(TK.theme[g.n])+"</div>":"")+"</a>";});
   app.innerHTML=h+"</div>";
 }
 var TERMS=[["元亨利貞","元亨利貞","乾の四徳。元＝始め・大（人では仁）、亨＝通る（礼）、利＝宜しい（義）、貞＝正しい（智）。"],["悔亡","悔亡ぶ","悔いが消える。貞（正）であれば吉にして悔いは亡ぶ。"],["元吉","元吉","吉の尽善なるもの。最上の吉。"],["无咎|無咎","无咎","咎無し。過ちを補う義。"],["有攸往|攸往","往く攸","「往く攸有るに利し」＝進んで事を行うのによい（大過では「行健」、損では「時と偕に行く」）。"],["涉大川|渉大川","大川を渉る","危険を冒して大きな事を成すこと。"],["孚","孚","信。心をもって互いに通じ合うこと。"],["貞","貞","正。貞正・貞常・貞固の義を兼ねる。"],["厲","厲","危。常に危ぶみ懼れる心を存すべきこと。"],["吝","吝","小さな悪を改めず恥ずべき状態にあり、いずれ大きな悪となる勢い。"],["悔","悔","過ちを犯し、それを悔いて善に向かうこと。"],["君子","君子","徳ある者の称。易の例では陽を君子とする。"],["小人","小人","易の例では陰を小人とする。ただ利を務め、国家の盛衰を顧みない者。"],["大人","大人","天地とその徳を合わせ、日月とその明を合わせる者。"],["志","志","心の之く所。"],["光","光","光明正大で、成功を奏しうること。"]];
@@ -283,6 +288,8 @@ function vGua(n){
   var i=G.findIndex(function(g){return g.n===n;});if(i<0){vGuaList();return;}
   var g=G[i],U=TRI[g.up],L=TRI[g.lo];
   var h='<a class="back" href="#gua">← 六十四卦一覧</a><div class="ghead"><div class="no">周易'+(g.n<=30?"上経":"下経")+' 第'+g.n+"卦</div>"+hex(g,true)+'<div class="nm"><span class="gl">'+(g64(g.name)?g64(g.name).gl:"")+"</span>"+esc(g.name)+'</div><div class="yo">'+esc(g.yomi)+'</div><div class="trix"><div class="tb">上卦（外卦）'+tri3(g.up)+"<b>"+U.s+" "+g.up+"</b>"+U.o+'</div><div class="tb">下卦（内卦）'+tri3(g.lo)+"<b>"+L.s+" "+g.lo+"</b>"+L.o+'</div></div><div class="tri">'+U.o+"（"+g.up+"）が上、"+L.o+"（"+g.lo+"）が下にある卦</div></div>";
+  var TH=(TK.theme||{})[g.n];
+  if(TH||(g.kaji&&g.kaji.p))h+='<div class="about"><div class="lb">この卦に書いてあること</div>'+(TH?'<div class="th">【 '+esc(TH)+' 】</div>':"")+(g.kaji&&g.kaji.p?"<p>"+esc(g.kaji.p)+"</p>":"")+'<p class="small dim">各爻の段階は下の「六爻の流れ」へ。</p></div>';
   if(g.meaning)h+='<h2 class="sec">卦の名と象</h2>'+paras(g.meaning);
   var KD=(TK.kd&&TK.kd[g.n])||{y:[]};
   if(g.kaji)h+='<h2 class="sec">卦辞</h2><div class="card"><div class="orig">'+esc(g.kaji.t)+"</div>"+(KD.k?kdl(KD.k,KD.rk):'<div class="yomi">'+esc(g.kaji.y)+"</div>")+kotoba(g.kaji.t)+paras(g.kaji.k)+pl(g.kaji.p)+"</div>";
