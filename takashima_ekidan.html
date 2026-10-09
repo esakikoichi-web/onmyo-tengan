@@ -61,6 +61,7 @@ ul.sen li:before{content:"◆";position:absolute;left:0;top:1px;font-size:10px;c
 .flow .fp i{display:inline-block;width:18px;height:4px;background:var(--gold)}
 .flow .fp i.y{background:linear-gradient(90deg,var(--gold) 0 40%,transparent 40% 60%,var(--gold) 60%)}
 .flow .ft{font-size:15px}
+.flow .fk{display:block;font-size:13px;color:var(--dim);margin-bottom:3px}
 details.yao{background:var(--panel);border:1px solid var(--line);border-radius:10px;margin:12px 0;overflow:hidden}
 details.yao>summary{list-style:none;cursor:pointer;padding:12px 14px;display:flex;align-items:baseline;gap:10px;border-bottom:1px solid transparent}
 details.yao[open]>summary{border-bottom-color:var(--line);background:var(--soft)}
@@ -289,7 +290,7 @@ function vGua(n){
   if(g.rei&&g.rei.length)h+='<h3>卦全体の占例・附記</h3>'+reis(g.rei);
   if(g.daisho)h+='<h2 class="sec">大象</h2><div class="card"><div class="orig">'+esc(g.daisho.t)+"</div>"+kdl(KD.d)+paras(g.daisho.k)+pl(g.daisho.p)+"</div>";
   var fl=(g.yao||[]).filter(function(y){return !/^用/.test(y.p)&&y.sen;});
-  if(fl.length)h+='<h2 class="sec">六爻の流れ</h2><ol class="flow">'+fl.map(function(y){var v=/九/.test(y.p);var yi=yIdx(y.p),z=zhi(g,yi);return'<li><a class="fl" href="#y/'+g.n+"/"+yi+'"><span class="fp"><i class="'+(v?"":"y")+'"></i>'+esc(y.p)+'</span><span class="ft">'+esc(y.sen.split("\n")[0])+(z?'<span class="fz">　→ '+esc(z.name)+"</span>":"")+"</span></a></li>";}).join("")+'</ol><p class="small dim">初爻（始まり）から上爻（終わり）へ。各爻の占断の一行目と之卦。タップでその爻だけを開く。</p>';
+  if(fl.length)h+='<h2 class="sec">六爻の流れ</h2><ol class="flow">'+fl.map(function(y){var v=/九/.test(y.p);var yi=yIdx(y.p),z=zhi(g,yi),kk=((KD.y||[])[g.yao.indexOf(y)]||[])[0];return'<li><a class="fl" href="#y/'+g.n+"/"+yi+'"><span class="fp"><i class="'+(v?"":"y")+'"></i>'+esc(y.p)+'</span><span class="ft">'+(kk?'<span class="fk">'+esc(kk)+"</span>":"")+esc(y.sen.split("\n")[0])+(z?'<span class="fz">　→ '+esc(z.name)+"</span>":"")+"</span></a></li>";}).join("")+'</ol><p class="small dim">初爻（始まり）から上爻（終わり）へ。各爻の爻辞の書き下し、占断の一行目、之卦。タップでその爻だけを開く。</p>';
   if(g.sen)h+='<h2 class="sec">此の卦を得る時（占断）</h2>'+list(g.sen);
   h+='<h2 class="sec">六爻</h2>';
   (g.yao||[]).forEach(function(y,yi){
