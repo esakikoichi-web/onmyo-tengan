@@ -77,6 +77,11 @@ ul.sen li:before{content:"◆";position:absolute;left:0;top:1px;font-size:10px;c
 .ng td.chg{background:var(--soft);font-weight:700}
 .my{border:1px solid var(--gold);border-radius:10px;padding:10px 12px;margin:10px 0}
 .my .rt{font-weight:700;margin-top:6px}
+.tl{margin:8px 0;line-height:1.8}
+.tl .rd{display:block;font-size:11px;color:var(--dim)}
+.zk{margin:8px 0;font-size:15px}
+.zk .tl{display:inline-block;margin:0 0 0 6px}
+.jk .lb{font-size:12px;color:var(--gold)}
 .flow .fk{display:block;font-size:13px;color:var(--dim);margin-bottom:3px}
 details.yao{background:var(--panel);border:1px solid var(--line);border-radius:10px;margin:12px 0;overflow:hidden}
 details.yao>summary{list-style:none;cursor:pointer;padding:12px 14px;display:flex;align-items:baseline;gap:10px;border-bottom:1px solid transparent}
@@ -189,6 +194,7 @@ table.mon td{padding:5px 0;border-bottom:1px solid var(--line);line-height:1.7}
 <script src="takashima_yomi.js"></script>
 <script src="takashima_theme.js"></script>
 <script src="takashima_myrei.js"></script>
+<script src="takashima_ten.js"></script>
 <script>
 (function(){
 var TRI={"乾":{b:[1,1,1],s:"☰",o:"天"},"兌":{b:[1,1,0],s:"☱",o:"沢"},"離":{b:[1,0,1],s:"☲",o:"火"},"震":{b:[1,0,0],s:"☳",o:"雷"},"巽":{b:[0,1,1],s:"☴",o:"風"},"坎":{b:[0,1,0],s:"☵",o:"水"},"艮":{b:[0,0,1],s:"☶",o:"山"},"坤":{b:[0,0,0],s:"☷",o:"地"}};
@@ -246,6 +252,7 @@ function vHome(){
   var h='<h2 class="sec">高島易断とは</h2>'+paras(J.about);
   h+='<h2 class="sec">この講話の見方</h2><div class="toc">'+
    '<a href="#jo"><b>易の基本・易義例・占筮法・八卦類象</b><span>内卦と外卦・爻の位など易の基本的な考え方、易の用語、高島流の略筮法、八卦の象意一覧</span></a>'+
+   '<a href="#ten"><b>十翼（原典）と覚え書き</b><span>文言伝・繋辞伝・説卦伝・序卦伝・雑卦伝の書き下しと読み／運の掴み方</span></a>'+
    '<a href="#hiku"><b>爻を引く（得卦から開く）</b><span>卦と爻の番号から、その爻のページへ直接</span></a>'+
    '<a href="#gua"><b>六十四卦 講話（上経 乾為天〜離為火／下経 澤山咸〜火水未済）</b><span>卦辞・彖伝・大象・高島の講説・六爻と占例</span></a>'+
    '<a href="#rei"><b>占例集（検索できます）</b><span>明治の政治・外交・商売・病気・天候など実占の記録</span></a>'+
@@ -268,6 +275,7 @@ function vJo(){
   if(J.kihon){h+='<h2 class="sec">易の基本的な考え方</h2><p class="small dim">高島の講説・占例に出てくる考え方を、出典を添えてまとめたもの。</p>';J.kihon.forEach(function(x){h+='<div class="card"><div class="orig">'+esc(x.k)+"</div>"+paras(x.v)+"</div>";});}
   h+='<h2 class="sec">十二消息卦（陰陽消長の一年）</h2><p class="small dim">剥の講説：「剥は陰陽消長十二卦の一つ。乾の時、一陰が始めて下に生じて姤となり、遯となり、陰柔はますます長じ、陽剛はしだいに消える」「夬の一陰が尽きれば姤の一陰が下に生じ、剥の一陽が尽きれば復の一陽が下に生じる。これが消息盈虚、天行の循環である」。月は旧暦。</p><table class="tri"><tr><th>月</th><th>卦</th><th>陰陽</th></tr>'+[["十一月","地雷復","一陽来復（冬至）"],["十二月","地沢臨","二陽"],["正月","地天泰","三陽"],["二月","雷天大壮","四陽"],["三月","沢天夬","五陽"],["四月","乾為天","純陽"],["五月","天風姤","一陰始生（夏至）"],["六月","天山遯","二陰"],["七月","天地否","三陰"],["八月","風地観","四陰"],["九月","山地剥","五陰"],["十月","坤為地","純陰"]].map(function(r){var z=g64(r[1]);return"<tr><td>"+r[0]+"</td><td>"+(z?hexb(bits(z),"sm")+" "+zlink(z):esc(r[1]))+"</td><td>"+r[2]+"</td></tr>";}).join("")+"</table>";
   h+='<h2 class="sec">八卦早見表</h2><table class="tri"><tr><th>卦</th><th>家族・体・方位・数など</th><th>主な象</th></tr>'+(J.hakke||[]).map(function(x){var t=String(x.k).charAt(0);return"<tr><td>"+(TRI[t]?tri3(t):"")+" <b>"+esc(x.k)+"</b></td><td>"+esc(x.meta)+"</td><td>"+esc(String((x.v||[""])[0]).split("・").slice(0,6).join("・"))+"</td></tr>";}).join("")+'</table><p class="small dim">高島の類象による。くわしくは下の「八卦の象意」。</p>';
+  h+='<div class="toc"><a href="#ten"><b>十翼（原典）を読む</b><span>文言伝・繋辞伝・説卦伝・序卦伝・雑卦伝</span></a></div>';
   h+='<h2 class="sec">易義例 ― 易の言葉</h2>';
   (J.gireki||[]).forEach(function(x){h+='<div class="card"><div class="orig">'+esc(x.k)+"</div>"+paras(x.v)+"</div>";});
   h+='<h2 class="sec">易占筮儀 ― 高島流の立て方</h2>'+paras(J.zeigi_intro)+list(J.zeigi);
@@ -314,12 +322,13 @@ function hikaku(g,i){var z=zhi(g,i);if(!z)return"";var ch=i<3?"lo":"up";
  '<p class="small">'+(ch==="lo"?"変わるのは<b>内（自分・内面）</b>："+SEI[g.lo]+" → "+SEI[z.lo]:"変わるのは<b>外（相手・外面）</b>："+SEI[g.up]+" → "+SEI[z.up])+"</p></div>";}
 function myreis(n,i){var a=(TK.myrei||[]).filter(function(r){return r.n===n&&r.yi===i;});if(!a.length)return"";
  return'<div class="my"><div class="lb">青龍孔一の占例</div>'+a.map(function(r){return'<div class="rt">'+esc(r.date)+"　"+esc(r.t)+'</div><div class="rb">'+esc(r.d)+(r.r?'<br><span class="small">結果：'+esc(r.r)+"</span>":"")+"</div>";}).join("")+"</div>";}
-function yaoBody(g,y,yi,KD){var ky=(KD.y||[])[yi]||[],kr=(KD.ry||[])[yi]||[],pi=yIdx(y.p);var h=kdl(ky[0],kr[0])+yaoFig(g,y.p)+kotoba(y.t+(y.s||""));
+function yaoBody(g,y,yi,KD,brief){var ky=(KD.y||[])[yi]||[],kr=(KD.ry||[])[yi]||[],pi=yIdx(y.p);var h=kdl(ky[0],kr[0])+yaoFig(g,y.p)+kotoba(y.t+(y.s||""));
  if(pi!=null)h+=posInfo(g,pi);
  if(y.s)h+='<p class="small dim"><span class="lbl">象伝</span>'+esc(y.s)+"</p>"+(ky[1]?'<p class="small">'+esc(ky[1])+(kr[1]?'<span class="rd">'+esc(kr[1])+"</span>":"")+"</p>":"");
  h+=paras(y.k);
  if(y.sen)h+='<p><span class="lbl">占</span>'+esc(y.sen).replace(/\n/g,"<br>")+"</p>";
  if(pi!=null)h+=hikaku(g,pi)+jiki(g,pi);
+ if(brief&&pi!=null){var rr=y.rei||[];return h+(rr.length?'<div class="rl">'+rr.map(function(r){return'<a href="#y/'+g.n+"/"+pi+'"><small>占例</small>'+esc(r.t)+"</a>";}).join("")+'</div><p class="small dim">占例の本文は<a href="#y/'+g.n+"/"+pi+'">この爻のページ</a>で読めます。</p>':"")+myreis(g.n,pi);}
  return h+reis(y.rei)+(pi!=null?myreis(g.n,pi):"");}
 function kdl(t,r){return t?'<div class="kd"><span class="kl">書き下し</span>'+esc(t)+(r?'<div class="rd">'+esc(r)+"</div>":"")+"</div>":"";}
 var SEI={"乾":"剛健・強く進む","坤":"柔順・受け入れる","震":"動く・奮い立つ","巽":"入る・従う","坎":"険しい・悩み・陥る","離":"明らか・つき従う","艮":"止まる・動かない","兌":"悦ぶ・言葉"};
@@ -330,13 +339,24 @@ function naigai(g){var U=TRI[g.up],L=TRI[g.lo],su=SEI[g.up],sl=SEI[g.lo];
  "<tr><td>一人の人で</td><td>内面（本心）</td><td>外面（態度）</td></tr>"+
  "<tr><td>時間で</td><td>今・先</td><td>これから・後</td></tr></table>"+
  '<p>人間関係で読むと：<b>自分は「'+sl+'」、相手・まわりは「'+su+'」</b>という形。<br>一人の人で読むと：<b>心の中は「'+sl+'」、外に見せる姿は「'+su+'」</b>。</p><p class="small dim">卦は下から上へ。下の三本が内（自分）、上の三本が外（相手）。<a href="#jo">→ 易の基本</a></p></div>';}
+function rl(x){return'<div class="tl">'+esc(x.t)+(x.r?'<span class="rd">'+esc(x.r)+"</span>":"")+"</div>";}
+function zk(n){var a=(TK.zakka||{})[n];if(!a||!a.length)return"";return'<div class="zk"><span class="lbl">雑卦伝</span>'+a.map(rl).join("")+"</div>";}
+function jk(g){var a=(TK.joka||{})[g.n];if(!a||!a.length)return"";var pv=null;TK.gua.forEach(function(x){if(x.n===g.n-1)pv=x;});
+ return'<div class="card jk"><div class="lb">序卦伝 ― 前の卦からの流れ</div>'+(pv?'<div class="small dim"><a href="#gua/'+pv.n+'">← '+esc(pv.name)+"</a> から</div>":"")+a.map(rl).join("")+'<div class="small dim"><a href="#ten/joka">序卦伝の全文</a></div></div>';}
+var TEN=[["bungen","文言伝","乾・坤の二卦をさらに詳しく説いた伝"],["keiji1","繋辞上伝","易の成り立ちと占いの意義を論じた伝（上）"],["keiji2","繋辞下伝","易の成り立ちと占いの意義を論じた伝（下）"],["sekka","説卦伝","八卦の性質と象を説いた伝"],["joka","序卦伝","六十四卦の並ぶ順序の理由を説いた伝"],["zakka","雑卦伝","六十四卦を一言で対にして説いた伝"]];
+function vTen(k){
+  if(!k){var h='<h2 class="sec">十翼 ― 易の原典（書き下しと読み）</h2><p class="small dim">江﨑孔一の易経資料（書き下し・読み仮名つき）より。読む順は、繋辞伝 → 説卦伝 → 序卦伝 → 雑卦伝。序卦伝は「まず最初に読むべき」全体の流れ。</p><div class="toc">'+TEN.map(function(t){return'<a href="#ten/'+t[0]+'"><b>'+t[1]+"</b><span>"+t[2]+"</span></a>";}).join("")+'</div><h2 class="sec">覚え書き</h2><div class="toc"><a href="#ten/kaiun"><b>易より見たる運の掴み方（周易裏街道）</b><span>青龍孔一の覚え書き（開運秘策）</span></a></div>';app.innerHTML=h;return;}
+  var a=(TK.ten||{})[k]||[],ttl=k==="kaiun"?"易より見たる運の掴み方（青龍孔一の覚え書き）":"";TEN.forEach(function(t){if(t[0]===k)ttl=t[1];});
+  var h='<a class="back" href="#ten">← 十翼の一覧</a><h2 class="sec">'+esc(ttl)+"</h2>";
+  a.forEach(function(x){var t=x.t;if(!x.r&&(/^[▼■◆]/.test(t)||/^第.{1,3}[節章]/.test(t)||/^[①-⑳]/.test(t)||(/伝（[上下]）$/.test(t))))h+='<h3>'+esc(t.replace(/^[▼■◆]/,""))+"</h3>";else if(!x.r)h+='<p class="small">'+esc(t)+"</p>";else h+=rl(x);});
+  app.innerHTML=h;}
 function vGua(n){
   var G=TK.gua.slice().sort(function(a,b){return a.n-b.n;});
   var i=G.findIndex(function(g){return g.n===n;});if(i<0){vGuaList();return;}
   var g=G[i],U=TRI[g.up],L=TRI[g.lo];
   var h='<a class="back" href="#gua">← 六十四卦一覧</a><div class="ghead"><div class="no">周易'+(g.n<=30?"上経":"下経")+' 第'+g.n+"卦</div>"+hex(g,true)+'<div class="nm"><span class="gl">'+(g64(g.name)?g64(g.name).gl:"")+"</span>"+esc(g.name)+'</div><div class="yo">'+esc(g.yomi)+'</div><div class="trix"><div class="tb">上卦（外卦）'+tri3(g.up)+"<b>"+U.s+" "+g.up+"</b>"+U.o+'</div><div class="tb">下卦（内卦）'+tri3(g.lo)+"<b>"+L.s+" "+g.lo+"</b>"+L.o+'</div></div><div class="tri">'+U.o+"（"+g.up+"）が上、"+L.o+"（"+g.lo+'）が下にある卦</div></div>'+naigai(g);
   var TH=(TK.theme||{})[g.n];
-  if(TH||(g.kaji&&g.kaji.p))h+='<div class="about"><div class="lb">この卦に書いてあること</div>'+(TH?'<div class="th">【 '+esc(TH)+' 】</div>':"")+(g.kaji&&g.kaji.p?"<p>"+esc(g.kaji.p)+"</p>":"")+'<p class="small dim">各爻の段階は下の「六爻の流れ」へ。</p></div>';
+  if(TH||(g.kaji&&g.kaji.p))h+='<div class="about"><div class="lb">この卦に書いてあること</div>'+(TH?'<div class="th">【 '+esc(TH)+' 】</div>':"")+(g.kaji&&g.kaji.p?"<p>"+esc(g.kaji.p)+"</p>":"")+zk(g.n)+'<p class="small dim">各爻の段階は下の「六爻の流れ」へ。</p></div>'+jk(g);
   if(g.meaning)h+='<h2 class="sec">卦の名と象</h2>'+paras(g.meaning);
   var KD=(TK.kd&&TK.kd[g.n])||{y:[]};
   if(g.kaji)h+='<h2 class="sec">卦辞</h2><div class="card"><div class="orig">'+esc(g.kaji.t)+"</div>"+(KD.k?kdl(KD.k,KD.rk):'<div class="yomi">'+esc(g.kaji.y)+"</div>")+kotoba(g.kaji.t)+paras(g.kaji.k)+pl(g.kaji.p)+"</div>";
@@ -351,7 +371,7 @@ function vGua(n){
   if(g.sen)h+='<h2 class="sec">此の卦を得る時（占断）</h2>'+list(g.sen);
   h+='<h2 class="sec">六爻</h2>';
   (g.yao||[]).forEach(function(y,yi){
-    h+='<details class="yao" open><summary><span class="p">'+esc(y.p)+'</span><span class="t">'+esc(y.t)+"</span></summary><div class=\"body\">"+yaoBody(g,y,yi,KD)+"</div></details>";
+    h+='<details class="yao" open><summary><span class="p">'+esc(y.p)+'</span><span class="t">'+esc(y.t)+"</span></summary><div class=\"body\">"+yaoBody(g,y,yi,KD,true)+"</div></details>";
   });
   h+='<div class="pager"><a class="'+(i>0?"":"dis")+'" href="#gua/'+(i>0?G[i-1].n:"")+'">← '+(i>0?esc(G[i-1].name):"")+'</a><a class="'+(i<G.length-1?"":"dis")+'" href="#gua/'+(i<G.length-1?G[i+1].n:"")+'">'+(i<G.length-1?esc(G[i+1].name):"")+" →</a></div>";
   app.innerHTML=h;
@@ -401,6 +421,7 @@ function route(){
   var hsh=(location.hash||"#home").slice(1),p=hsh.split("/");
   if(p[0]==="y"&&p[1]){setTab("hiku");vYao(+p[1],+p[2]);}
   else if(p[0]==="hiku"){setTab("hiku");vHiku();}
+  else if(p[0]==="ten"){setTab("jo");vTen(p[1]);}
   else if(p[0]==="gua"&&p[1]){setTab("gua");vGua(+p[1]);}
   else if(p[0]==="gua"){setTab("gua");vGuaList();}
   else if(p[0]==="jo"){setTab("jo");vJo();}
