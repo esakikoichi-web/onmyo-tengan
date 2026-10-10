@@ -385,7 +385,9 @@ function shoi(t){var d=(TK.shoi||{})[t];if(!d)return"";var h='<details class="kj
 function kj(g){var K=TK.kanji;if(!K)return"";var nm=(TK.kanjiName||[])[g.n-1]||"";var h="";var J=(TK.kanjiJuku||{})[g.n]||[];J.forEach(function(t){h+='<p class="kjj">'+esc(t)+'</p>';});
 nm.split("").forEach(function(c){var e=K[c];if(!e)return;h+='<div class="kjc"><div class="kjh"><b>'+esc(c)+'</b><span>'+esc(e.o)+'</span></div>'+e.g.map(function(x){return'<p>'+esc(x)+'</p>';}).join("")+(e.n?'<p class="kjn"><span class="lbl">なりたち</span>'+esc(e.n)+'</p>':"")+'</div>';});
 if(!h)return"";return'<details class="kj"><summary>漢字辞典の言葉（卦名「'+esc(nm)+'」の字）</summary>'+h+'<p class="small dim">青龍孔一 所蔵の漢字辞典より転記。</p></details>';}
-function zk(n){var a=(TK.zakka||{})[n];if(!a||!a.length)return"";return'<div class="zk"><span class="lbl">雑卦伝</span>'+a.map(rl).join("")+"</div>";}
+function zkKd(n){var r=null;(TK.zakkaKd||[]).forEach(function(x){if(x.g.indexOf(n)>=0)r=x;});return r;}
+function zkBox(x){return'<details class="kj"><summary>易経講話の解説（'+esc(x.nm)+'）</summary><p>'+esc(x.ex)+'</p><p class="small dim">公田連太郎『易経講話』巻五 雑卦伝より。</p></details>';}
+function zk(n){var a=(TK.zakka||{})[n];if(!a||!a.length)return"";var x=zkKd(n);return'<div class="zk"><span class="lbl">雑卦伝</span>'+a.map(rl).join("")+(x?zkBox(x):"")+"</div>";}
 function jk(g){var a=(TK.joka||{})[g.n];if(!a||!a.length)return"";var pv=null;TK.gua.forEach(function(x){if(x.n===g.n-1)pv=x;});
  return'<div class="card jk"><div class="lb">序卦伝 ― 前の卦からの流れ</div>'+(pv?'<div class="small dim"><a href="#gua/'+pv.n+'">← '+esc(pv.name)+"</a> から</div>":"")+a.map(rl).join("")+'<div class="small dim"><a href="#ten/joka">序卦伝の全文</a></div></div>';}
 var TEN=[["bungen","文言伝","乾・坤の二卦をさらに詳しく説いた伝"],["keiji1","繋辞上伝","易の成り立ちと占いの意義を論じた伝（上）"],["keiji2","繋辞下伝","易の成り立ちと占いの意義を論じた伝（下）"],["sekka","説卦伝","八卦の性質と象を説いた伝"],["joka","序卦伝","六十四卦の並ぶ順序の理由を説いた伝"],["zakka","雑卦伝","六十四卦を一言で対にして説いた伝"]];
@@ -393,7 +395,7 @@ function vTen(k){
   if(!k){var h='<h2 class="sec">十翼 ― 易の原典（書き下しと読み）</h2><p class="small dim">江﨑孔一の易経資料（書き下し・読み仮名つき）より。読む順は、繋辞伝 → 説卦伝 → 序卦伝 → 雑卦伝。序卦伝は「まず最初に読むべき」全体の流れ。</p><div class="toc">'+TEN.map(function(t){return'<a href="#ten/'+t[0]+'"><b>'+t[1]+"</b><span>"+t[2]+"</span></a>";}).join("")+'</div><h2 class="sec">覚え書き</h2><div class="toc"><a href="#ten/kaiun"><b>易より見たる運の掴み方（周易裏街道）</b><span>青龍孔一の覚え書き（開運秘策）</span></a></div>';app.innerHTML=h;return;}
   var a=(TK.ten||{})[k]||[],ttl=k==="kaiun"?"易より見たる運の掴み方（青龍孔一の覚え書き）":"";TEN.forEach(function(t){if(t[0]===k)ttl=t[1];});
   var h='<a class="back" href="#ten">← 十翼の一覧</a><h2 class="sec">'+esc(ttl)+"</h2>";
-  a.forEach(function(x){var t=x.t;if(!x.r&&(/^[▼■◆]/.test(t)||/^第.{1,3}[節章]/.test(t)||/^[①-⑳]/.test(t)||(/伝（[上下]）$/.test(t))))h+='<h3>'+esc(t.replace(/^[▼■◆]/,""))+"</h3>";else if(!x.r)h+='<p class="small">'+esc(t)+"</p>";else h+=rl(x);});
+  a.forEach(function(x){var t=x.t;if(!x.r&&(/^[▼■◆]/.test(t)||/^第.{1,3}[節章]/.test(t)||/^[①-⑳]/.test(t)||(/伝（[上下]）$/.test(t))))h+='<h3>'+esc(t.replace(/^[▼■◆]/,""))+"</h3>";else if(!x.r)h+='<p class="small">'+esc(t)+"</p>";else{h+=rl(x);if(k==="zakka"){var zn=0;for(var q in (TK.zakka||{}))TK.zakka[q].forEach(function(y){if(y.t===x.t)zn=+q;});var g=zn&&zkKd(zn);if(g&&g.g.slice(-2).indexOf(zn)>=0)h+=zkBox(g);}}});
   app.innerHTML=h;}
 function vGua(n){
   var G=TK.gua.slice().sort(function(a,b){return a.n-b.n;});
