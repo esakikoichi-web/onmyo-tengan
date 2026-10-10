@@ -62,6 +62,14 @@ ul.sen li:before{content:"◆";position:absolute;left:0;top:1px;font-size:10px;c
 .flow .fp i.y{background:linear-gradient(90deg,var(--gold) 0 40%,transparent 40% 60%,var(--gold) 60%)}
 .flow .ft{font-size:15px}
 .kd .rd,.rd{display:block;font-size:11px;color:var(--dim);letter-spacing:.05em;margin-top:2px}
+.kj{border:1px solid var(--gold);border-radius:10px;padding:8px 14px;margin:14px 0}
+.kj summary{cursor:pointer;color:var(--gold);font-weight:700}
+.kjj{font-weight:700;color:var(--bright)}
+.kjc{border-top:1px dashed var(--gold);margin-top:10px;padding-top:8px}
+.kjh b{font-size:28px;color:var(--bright);margin-right:10px}
+.kjh span{font-size:13px}
+.kjc p{margin:4px 0;font-size:14px}
+.kjn{background:var(--soft);padding:6px 8px;border-radius:6px}
 .about{border:1px solid var(--gold);border-radius:10px;padding:10px 14px;margin:14px 0;background:var(--soft)}
 .about .lb{font-size:12px;color:var(--gold)}
 .about .th{font-size:18px;font-weight:700;color:var(--bright);margin:4px 0}
@@ -195,6 +203,7 @@ table.mon td{padding:5px 0;border-bottom:1px solid var(--line);line-height:1.7}
 <script src="takashima_theme.js"></script>
 <script src="takashima_myrei.js"></script>
 <script src="takashima_ten.js"></script>
+<script src="takashima_kanji.js"></script>
 <script>
 (function(){
 var TRI={"乾":{b:[1,1,1],s:"☰",o:"天"},"兌":{b:[1,1,0],s:"☱",o:"沢"},"離":{b:[1,0,1],s:"☲",o:"火"},"震":{b:[1,0,0],s:"☳",o:"雷"},"巽":{b:[0,1,1],s:"☴",o:"風"},"坎":{b:[0,1,0],s:"☵",o:"水"},"艮":{b:[0,0,1],s:"☶",o:"山"},"坤":{b:[0,0,0],s:"☷",o:"地"}};
@@ -340,6 +349,9 @@ function naigai(g){var U=TRI[g.up],L=TRI[g.lo],su=SEI[g.up],sl=SEI[g.lo];
  "<tr><td>時間で</td><td>今・先</td><td>これから・後</td></tr></table>"+
  '<p>人間関係で読むと：<b>自分は「'+sl+'」、相手・まわりは「'+su+'」</b>という形。<br>一人の人で読むと：<b>心の中は「'+sl+'」、外に見せる姿は「'+su+'」</b>。</p><p class="small dim">卦は下から上へ。下の三本が内（自分）、上の三本が外（相手）。<a href="#jo">→ 易の基本</a></p></div>';}
 function rl(x){return'<div class="tl">'+esc(x.t)+(x.r?'<span class="rd">'+esc(x.r)+"</span>":"")+"</div>";}
+function kj(g){var K=TK.kanji;if(!K)return"";var nm=(TK.kanjiName||[])[g.n-1]||"";var h="";var J=(TK.kanjiJuku||{})[g.n]||[];J.forEach(function(t){h+='<p class="kjj">'+esc(t)+'</p>';});
+nm.split("").forEach(function(c){var e=K[c];if(!e)return;h+='<div class="kjc"><div class="kjh"><b>'+esc(c)+'</b><span>'+esc(e.o)+'</span></div>'+e.g.map(function(x){return'<p>'+esc(x)+'</p>';}).join("")+(e.n?'<p class="kjn"><span class="lbl">なりたち</span>'+esc(e.n)+'</p>':"")+'</div>';});
+if(!h)return"";return'<details class="kj"><summary>漢字辞典の言葉（卦名「'+esc(nm)+'」の字）</summary>'+h+'<p class="small dim">青龍孔一 所蔵の漢字辞典より転記。</p></details>';}
 function zk(n){var a=(TK.zakka||{})[n];if(!a||!a.length)return"";return'<div class="zk"><span class="lbl">雑卦伝</span>'+a.map(rl).join("")+"</div>";}
 function jk(g){var a=(TK.joka||{})[g.n];if(!a||!a.length)return"";var pv=null;TK.gua.forEach(function(x){if(x.n===g.n-1)pv=x;});
  return'<div class="card jk"><div class="lb">序卦伝 ― 前の卦からの流れ</div>'+(pv?'<div class="small dim"><a href="#gua/'+pv.n+'">← '+esc(pv.name)+"</a> から</div>":"")+a.map(rl).join("")+'<div class="small dim"><a href="#ten/joka">序卦伝の全文</a></div></div>';}
@@ -356,7 +368,7 @@ function vGua(n){
   var g=G[i],U=TRI[g.up],L=TRI[g.lo];
   var h='<a class="back" href="#gua">← 六十四卦一覧</a><div class="ghead"><div class="no">周易'+(g.n<=30?"上経":"下経")+' 第'+g.n+"卦</div>"+hex(g,true)+'<div class="nm"><span class="gl">'+(g64(g.name)?g64(g.name).gl:"")+"</span>"+esc(g.name)+'</div><div class="yo">'+esc(g.yomi)+'</div><div class="trix"><div class="tb">上卦（外卦）'+tri3(g.up)+"<b>"+U.s+" "+g.up+"</b>"+U.o+'</div><div class="tb">下卦（内卦）'+tri3(g.lo)+"<b>"+L.s+" "+g.lo+"</b>"+L.o+'</div></div><div class="tri">'+U.o+"（"+g.up+"）が上、"+L.o+"（"+g.lo+'）が下にある卦</div></div>'+naigai(g);
   var TH=(TK.theme||{})[g.n];
-  if(TH||(g.kaji&&g.kaji.p))h+='<div class="about"><div class="lb">この卦に書いてあること</div>'+(TH?'<div class="th">【 '+esc(TH)+' 】</div>':"")+(g.kaji&&g.kaji.p?"<p>"+esc(g.kaji.p)+"</p>":"")+zk(g.n)+'<p class="small dim">各爻の段階は下の「六爻の流れ」へ。</p></div>'+jk(g);
+  if(TH||(g.kaji&&g.kaji.p))h+='<div class="about"><div class="lb">この卦に書いてあること</div>'+(TH?'<div class="th">【 '+esc(TH)+' 】</div>':"")+(g.kaji&&g.kaji.p?"<p>"+esc(g.kaji.p)+"</p>":"")+zk(g.n)+'<p class="small dim">各爻の段階は下の「六爻の流れ」へ。</p></div>'+kj(g)+jk(g);
   if(g.meaning)h+='<h2 class="sec">卦の名と象</h2>'+paras(g.meaning);
   var KD=(TK.kd&&TK.kd[g.n])||{y:[]};
   if(g.kaji)h+='<h2 class="sec">卦辞</h2><div class="card"><div class="orig">'+esc(g.kaji.t)+"</div>"+(KD.k?kdl(KD.k,KD.rk):'<div class="yomi">'+esc(g.kaji.y)+"</div>")+kotoba(g.kaji.t)+paras(g.kaji.k)+pl(g.kaji.p)+"</div>";
