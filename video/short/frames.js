@@ -23,10 +23,10 @@ function artHtml(sc){const g=path.resolve('g',sc+'.png');
   await p.setViewportSize({width:1080,height:1920});
   const who=ln.who==='N'?'':`<span class="who">${ln.who}</span>`;
   // 掴み（1枚目）はキーワードを金色で強調し、大きく見せる
-  const HL={'匙を投げた':1,'一言':1,'明治の占い師':1};
+  const HL={'打つ手':1,'間違える':1,'匙を投げた':1,'一言':1,'明治の占い師':1};
   let sub=ln.sc==='cta'?`${ln.sub}<span class="cta2">青龍孔一　公式LINE</span>`:ln.sub;
   if(ln.sc==='hook'){for(const w in HL)sub=sub.split(w).join(`<span class="hl">${w}</span>`);}
   const subcls=ln.sc==='hook'?'sub big':'sub';
-  await p.setContent(`<html><head><style>${css}</style></head><body><div class="hd"><div class="a">明治の易者 実話</div><div class="b">魚を貫く針</div></div><div class="${subcls}"><div>${who}${sub}</div></div><div class="ft">易の名人 高島嘉右衛門の実占より</div></body></html>`);
+  await p.setContent(`<html><head><style>${css}</style></head><body><div class="hd"><div class="a">明治の易者 実話</div></div><div class="${subcls}"><div>${who}${sub}</div></div><div class="ft">易の名人 高島嘉右衛門の実占より</div></body></html>`);
   await p.evaluate(()=>document.fonts.ready);await p.screenshot({path:`f/t_${String(i).padStart(2,'0')}.png`,omitBackground:true});}
  await b.close();console.log('ok');})();
