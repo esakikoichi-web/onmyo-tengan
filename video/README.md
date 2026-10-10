@@ -6,7 +6,7 @@
 ## 必要なもの
 - フォント：video/fonts/ に Noto Serif JP（500/800）を f1.ttf/f2.ttf、Zen Maru Gothic（500/700）を f3.ttf/f4.ttf として置く
   （Google Fonts の css2 API から取得。各スクリプトは ../vid/fonts を参照しているのでパスを合わせる）
-- python: edge-tts（声）, pykakasi（読み上げ用のかな変換）、node: playwright（画面）、ffmpeg
+- python: pykakasi（読み上げ用のかな変換）。声は edge-tts か VOICEVOX のどちらか。、node: playwright（画面）、ffmpeg
 
 ## 手順（short）
 1. script.json に台本（sc=場面、who=話者、t=読み上げ、sub=字幕）
@@ -31,3 +31,18 @@
 - tts.py は読み上げ文を「手動辞書 R → 全文かな変換(pykakasi) → edge-tts」の順で処理し、漢字の自動誤読を防ぐ。
 - 固有名詞・難読・誤読しやすい語（高島嘉右衛門／若宮／青龍孔一／以て→もって／一言→ひとこと／一手→いって／LINE→ライン 等）は R に登録して最優先で置換する。
 - 新しい語で読みがおかしい時は R に1行足すだけでよい。
+
+## 声（2系統）
+読みは readings.py の fix() で統一（edge-tts版・VOICEVOX版 共通）。新しい語は readings.py の R に1行足すだけ。
+
+### A. VOICEVOX（推奨・ローカル・APIなし）
+1. VOICEVOX（本体 or ENGINE）を起動し http://127.0.0.1:50021 で待受け（PCならGUIを起動するだけ）。
+   - 別ホストなら VOICEVOX_URL で指定。
+2. `python3 tts_voicevox.py` → a/NN.mp3
+   - 既定の声：N=青山龍星「しっとり」／高島=玄野武宏「ノーマル」／母=九州そら「ノーマル」。
+   - 変更は環境変数 VV_N / VV_TAKASHIMA / VV_HAHA（例 VV_N="青山龍星:ノーマル"）。
+3. `bash build.sh`
+
+### B. edge-tts（簡易・無料だがオンライン通信）
+1. `python3 tts.py` → a/NN.mp3
+2. `bash build.sh`
