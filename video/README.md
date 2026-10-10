@@ -46,3 +46,11 @@
 ### B. edge-tts（簡易・無料だがオンライン通信）
 1. `python3 tts.py` → a/NN.mp3
 2. `bash build.sh`
+
+### C. 自分の声（推奨・AI完全排除）
+1. 録音台本.txt をスマホのボイスメモで読む。各行のあと1〜2秒しっかり無音をあけ、10カットを1本に続けて録音。
+2. `python3 split_voice.py <録音ファイル>` → 無音で自動分割して a/NN.mp3（ちょうど10個になるようしきい値を自動調整）。
+   - 10個にならない時は間をはっきり空けて録り直すか、環境変数 EXPECT / MINSIL / PAD で調整。
+   - 各カットを録り直したい時は、その番号の a/NN.mp3 だけ差し替えてもよい。
+3. `bash build.sh`
+※ pydub（+ audioop-lts）を使用。録音台本.txt は script.json から作成（本文＝各行のt）。
