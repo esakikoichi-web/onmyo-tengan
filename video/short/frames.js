@@ -13,11 +13,12 @@ const css=`@font-face{font-family:M;src:url(${F}/f1.ttf);font-weight:500}@font-f
 const OVER={miya:`<svg viewBox="0 0 1080 1080" style="position:absolute;inset:0;width:1080px;height:1080px"><defs><filter id="sh"><feDropShadow dx="0" dy="6" stdDeviation="14" flood-color="#000" flood-opacity=".7"/></filter></defs><g filter="url(#sh)"><text x="540" y="700" text-anchor="middle" font-family="M" font-weight="800" font-size="560" fill="#f6e7c1" opacity=".96">宮</text><text x="540" y="890" text-anchor="middle" font-family="M" font-weight="800" font-size="64" fill="#e8b84c" letter-spacing="10">宮人 ＝ 若宮</text></g></svg>`};
 function artHtml(sc){const g=path.resolve('g',sc+'.png');
  if(!fs.existsSync(g))return ART[sc]().replace('<svg ','<svg class="art" ');
- return `<div style="position:relative;width:1080px;height:1080px"><img src="file://${g}" style="width:1080px;height:1080px;object-fit:cover;display:block">${OVER[sc]||''}</div>`;}
+ const b64=fs.readFileSync(g).toString('base64');
+ return `<div style="position:relative;width:1080px;height:1080px"><img src="data:image/png;base64,${b64}" style="width:1080px;height:1080px;object-fit:cover;display:block">${OVER[sc]||''}</div>`;}
 (async()=>{const b=await chromium.launch();const p=await b.newPage({viewport:{width:1080,height:1920}});fs.mkdirSync('f',{recursive:true});
  const done={};
  for(let i=0;i<L.length;i++){const ln=L[i];
-  if(!done[ln.sc]){await p.setViewportSize({width:1080,height:1080});await p.setContent(`<html><head><style>${css}</style></head><body style="width:1080px;height:1080px">${artHtml(ln.sc)}</body></html>`);await p.evaluate(()=>document.fonts.ready);await p.screenshot({path:`f/art_${ln.sc}.png`});done[ln.sc]=1;}
+  if(!done[ln.sc]){await p.setViewportSize({width:1080,height:1080});await p.setContent(`<html><head><style>${css}</style></head><body style="width:1080px;height:1080px">${artHtml(ln.sc)}</body></html>`);await p.evaluate(()=>Promise.all([document.fonts.ready,...[...document.images].map(im=>im.decode().catch(()=>0))]));await p.screenshot({path:`f/art_${ln.sc}.png`});done[ln.sc]=1;}
   await p.setViewportSize({width:1080,height:1920});
   const who=ln.who==='N'?'':`<span class="who">${ln.who}</span>`;
   const sub=ln.sc==='cta'?`${ln.sub}<span class="cta2">青龍孔一　公式LINE</span>`:ln.sub;
