@@ -208,6 +208,7 @@ table.mon td{padding:5px 0;border-bottom:1px solid var(--line);line-height:1.7}
 <script src="takashima_myrei.js"></script>
 <script src="takashima_ten.js"></script>
 <script src="takashima_kanji.js"></script>
+<script src="takashima_shoi.js"></script>
 <script>
 (function(){
 var TRI={"乾":{b:[1,1,1],s:"☰",o:"天"},"兌":{b:[1,1,0],s:"☱",o:"沢"},"離":{b:[1,0,1],s:"☲",o:"火"},"震":{b:[1,0,0],s:"☳",o:"雷"},"巽":{b:[0,1,1],s:"☴",o:"風"},"坎":{b:[0,1,0],s:"☵",o:"水"},"艮":{b:[0,0,1],s:"☶",o:"山"},"坤":{b:[0,0,0],s:"☷",o:"地"}};
@@ -298,7 +299,7 @@ function vJo(){
   h+='<h2 class="sec">八卦の象意（高島の類象）</h2>';
   h+=svgBagua(["乾","巽","坎","艮","坤","震","離","兌"],"伏羲 先天八卦方位図","先天図：乾（天）を南、坤（地）を北に置き、対面する卦は陰陽がすべて反対（乾⇔坤、離⇔坎、震⇔巽、艮⇔兌）。天地自然の本体を表す。")+svgBagua(["離","坤","兌","乾","坎","艮","震","巽"],"文王 後天八卦方位図","後天図：離（火）を南、坎（水）を北、震を東、兌を西に置く。四季・方位・人事の運行（作用）を表し、占いで方位を観るときはこの図を用いる。");
   h+='<div class="fig"><div class="orig" style="font-size:15px">八卦一覧（下から初・中・上の三爻）</div><div class="trix" style="flex-wrap:wrap">'+["乾","兌","離","震","巽","坎","艮","坤"].map(function(t,i){return'<div class="tb">'+(i+1)+"<br>"+tri3(t)+"<b>"+TRI[t].s+" "+t+"</b>"+TRI[t].o+"</div>";}).join("")+'</div><div class="fc">番号は略筮法の残数（1乾・2兌・3離・4震・5巽・6坎・7艮・8坤）。</div></div>';
-  (J.hakke||[]).forEach(function(x){var t=String(x.k).charAt(0);h+='<div class="card">'+(TRI[t]?'<div class="trix">'+tri3(t)+'<span class="glbig" style="font-size:30px">'+TRI[t].s+"</span></div>":"")+'<div class="orig">'+esc(x.k)+'</div><p class="small dim">'+esc(x.meta)+"</p>"+paras(x.v)+"</div>";});
+  (J.hakke||[]).forEach(function(x){var t=String(x.k).charAt(0);h+='<div class="card">'+(TRI[t]?'<div class="trix">'+tri3(t)+'<span class="glbig" style="font-size:30px">'+TRI[t].s+"</span></div>":"")+'<div class="orig">'+esc(x.k)+'</div><p class="small dim">'+esc(x.meta)+"</p>"+paras(x.v)+shoi(t)+"</div>";});
   h+='<h2 class="sec">爻の位と中・正・応・比</h2>'+posTable()+list(J.kou);
   h+='<h2 class="sec">六十四卦一覧表</h2>'+table64();
   app.innerHTML=h;
@@ -377,6 +378,10 @@ function naigai(g){var U=TRI[g.up],L=TRI[g.lo],su=SEI[g.up],sl=SEI[g.lo];
  "<tr><td>時間で</td><td>今・先</td><td>これから・後</td></tr></table>"+
  '<p>人間関係で読むと：<b>自分は「'+sl+'」、相手・まわりは「'+su+'」</b>という形。<br>一人の人で読むと：<b>心の中は「'+sl+'」、外に見せる姿は「'+su+'」</b>。</p><p class="small dim">卦は下から上へ。下の三本が内（自分）、上の三本が外（相手）。<a href="#jo">→ 易の基本</a></p></div>';}
 function rl(x){return'<div class="tl">'+rb(x.t,x.r)+"</div>";}
+function shoi(t){var d=(TK.shoi||{})[t];if(!d)return"";var h='<details class="kj"><summary>九星象意（'+esc(d.star)+'）</summary><table class="tri">'+d.base.map(function(r){return"<tr><td>"+esc(r[0])+"</td><td>"+esc(r[1])+"</td></tr>";}).join("")+"</table>";
+ if(d.gen.length)h+='<h3>基本象意からの派生</h3>'+d.gen.map(function(g){return'<p><b>'+esc(g.h)+'</b><br>'+g.i.map(esc).join("<br>")+"</p>";}).join("");
+ d.sec.forEach(function(s){h+='<h3>'+esc(s.h)+'</h3>'+s.g.map(function(g){return(g.h?'<p class="kjj">【'+esc(g.h)+'】</p>':"")+g.i.map(function(i){return'<p class="small">'+esc(i)+"</p>";}).join("");}).join("");});
+ return h+'<p class="small dim">『九星象意大全』（石門会 編）より転記。五黄土星と「神秘」の項は除く。</p></details>';}
 function kj(g){var K=TK.kanji;if(!K)return"";var nm=(TK.kanjiName||[])[g.n-1]||"";var h="";var J=(TK.kanjiJuku||{})[g.n]||[];J.forEach(function(t){h+='<p class="kjj">'+esc(t)+'</p>';});
 nm.split("").forEach(function(c){var e=K[c];if(!e)return;h+='<div class="kjc"><div class="kjh"><b>'+esc(c)+'</b><span>'+esc(e.o)+'</span></div>'+e.g.map(function(x){return'<p>'+esc(x)+'</p>';}).join("")+(e.n?'<p class="kjn"><span class="lbl">なりたち</span>'+esc(e.n)+'</p>':"")+'</div>';});
 if(!h)return"";return'<details class="kj"><summary>漢字辞典の言葉（卦名「'+esc(nm)+'」の字）</summary>'+h+'<p class="small dim">青龍孔一 所蔵の漢字辞典より転記。</p></details>';}
