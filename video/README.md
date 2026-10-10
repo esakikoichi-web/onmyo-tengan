@@ -20,3 +20,9 @@
 - モデルは `GEMINI_IMAGE_MODEL`（カンマ区切りで順に試す。既定 gemini-3-pro-image-preview,gemini-2.5-flash-image）
 - その後 node frames.js → bash build.sh。g/ に画像がある場面はそれが使われ、無い場面は art.js の影絵になる
 - 「宮」の場面は文字化けを避けるため、背景だけ生成して文字は frames.js で重ねる
+
+## 顔の一貫性・掴み（短編テンプレ）
+- 登場人物は先に基準顔 g/ref_man.png（患者）・g/ref_takashima.png（高島嘉右衛門）を作り、各場面に参照画像として渡して同じ顔で描く（gen_art.py の REFS）。
+- 高島嘉右衛門は実写肖像（video/short/ref_real/takashima_real.png・PD）を種に画風変換して基準顔を作る（REF_SEED）。実物の面立ちを保てる。
+- 作り直し：基準顔から変えるなら g/ref_*.png を消す。場面だけなら g/<場面>.png を消して該当場面を再生成。
+- 掴み（hook）は frames.js で字幕を大きく（.sub.big）、キーワードを金色強調（.hl）にしている。
