@@ -70,6 +70,10 @@ ul.sen li:before{content:"◆";position:absolute;left:0;top:1px;font-size:10px;c
 .kjh span{font-size:13px}
 .kjc p{margin:4px 0;font-size:14px}
 .kjn{background:var(--soft);padding:6px 8px;border-radius:6px}
+.rbt{line-height:2.3}
+ruby{ruby-position:over;ruby-align:center}
+rt{font-size:.6em;color:var(--gold);letter-spacing:0;font-weight:400}
+.flow .fk .rbt{line-height:2.2}
 .about{border:1px solid var(--gold);border-radius:10px;padding:10px 14px;margin:14px 0;background:var(--soft)}
 .about .lb{font-size:12px;color:var(--gold)}
 .about .th{font-size:18px;font-weight:700;color:var(--bright);margin:4px 0}
@@ -333,13 +337,37 @@ function myreis(n,i){var a=(TK.myrei||[]).filter(function(r){return r.n===n&&r.y
  return'<div class="my"><div class="lb">青龍孔一の占例</div>'+a.map(function(r){return'<div class="rt">'+esc(r.date)+"　"+esc(r.t)+'</div><div class="rb">'+esc(r.d)+(r.r?'<br><span class="small">結果：'+esc(r.r)+"</span>":"")+"</div>";}).join("")+"</div>";}
 function yaoBody(g,y,yi,KD,brief){var ky=(KD.y||[])[yi]||[],kr=(KD.ry||[])[yi]||[],pi=yIdx(y.p);var h=kdl(ky[0],kr[0])+yaoFig(g,y.p)+kotoba(y.t+(y.s||""));
  if(pi!=null)h+=posInfo(g,pi);
- if(y.s)h+='<p class="small dim"><span class="lbl">象伝</span>'+esc(y.s)+"</p>"+(ky[1]?'<p class="small">'+esc(ky[1])+(kr[1]?'<span class="rd">'+esc(kr[1])+"</span>":"")+"</p>":"");
+ if(y.s)h+='<p class="small dim"><span class="lbl">象伝</span>'+esc(y.s)+"</p>"+(ky[1]?'<p class="small">'+rb(ky[1],kr[1])+"</p>":"");
  h+=paras(y.k);
  if(y.sen)h+='<p><span class="lbl">占</span>'+esc(y.sen).replace(/\n/g,"<br>")+"</p>";
  if(pi!=null)h+=hikaku(g,pi)+jiki(g,pi);
  if(brief&&pi!=null){var rr=y.rei||[];return h+(rr.length?'<div class="rl">'+rr.map(function(r){return'<a href="#y/'+g.n+"/"+pi+'"><small>占例</small>'+esc(r.t)+"</a>";}).join("")+'</div><p class="small dim">占例の本文は<a href="#y/'+g.n+"/"+pi+'">この爻のページ</a>で読めます。</p>':"")+myreis(g.n,pi);}
  return h+reis(y.rei)+(pi!=null?myreis(g.n,pi):"");}
-function kdl(t,r){return t?'<div class="kd"><span class="kl">書き下し</span>'+esc(t)+(r?'<div class="rd">'+esc(r)+"</div>":"")+"</div>":"";}
+var KJ=/[㐀-鿿豈-﫿々〆〇\u{20000}-\u{2ffff}]+/gu;
+function rbAlign(t,r){if(!t||!r)return null;var tk=String(r).trim().split(/[\s　]+/).filter(Boolean);if(!tk.length)return null;
+ var runs=[],m;KJ.lastIndex=0;while((m=KJ.exec(t)))runs.push({i:m.index,s:m[0],c:Array.from(m[0])});
+ var R=runs.length,T=tk.length,INF=1e9;if(!R)return null;
+ function segCost(chs,tok){var n=Array.from(tok).length,c=chs;var q=n/c;return (q<1?(1-q)*6:0)+(q>3.5?(q-3.5)*2:0)+Math.abs(q-1.8)*0.3;}
+ // dp[i][j]: min cost covering runs<i with tokens<j ; choose for run i k tokens (0..len), split run chars among k tokens
+ var memo={};
+ function splitBest(chars,toks){ // assign toks to contiguous char groups (each>=1)
+  var L=chars.length,K=toks.length,key=L+"|"+toks.join(",");if(memo[key])return memo[key];
+  var D=[],P=[];for(var a=0;a<=K;a++){D[a]=[];P[a]=[];for(var b=0;b<=L;b++)D[a][b]=INF;}D[0][0]=0;
+  for(a=1;a<=K;a++)for(b=a;b<=L;b++)for(var c=a-1;c<b;c++){if(D[a-1][c]>=INF)continue;var v=D[a-1][c]+segCost(b-c,toks[a-1]);if(v<D[a][b]){D[a][b]=v;P[a][b]=c;}}
+  var res={cost:D[K][L],cut:[]};if(res.cost<INF){var bb=L;for(a=K;a>0;a--){var cc=P[a][bb];res.cut.unshift([cc,bb]);bb=cc;}}return memo[key]=res;}
+ var dp=[],pr=[];for(var i=0;i<=R;i++){dp[i]=[];pr[i]=[];for(var j=0;j<=T;j++)dp[i][j]=INF;}dp[0][0]=0;
+ for(i=0;i<R;i++)for(j=0;j<=T;j++){if(dp[i][j]>=INF)continue;var L=runs[i].c.length;
+  // skip run (no reading)
+  var v0=dp[i][j]+(/^[一-龥]$/.test(runs[i].s)&&L===1?4:6)*L;if(v0<dp[i+1][j]){dp[i+1][j]=v0;pr[i+1][j]=[j,0,null];}
+  for(var k=1;k<=L&&j+k<=T;k++){var sb=splitBest(runs[i].c,tk.slice(j,j+k));if(sb.cost>=INF)continue;var v=dp[i][j]+sb.cost;if(v<dp[i+1][j+k]){dp[i+1][j+k]=v;pr[i+1][j+k]=[j,k,sb.cut];}}}
+ if(dp[R][T]>=INF)return null;
+ var assign=[];j=T;for(i=R;i>0;i--){var p=pr[i][j];assign[i-1]={j:p[0],k:p[1],cut:p[2]};j=p[0];}
+ var out="",pos=0;for(i=0;i<R;i++){var ru=runs[i],a=assign[i];out+=esc(t.slice(pos,ru.i));pos=ru.i+ru.s.length;
+  if(!a.k){out+=esc(ru.s);continue;}
+  a.cut.forEach(function(cb,x){out+="<ruby>"+esc(ru.c.slice(cb[0],cb[1]).join(""))+"<rt>"+esc(tk[a.j+x])+"</rt></ruby>";});}
+ out+=esc(t.slice(pos));return out;}
+function rb(t,r){var h=rbAlign(t,r);return h!==null?'<span class="rbt">'+h+"</span>":esc(t)+(r?'<span class="rd">'+esc(r)+"</span>":"");}
+function kdl(t,r){return t?'<div class="kd"><span class="kl">書き下し</span>'+rb(t,r)+"</div>":"";}
 var SEI={"乾":"剛健・強く進む","坤":"柔順・受け入れる","震":"動く・奮い立つ","巽":"入る・従う","坎":"険しい・悩み・陥る","離":"明らか・つき従う","艮":"止まる・動かない","兌":"悦ぶ・言葉"};
 function naigai(g){var U=TRI[g.up],L=TRI[g.lo],su=SEI[g.up],sl=SEI[g.lo];
  return'<div class="ng"><div class="lb">この卦の「内」と「外」</div><table><tr><th></th><th>下卦（内）<br>'+tri3(g.lo)+" "+L.o+"＝"+g.lo+'</th><th>上卦（外）<br>'+tri3(g.up)+" "+U.o+"＝"+g.up+"</th></tr>"+
@@ -348,7 +376,7 @@ function naigai(g){var U=TRI[g.up],L=TRI[g.lo],su=SEI[g.up],sl=SEI[g.lo];
  "<tr><td>一人の人で</td><td>内面（本心）</td><td>外面（態度）</td></tr>"+
  "<tr><td>時間で</td><td>今・先</td><td>これから・後</td></tr></table>"+
  '<p>人間関係で読むと：<b>自分は「'+sl+'」、相手・まわりは「'+su+'」</b>という形。<br>一人の人で読むと：<b>心の中は「'+sl+'」、外に見せる姿は「'+su+'」</b>。</p><p class="small dim">卦は下から上へ。下の三本が内（自分）、上の三本が外（相手）。<a href="#jo">→ 易の基本</a></p></div>';}
-function rl(x){return'<div class="tl">'+esc(x.t)+(x.r?'<span class="rd">'+esc(x.r)+"</span>":"")+"</div>";}
+function rl(x){return'<div class="tl">'+rb(x.t,x.r)+"</div>";}
 function kj(g){var K=TK.kanji;if(!K)return"";var nm=(TK.kanjiName||[])[g.n-1]||"";var h="";var J=(TK.kanjiJuku||{})[g.n]||[];J.forEach(function(t){h+='<p class="kjj">'+esc(t)+'</p>';});
 nm.split("").forEach(function(c){var e=K[c];if(!e)return;h+='<div class="kjc"><div class="kjh"><b>'+esc(c)+'</b><span>'+esc(e.o)+'</span></div>'+e.g.map(function(x){return'<p>'+esc(x)+'</p>';}).join("")+(e.n?'<p class="kjn"><span class="lbl">なりたち</span>'+esc(e.n)+'</p>':"")+'</div>';});
 if(!h)return"";return'<details class="kj"><summary>漢字辞典の言葉（卦名「'+esc(nm)+'」の字）</summary>'+h+'<p class="small dim">青龍孔一 所蔵の漢字辞典より転記。</p></details>';}
@@ -379,7 +407,7 @@ function vGua(n){
   if(g.rei&&g.rei.length)h+='<h3>卦全体の占例・附記</h3>'+reis(g.rei);
   if(g.daisho)h+='<h2 class="sec">大象</h2><div class="card"><div class="orig">'+esc(g.daisho.t)+"</div>"+kdl(KD.d,KD.rd)+paras(g.daisho.k)+pl(g.daisho.p)+"</div>";
   var fl=(g.yao||[]).filter(function(y){return !/^用/.test(y.p)&&y.sen;});
-  if(fl.length)h+='<h2 class="sec">六爻の流れ</h2><ol class="flow">'+fl.map(function(y){var v=/九/.test(y.p);var yi=yIdx(y.p),z=zhi(g,yi),kk=((KD.y||[])[g.yao.indexOf(y)]||[])[0];return'<li><a class="fl" href="#y/'+g.n+"/"+yi+'"><span class="fp"><i class="'+(v?"":"y")+'"></i>'+esc(y.p)+'</span><span class="ft">'+(kk?'<span class="fk">'+esc(kk)+"</span>":"")+esc(y.sen.split("\n")[0])+(z?'<span class="fz">　→ '+esc(z.name)+"</span>":"")+"</span></a></li>";}).join("")+'</ol><p class="small dim">初爻（始まり）から上爻（終わり）へ。各爻の爻辞の書き下し、占断の一行目、之卦。タップでその爻だけを開く。</p>';
+  if(fl.length)h+='<h2 class="sec">六爻の流れ</h2><ol class="flow">'+fl.map(function(y){var v=/九/.test(y.p);var yi=yIdx(y.p),z=zhi(g,yi),kk=((KD.y||[])[g.yao.indexOf(y)]||[])[0],kq=((KD.ry||[])[g.yao.indexOf(y)]||[])[0];return'<li><a class="fl" href="#y/'+g.n+"/"+yi+'"><span class="fp"><i class="'+(v?"":"y")+'"></i>'+esc(y.p)+'</span><span class="ft">'+(kk?'<span class="fk">'+rb(kk,kq)+"</span>":"")+esc(y.sen.split("\n")[0])+(z?'<span class="fz">　→ '+esc(z.name)+"</span>":"")+"</span></a></li>";}).join("")+'</ol><p class="small dim">初爻（始まり）から上爻（終わり）へ。各爻の爻辞の書き下し、占断の一行目、之卦。タップでその爻だけを開く。</p>';
   if(g.sen)h+='<h2 class="sec">此の卦を得る時（占断）</h2>'+list(g.sen);
   h+='<h2 class="sec">六爻</h2>';
   (g.yao||[]).forEach(function(y,yi){
