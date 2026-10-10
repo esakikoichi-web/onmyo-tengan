@@ -6,7 +6,7 @@
 ## 必要なもの
 - フォント：video/fonts/ に Noto Serif JP（500/800）を f1.ttf/f2.ttf、Zen Maru Gothic（500/700）を f3.ttf/f4.ttf として置く
   （Google Fonts の css2 API から取得。各スクリプトは ../vid/fonts を参照しているのでパスを合わせる）
-- python: edge-tts（声）、node: playwright（画面）、ffmpeg
+- python: edge-tts（声）, pykakasi（読み上げ用のかな変換）、node: playwright（画面）、ffmpeg
 
 ## 手順（short）
 1. script.json に台本（sc=場面、who=話者、t=読み上げ、sub=字幕）
@@ -26,3 +26,8 @@
 - 高島嘉右衛門は実写肖像（video/short/ref_real/takashima_real.png・PD）を種に画風変換して基準顔を作る（REF_SEED）。実物の面立ちを保てる。
 - 作り直し：基準顔から変えるなら g/ref_*.png を消す。場面だけなら g/<場面>.png を消して該当場面を再生成。
 - 掴み（hook）は frames.js で字幕を大きく（.sub.big）、キーワードを金色強調（.hl）にしている。
+
+## 読み（ナレーション）
+- tts.py は読み上げ文を「手動辞書 R → 全文かな変換(pykakasi) → edge-tts」の順で処理し、漢字の自動誤読を防ぐ。
+- 固有名詞・難読・誤読しやすい語（高島嘉右衛門／若宮／青龍孔一／以て→もって／一言→ひとこと／一手→いって／LINE→ライン 等）は R に登録して最優先で置換する。
+- 新しい語で読みがおかしい時は R に1行足すだけでよい。
