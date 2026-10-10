@@ -11,7 +11,7 @@ const css=`@font-face{font-family:M;src:url(${F}/f1.ttf);font-weight:500}@font-f
 .cta2{font-size:64px;color:#e8b84c;display:block;margin-top:24px}
 .art{width:1080px;height:1080px}`;
 // g/<場面>.png（gen_art.py で生成）があればそれを使い、無ければ art.js の影絵
-const OVER={miya:`<svg viewBox="0 0 1080 1080" style="position:absolute;inset:0;width:1080px;height:1080px"><defs><filter id="sh"><feDropShadow dx="0" dy="6" stdDeviation="14" flood-color="#000" flood-opacity=".7"/></filter></defs><g filter="url(#sh)"><text x="540" y="700" text-anchor="middle" font-family="M" font-weight="800" font-size="560" fill="#f6e7c1" opacity=".96">宮</text><text x="540" y="890" text-anchor="middle" font-family="M" font-weight="800" font-size="64" fill="#e8b84c" letter-spacing="10">宮人 ＝ 若宮</text></g></svg>`};
+const OVER={miya:`<svg viewBox="0 0 1080 1080" style="position:absolute;inset:0;width:1080px;height:1080px"><defs><filter id="sh"><feDropShadow dx="0" dy="6" stdDeviation="14" flood-color="#000" flood-opacity=".7"/></filter></defs><g filter="url(#sh)"><text x="540" y="700" text-anchor="middle" font-family="M" font-weight="800" font-size="560" fill="#f6e7c1" opacity=".96">宮</text><text x="540" y="890" text-anchor="middle" font-family="M" font-weight="800" font-size="64" fill="#e8b84c" letter-spacing="10">宮　→　若宮</text></g></svg>`};
 function artHtml(sc){const g=path.resolve('g',sc+'.png');
  if(!fs.existsSync(g))return ART[sc]().replace('<svg ','<svg class="art" ');
  const b64=fs.readFileSync(g).toString('base64');
@@ -27,6 +27,6 @@ function artHtml(sc){const g=path.resolve('g',sc+'.png');
   let sub=ln.sc==='cta'?`${ln.sub}<span class="cta2">青龍孔一　公式LINE</span>`:ln.sub;
   if(ln.sc==='hook'){for(const w in HL)sub=sub.split(w).join(`<span class="hl">${w}</span>`);}
   const subcls=ln.sc==='hook'?'sub big':'sub';
-  await p.setContent(`<html><head><style>${css}</style></head><body><div class="hd"><div class="a">明治の易者 実話</div></div><div class="${subcls}"><div>${who}${sub}</div></div><div class="ft">易の名人 高島嘉右衛門の実占より</div></body></html>`);
+  await p.setContent(`<html><head><style>${css}</style></head><body><div class="hd"><div class="a">明治の実話</div></div><div class="${subcls}"><div>${who}${sub}</div></div><div class="ft">高島嘉右衛門の実話より</div></body></html>`);
   await p.evaluate(()=>document.fonts.ready);await p.screenshot({path:`f/t_${String(i).padStart(2,'0')}.png`,omitBackground:true});}
  await b.close();console.log('ok');})();
