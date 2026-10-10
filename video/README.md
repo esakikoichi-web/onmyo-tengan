@@ -54,4 +54,4 @@
    - モデルは環境変数 WHISPER_MODEL（既定 small。精度を上げるなら medium）。
    - 特定カットを録り直したい時は、その番号の a/NN.mp3 だけ差し替えてもよい。
 3. `bash build.sh`
-※ 依存: faster-whisper, pykakasi, ffmpeg（無音分割の簡易版 split_voice.py も残してある）。録音台本.txt は script.json から作成（本文＝各行のt）。
+※ 依存: faster-whisper, pykakasi, ffmpeg（arnndn対応）。無音分割の簡易版 split_voice.py も残してある。整音は 低音カット→RNNデノイズ(arnndn, denoise.rnnn)→音量統一。録音台本.txt は script.json から作成（本文＝各行のt）。

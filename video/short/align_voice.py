@@ -7,6 +7,10 @@ from faster_whisper import WhisperModel
 import json
 if len(sys.argv)<2: sys.exit('使い方: python3 align_voice.py <録音ファイル>')
 SRC=sys.argv[1]
+# 整音チェーン: 低音カット→RNNデノイズ(arnndn)→残留ヒス用の軽いゲート→音量統一
+RNNN=os.environ.get('RNNN_MODEL','denoise.rnnn')
+_dn=f'arnndn=m={RNNN}:mix=0.9,' if os.path.exists(RNNN) else 'afftdn=nf=-30:tn=1,'
+AF='highpass=f=90,'+_dn+'loudnorm=I=-16:TP=-1.5:LRA=11,aresample=44100'
 S=json.load(open('script.json',encoding='utf-8'))['lines']
 _k=pykakasi.kakasi()
 def hira(t): return ''.join(x['hira'] for x in _k.convert(t))
@@ -58,7 +62,7 @@ for i in range(len(S)):
     st=max(0,edges[i]-0.08); en=min(dur,edges[i+1]+0.08)
     out=f'a/{i:02d}.mp3'
     subprocess.run(['ffmpeg','-loglevel','error','-y','-ss',f'{st:.3f}','-to',f'{en:.3f}','-i',SRC,
-        '-af','highpass=f=85,afftdn=nf=-25,loudnorm=I=-16:TP=-1.5:LRA=11,aresample=44100',
+        '-af',AF,
         '-ac','2','-b:a','192k',out],check=True)
     print(f'{out}  {st:6.2f}-{en:6.2f} ({en-st:4.2f}s)  {hira(S[i]["t"])[:26]}')
 print('ok')
