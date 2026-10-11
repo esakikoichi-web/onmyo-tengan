@@ -5,7 +5,9 @@
 #   登場する場面にはその参照画像を渡して同じ顔で描かせる。
 import base64,json,os,sys,time,urllib.request,urllib.error
 KEY=os.environ.get('GEMINI_API_KEY') or sys.exit('GEMINI_API_KEY が未設定です')
-MODELS=[m for m in os.environ.get('GEMINI_IMAGE_MODEL','gemini-3-pro-image-preview,gemini-2.5-flash-image').split(',') if m]
+# 既定は安いflashを優先（1枚約6円）。高画質にしたい時だけ
+#   GEMINI_IMAGE_MODEL=gemini-3-pro-image-preview（約20円/枚）を指定する。
+MODELS=[m for m in os.environ.get('GEMINI_IMAGE_MODEL','gemini-2.5-flash-image,gemini-3-pro-image-preview').split(',') if m]
 STYLE=('Japanese ukiyo-e woodblock print style blended with cinematic lighting, Meiji era Japan (1881), '
  'deep indigo night palette with warm lantern gold highlights, washi paper texture, dramatic composition, '
  'square 1:1, absolutely no text, no letters, no kanji, no signatures, no watermark. Scene: ')

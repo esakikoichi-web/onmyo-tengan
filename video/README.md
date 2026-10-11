@@ -17,7 +17,7 @@
 
 ## 画像生成（Gemini）を使う場合
 - `GEMINI_API_KEY=... python3 gen_art.py` → g/<場面>.png を生成（既存はスキップ。作り直す場面は消してから実行。`python3 gen_art.py hook zei` のように場面指定も可）
-- モデルは `GEMINI_IMAGE_MODEL`（カンマ区切りで順に試す。既定 gemini-3-pro-image-preview,gemini-2.5-flash-image）
+- モデルは `GEMINI_IMAGE_MODEL`（既定は安いflash優先。1枚約6円＝1本30〜50円）。ここぞの1本だけ `GEMINI_IMAGE_MODEL=gemini-3-pro-image-preview`（約20円/枚）で高画質に
 - その後 node frames.js → bash build.sh。g/ に画像がある場面はそれが使われ、無い場面は art.js の影絵になる
 - 「宮」の場面は文字化けを避けるため、背景だけ生成して文字は frames.js で重ねる
 
