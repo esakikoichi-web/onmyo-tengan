@@ -4,7 +4,7 @@ MODELS=[os.environ.get('GEMINI_IMAGE_MODEL','gemini-2.5-flash-image'),'gemini-3-
 STYLE=('Epic seinen manga / anime style like the series Kingdom, Warring States period China, bold dynamic ink linework, dramatic cel shading, intense cinematic action and emotion, high contrast, vertical 9:16 composition. Absolutely no text, no letters, no kanji, no signature, no watermark. Scene: ')
 P={
  'heki':'Extreme close-up of a flawless circular jade disc (bi) glowing with soft green light, held reverently in two hands, radiant and priceless, dark background, a sense of a national treasure.',
- 'chou':'A magnificent ancient Chinese palace treasury of the state of Zhao at night, a single circular jade disc displayed on a pedestal under a shaft of light, guards in the shadows, awe and reverence.',
+ 'chou':'A dark palace treasury of the state of Zhao at night. On an ornate stone pedestal, a single SMALL plate-sized circular jade disc (only about the size of two hands, modest and precious) rests on a silk cushion under a shaft of light. Armored guards with spears stand watch around it. Reverent, tense. The jade disc is small relative to the hall.',
  'shou':'A powerful, imposing King of Qin (Zhao Xiang) seated on a dragon throne, pointing a demanding finger, cunning expression, opulent crimson and gold hall.',
  'wana':'A dark ominous scene symbolizing a trap: the state of Qin as looming shadow over a small jade disc, storm clouds, spears in silhouette, a sense of no escape.',
  'rin':'A dignified, sharp-eyed envoy (Lin Xiangru) in scholar robes standing resolute before the Qin court, holding the jade disc close, brave and composed.',
