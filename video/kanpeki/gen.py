@@ -13,7 +13,7 @@ P={
  'gojitsu':'Lin Xiangru calm and shrewd, gesturing with composure, suggesting a five-day purification ritual; incense smoke, a tense standoff with the king.',
  'nigasu':'A loyal servant in plain clothes secretly clutching the jade disc wrapped in cloth, slipping away through a dark back alley at night, moonlight, suspenseful escape.',
  'kokuhaku':'Lin Xiangru kneeling calmly before the furious Qin king in the grand hall, offering himself for punishment, serene and fearless, courtiers shocked.',
- 'kanketsu':'Close-up composition of a SMALL plate-sized circular jade disc (about the size of two hands) returned safely, resting on a silk cushion, the disc filling most of the frame, bathed in warm dawn light, peaceful and triumphant. Vivid full color, the jade disc large and central in the frame.',
+ 'kanketsu':'A SMALL plate-sized circular jade disc (about the size of two hands) returned safely, resting on a silk cushion back in the Zhao palace, bathed in warm dawn light, peaceful and triumphant. Vivid full color. The illustration bleeds fully to every edge of the vertical frame with NO white borders, NO blank margins top or bottom, no letterboxing; the scene fills the entire image edge to edge.',
  'kanpeki':'A single perfect flawless circular jade disc floating in a beam of golden light against deep darkness, utterly complete and unblemished, serene and iconic.',
 }
 os.makedirs('g',exist_ok=True)
