@@ -1,9 +1,7 @@
 import base64,json,os,sys,urllib.request,urllib.error
 KEY=os.environ['GEMINI_API_KEY']
 MODELS=[os.environ.get('GEMINI_IMAGE_MODEL','gemini-2.5-flash-image'),'gemini-3-pro-image-preview']
-STYLE=('Chinese historical ink-and-color painting blended with cinematic drama, Warring States period China (戦国時代), '
- 'rich traditional palette of jade green, gold, crimson and deep ink, dramatic lighting, ornate ancient Chinese palace and robes, '
- 'vertical 9:16 composition, solemn and epic. Absolutely no text, no letters, no kanji, no characters written, no signature, no watermark. Scene: ')
+STYLE=('Epic seinen manga / anime style like the series Kingdom, Warring States period China, bold dynamic ink linework, dramatic cel shading, intense cinematic action and emotion, high contrast, vertical 9:16 composition. Absolutely no text, no letters, no kanji, no signature, no watermark. Scene: ')
 P={
  'heki':'Extreme close-up of a flawless circular jade disc (bi) glowing with soft green light, held reverently in two hands, radiant and priceless, dark background, a sense of a national treasure.',
  'chou':'A magnificent ancient Chinese palace treasury of the state of Zhao at night, a single circular jade disc displayed on a pedestal under a shaft of light, guards in the shadows, awe and reverence.',
