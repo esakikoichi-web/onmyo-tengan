@@ -12,6 +12,8 @@ body{width:1080px;height:1920px;position:relative;overflow:hidden;background:#06
 .top{position:absolute;top:0;left:0;right:0;height:300px;background:linear-gradient(180deg,rgba(6,4,7,.85),rgba(6,4,7,0))}
 .btm{position:absolute;bottom:0;left:0;right:0;height:720px;background:linear-gradient(0deg,rgba(5,3,6,.94) 46%,rgba(5,3,6,0))}
 .eyebrow{position:absolute;top:66px;left:0;right:0;text-align:center;font-family:R;font-size:36px;letter-spacing:.44em;color:#d9b45a}
+.nametag{position:absolute;top:150px;left:60px;display:inline-block;font-family:MB;font-weight:800;font-size:46px;color:#f3ead6;padding:10px 26px;background:linear-gradient(90deg,rgba(120,20,22,.92),rgba(70,10,12,.72));border-left:6px solid #d9b45a;text-shadow:0 3px 14px rgba(0,0,0,.9);letter-spacing:.06em}
+.nametag small{display:block;font-family:R;font-size:26px;color:#e7c877;letter-spacing:.14em;margin-bottom:2px;font-weight:500}
 .sub{position:absolute;bottom:250px;left:70px;right:70px;text-align:center;font-family:MB;font-weight:800;font-size:72px;line-height:1.5;white-space:pre-line;text-shadow:0 5px 26px rgba(0,0,0,.92)}
 .hl{color:#9ce0b0;text-shadow:0 0 22px rgba(130,220,160,.45),0 5px 26px rgba(0,0,0,.92)}
 .brand{position:absolute;bottom:120px;left:0;right:0;text-align:center;font-family:R;font-size:38px;letter-spacing:.44em;color:#c6a455}
@@ -20,13 +22,17 @@ body{width:1080px;height:1920px;position:relative;overflow:hidden;background:#06
 (async()=>{
  const b=await chromium.launch();const p=await b.newPage({viewport:{width:1080,height:1920}});
  fs.mkdirSync('f',{recursive:true});
+ // 人物名タグ（sc→タグ）。先頭カット(掴み)は名前を出さない。
+ const NAME={shou:['秦王','昭王'],rin:['趙の使者','藺相如'],torikaeshi:['趙の使者','藺相如'],ikari:['趙の使者','藺相如'],gojitsu:['趙の使者','藺相如'],kokuhaku:['趙の使者','藺相如']};
  for(let i=0;i<L.length;i++){
   const img='data:image/png;base64,'+fs.readFileSync(`g/${L[i].sc}.png`).toString('base64');
   const sub=L[i].sub.replace(/“完璧”|「完璧」|完璧/g,m=>`<span class="hl">${m}</span>`);
+  const nm=(i>0 && NAME[L[i].sc])?`<div class="nametag"><small>${NAME[L[i].sc][0]}</small>${NAME[L[i].sc][1]}</div>`:'';
   await p.setContent(`<html><head><style>${css}</style></head><body>
    <div class="bg" style="background-image:url('${img}')"></div>
    <div class="top"></div><div class="btm"></div>
    <div class="eyebrow">語 源 の 話</div>
+   ${nm}
    <div class="sub">${sub}</div>
    <div class="rule"></div><div class="brand">青 龍 孔 一</div>
    </body></html>`);
