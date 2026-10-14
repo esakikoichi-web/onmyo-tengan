@@ -3,22 +3,20 @@ const {chromium}=require('playwright');const fs=require('fs');const path=require
 const L=JSON.parse(fs.readFileSync('script.json','utf8')).lines;
 const F='file://'+path.resolve('../vid/fonts');
 const css=`
-@font-face{font-family:M;src:url(${F}/f1.ttf);font-weight:500}
-@font-face{font-family:MB;src:url(${F}/f2.ttf);font-weight:800}
-@font-face{font-family:MIN;src:url(${F}/f1.ttf);font-weight:500}
+/* 明朝はシステムにインストールした Shippori Mincho をフォント名で使用（ChromiumはCJKの@font-faceを無視するため） */
 *{margin:0;box-sizing:border-box}
-body{width:1080px;height:1920px;position:relative;overflow:hidden;background:transparent;font-family:M;color:#f3ead6}
+body{width:1080px;height:1920px;position:relative;overflow:hidden;background:transparent;font-family:'Shippori Mincho';color:#f3ead6}
 .top{position:absolute;top:0;left:0;right:0;height:360px;background:linear-gradient(180deg,rgba(6,4,7,.82),rgba(6,4,7,0))}
 .btm{position:absolute;bottom:0;left:0;right:0;height:760px;background:linear-gradient(0deg,rgba(5,3,6,.96) 30%,rgba(5,3,6,.55) 55%,rgba(5,3,6,0))}
 .footer{position:absolute;bottom:0;left:0;right:0;height:104px;background:#050306}
-.eyebrow{position:absolute;top:60px;left:0;right:0;text-align:center;font-family:MIN;font-size:34px;letter-spacing:.44em;color:#d9b45a}
+.eyebrow{position:absolute;top:60px;left:0;right:0;text-align:center;font-family:'Shippori Mincho';font-size:34px;letter-spacing:.44em;color:#d9b45a}
 /* 登場人物：テレビの下テロップ風。その人の下に国名＋名前（明朝）。複数人は各人の下に。 */
-.nametag{position:absolute;transform:translate(-50%,-50%);display:flex;align-items:stretch;font-family:MB;font-weight:800;color:#f3ead6;text-shadow:0 3px 16px rgba(0,0,0,.98);white-space:nowrap}
-.nametag .kuni{font-family:MB;font-weight:800;font-size:34px;color:#1a0f08;background:#d9b45a;padding:5px 15px;display:flex;align-items:center}
-.nametag .nm{font-family:MB;font-weight:800;font-size:42px;padding:3px 20px;background:linear-gradient(90deg,rgba(120,20,22,.97),rgba(70,10,12,.94));border:2px solid #d9b45a;border-left:none;letter-spacing:.06em;display:flex;align-items:center}
-.sub{position:absolute;bottom:250px;left:70px;right:70px;text-align:center;font-family:MB;font-weight:800;font-size:72px;line-height:1.5;white-space:pre-line;text-shadow:0 5px 26px rgba(0,0,0,.98),0 0 10px rgba(0,0,0,.8)}
+.nametag{position:absolute;transform:translate(-50%,-50%);display:flex;align-items:stretch;font-family:'Shippori Mincho';font-weight:800;color:#f3ead6;text-shadow:0 3px 16px rgba(0,0,0,.98);white-space:nowrap}
+.nametag .kuni{font-family:'Shippori Mincho';font-weight:800;font-size:34px;color:#1a0f08;background:#d9b45a;padding:5px 15px;display:flex;align-items:center}
+.nametag .nm{font-family:'Shippori Mincho';font-weight:800;font-size:42px;padding:3px 20px;background:linear-gradient(90deg,rgba(120,20,22,.97),rgba(70,10,12,.94));border:2px solid #d9b45a;border-left:none;letter-spacing:.06em;display:flex;align-items:center}
+.sub{position:absolute;bottom:250px;left:70px;right:70px;text-align:center;font-family:'Shippori Mincho';font-weight:800;font-size:72px;line-height:1.5;white-space:pre-line;text-shadow:0 5px 26px rgba(0,0,0,.98),0 0 10px rgba(0,0,0,.8)}
 .hl{color:#9ce0b0;text-shadow:0 0 22px rgba(130,220,160,.5),0 5px 26px rgba(0,0,0,.95)}
-.brand{position:absolute;bottom:34px;left:0;right:0;text-align:center;font-family:MIN;font-size:36px;letter-spacing:.44em;color:#c6a455}
+.brand{position:absolute;bottom:34px;left:0;right:0;text-align:center;font-family:'Shippori Mincho';font-size:36px;letter-spacing:.44em;color:#c6a455}
 .rule{position:absolute;bottom:120px;left:50%;transform:translateX(-50%);width:110px;height:2px;background:linear-gradient(90deg,transparent,#8a7334,transparent)}
 `;
 // カットindex→ そのカットに映る人物の名札（x,yは画面比率＝人物の下あたり）
