@@ -3,6 +3,8 @@ KEY=os.environ['GEMINI_API_KEY']
 MODELS=[os.environ.get('GEMINI_IMAGE_MODEL','gemini-2.5-flash-image'),'gemini-3-pro-image-preview']
 STYLE=('Epic seinen manga / anime style like the series Kingdom, Warring States period China, bold dynamic ink linework, dramatic cel shading, intense cinematic action and emotion, high contrast, vertical 9:16 composition. Vivid full color. Absolutely no text, no letters, no kanji, no signature, no watermark, no floating symbols, no decorative rune circles. Scene: ')
 P={
+ 'news':'A modern Japanese man in a dark room staring in horror at his smartphone showing a crashing red graph, his savings vanishing into black smoke around him, devastation and despair, cinematic manga style.',
+ 'sns':'A hand reaching toward a glowing smartphone displaying a too-good-to-be-true golden advertisement with a shining coin symbol and a fake promise glow, seductive and deceptive, cold blue light, modern manga style.',
  'trap':'Close-up of a defeated man in simple robes on his knees, head down in despair, a handful of gold coins slipping from his open hands, a sense of total ruin and regret, dark dramatic lighting.',
  'hon':'An old wise sage with a long beard, holding an open ancient bamboo-slip scroll, reading a grave warning by candlelight in a dark chamber, solemn and intense.',
  'karyudo':'A lone young hunter drawing a bow in a misty ancient forest, locked onto a single deer slipping away between the trees, no companion with him, tense and determined.',
