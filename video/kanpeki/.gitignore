@@ -12,3 +12,6 @@ ck/
 kling/
 kbody.mp4
 samp/
+*.m4a
+voice_raw*
+声テスト*
