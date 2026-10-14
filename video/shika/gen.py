@@ -1,21 +1,21 @@
 import base64,json,os,sys,urllib.request,urllib.error
 KEY=os.environ['GEMINI_API_KEY']
 MODELS=[os.environ.get('GEMINI_IMAGE_MODEL','gemini-2.5-flash-image'),'gemini-3-pro-image-preview']
-STYLE=('Epic seinen manga / anime style like the series Kingdom, ancient China atmosphere, bold dynamic ink linework, dramatic cel shading, intense cinematic emotion, high contrast, vertical 9:16 composition. Mystical I-Ching / oriental divination mood with subtle deep-blue and gold accents. Absolutely no text, no letters, no kanji, no signature, no watermark. Scene: ')
+STYLE=('Epic seinen manga / anime style like the series Kingdom, Warring States period China, bold dynamic ink linework, dramatic cel shading, intense cinematic action and emotion, high contrast, vertical 9:16 composition. Vivid full color. Absolutely no text, no letters, no kanji, no signature, no watermark, no floating symbols, no decorative rune circles. Scene: ')
 P={
- 'trap':'A devastated man in dark robes on his knees in shadow, gold coins slipping through his open hands and turning into black smoke, a faint deceptive golden glow luring from the dark, a sense of ruin and regret.',
- 'hon':'An ancient Chinese bamboo-slip scroll and a glowing I-Ching hexagram symbol (six horizontal lines, water-over-thunder) floating in darkness, mystical blue light, solemn and ominous.',
- 'karyudo':'A lone hunter with a bow in ancient China at the edge of a vast dark forest, aiming at a single deer disappearing between the trees, no companion beside him, tense.',
- 'fukairi':'The hunter pushing deeper into a dense dark forest, eyes fixated greedily on the fleeing deer ahead, branches clawing, deeper and deeper, obsession on his face.',
- 'mayou':'The hunter alone at dusk, lost, surrounded by endless identical towering trees in every direction, the deer gone, no path, fading light, despair and disorientation.',
- 'hikikaeshi':'A wise composed sage in robes pausing at a forest fork, calmly reading subtle signs, choosing to turn back, serene wisdom, faint blue aura of insight.',
- 'hamaru':'A man sinking into a dark bog deep in the forest, grasping desperately at branches, dragged down, the lost deer nowhere, cautionary and grim.',
- 'toushi':'Symbolic: a glowing deceptive golden lure floating above a pitch-black abyss in a dark forest, tempting and dangerous, the modern trap as an ancient omen.',
- 'wana':'Silhouette of a modern man about to step into a dark ominous forest shaped like a snare, a glowing phone screen in his hand casting cold light, unaware of the danger, dramatic.',
- 'mori':'A tiny lone human figure standing before an immense, overwhelming pitch-dark forest stretching endlessly, dwarfed and vulnerable, no guide, vast and foreboding.',
- 'gujin':'A lantern-bearing guide figure (yuren, forest warden) standing at the threshold of the dark forest, offering light and direction, trustworthy and calm, warm glow against the dark.',
- 'eki':'A majestic ethereal BLUE DRAGON (seiryu) of I-Ching wisdom coiling through the dark forest, its glowing body forming a clear illuminated path between the trees, guiding light, mystical and awe-inspiring.',
- 'michi':'A clear luminous path opening through the forest toward a radiant dawn, hope and resolve, a single circular jade/blue divination light glowing at the end, serene and iconic.',
+ 'trap':'Close-up of a defeated man in simple robes on his knees, head down in despair, a handful of gold coins slipping from his open hands, a sense of total ruin and regret, dark dramatic lighting.',
+ 'hon':'An old wise sage with a long beard, holding an open ancient bamboo-slip scroll, reading a grave warning by candlelight in a dark chamber, solemn and intense.',
+ 'karyudo':'A lone young hunter drawing a bow in a misty ancient forest, locked onto a single deer slipping away between the trees, no companion with him, tense and determined.',
+ 'fukairi':'The young hunter running deeper into a dense forest, eyes greedily fixed on the fleeing deer ahead, obsessed expression, branches rushing past, dramatic motion.',
+ 'mayou':'The hunter standing alone at dusk, lost and exhausted, surrounded by endless identical towering trees, the deer gone, no path anywhere, despair on his face.',
+ 'hikikaeshi':'A calm dignified sage in robes halting at a fork in the forest, raising a hand, choosing to turn back with wise composure, resolute.',
+ 'hamaru':'A man up to his waist in a dark forest bog, grasping desperately at a branch as he is dragged down, panic on his face, grim and cautionary.',
+ 'toushi':'A tempting mirage of a glowing golden deer standing at the edge of a sheer cliff in the dark forest, luring and dangerous, a man reaching toward it unaware of the drop.',
+ 'wana':'A modern man in a dark jacket holding a glowing smartphone, about to step into the mouth of an ominous dark forest, cold light on his face, unaware of danger, dramatic manga style.',
+ 'mori':'A tiny lone man standing at the edge of an immense, overwhelming dark forest that stretches endlessly before him, dwarfed and vulnerable, vast and foreboding.',
+ 'gujin':'A calm guide holding up a glowing lantern at the threshold of the dark forest, lighting the way forward for a traveler, trustworthy and reassuring, warm light against the dark.',
+ 'eki':'A majestic blue dragon soaring through the dark forest, its glowing body carving a clear bright path between the trees, guiding light, awe-inspiring Kingdom manga style.',
+ 'michi':'A clear bright path opening through the forest toward a radiant sunrise, a lone figure walking forward with resolve, hope and clarity, serene and iconic.',
 }
 os.makedirs('g',exist_ok=True)
 targets=sys.argv[1:] or list(P)
