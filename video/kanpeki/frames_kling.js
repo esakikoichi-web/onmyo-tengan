@@ -14,7 +14,8 @@ body{width:1080px;height:1920px;position:relative;overflow:hidden;background:tra
 .nametag{position:absolute;transform:translate(-50%,-50%);display:flex;align-items:stretch;font-family:'Shippori Mincho';font-weight:800;color:#f3ead6;text-shadow:0 3px 16px rgba(0,0,0,.98);white-space:nowrap}
 .nametag .kuni{font-family:'Shippori Mincho';font-weight:800;font-size:34px;color:#1a0f08;background:#d9b45a;padding:5px 15px;display:flex;align-items:center}
 .nametag .nm{font-family:'Shippori Mincho';font-weight:800;font-size:42px;padding:3px 20px;background:linear-gradient(90deg,rgba(120,20,22,.97),rgba(70,10,12,.94));border:2px solid #d9b45a;border-left:none;letter-spacing:.06em;display:flex;align-items:center}
-.sub{position:absolute;bottom:250px;left:70px;right:70px;text-align:center;font-family:'Shippori Mincho';font-weight:800;font-size:72px;line-height:1.5;white-space:pre-line;text-shadow:0 5px 26px rgba(0,0,0,.98),0 0 10px rgba(0,0,0,.8)}
+.sub{position:absolute;bottom:250px;left:56px;right:56px;text-align:center;font-family:'Shippori Mincho';font-weight:800;line-height:1.46;text-shadow:0 5px 26px rgba(0,0,0,.98),0 0 10px rgba(0,0,0,.8)}
+.sub .ln{white-space:nowrap;display:block}
 .hl{color:#9ce0b0;text-shadow:0 0 22px rgba(130,220,160,.5),0 5px 26px rgba(0,0,0,.95)}
 .brand{position:absolute;bottom:34px;left:0;right:0;text-align:center;font-family:'Shippori Mincho';font-size:36px;letter-spacing:.44em;color:#c6a455}
 .rule{position:absolute;bottom:120px;left:50%;transform:translateX(-50%);width:110px;height:2px;background:linear-gradient(90deg,transparent,#8a7334,transparent)}
@@ -33,17 +34,27 @@ const TAGS={
  const b=await chromium.launch();const p=await b.newPage({viewport:{width:1080,height:1920}});
  fs.mkdirSync('fo',{recursive:true});
  for(let i=0;i<L.length;i++){
-  const sub=L[i].sub.replace(/“完璧”|「完璧」|完璧/g,m=>`<span class="hl">${m}</span>`);
-  const subStyle=(L[i].sub.length>26)?'font-size:54px;line-height:1.42;bottom:220px':'';
+  // 字幕は \n ごとに1行（折り返さない）。各行に完璧ハイライト。
+  const subLines=L[i].sub.split('\n').map(line=>line.replace(/“完璧”|「完璧」|完璧/g,m=>`<span class="hl">${m}</span>`)).map(h=>`<div class="ln">${h}</div>`).join('');
   const nm=(TAGS[i]||[]).map(t=>`<div class="nametag" style="left:${t.x*1080}px;top:${t.y*1920}px"><span class="kuni">${t.k}</span><span class="nm">${t.n}</span></div>`).join('');
   await p.setContent(`<html><head><style>${css}</style></head><body>
    <div class="top"></div><div class="btm"></div><div class="footer"></div>
    <div class="eyebrow">語 源 の 話</div>
    ${nm}
-   <div class="sub" style="${subStyle}">${sub}</div>
+   <div class="sub">${subLines}</div>
    <div class="rule"></div><div class="brand">青 龍 孔 一</div>
    </body></html>`);
   await p.evaluate(()=>document.fonts.ready);
+  // 自動フィット：どの行も幅からはみ出さず、高さも収まるまで文字サイズを下げる
+  await p.evaluate(()=>{
+    const sub=document.querySelector('.sub');
+    const lines=[...sub.querySelectorAll('.ln')];
+    const maxW=sub.clientWidth, maxH=560;
+    let size=72;
+    sub.style.fontSize=size+'px';
+    const fits=()=>lines.every(l=>l.scrollWidth<=maxW) && sub.scrollHeight<=maxH;
+    while(size>30 && !fits()){ size-=2; sub.style.fontSize=size+'px'; }
+  });
   await p.screenshot({path:`fo/${String(i).padStart(2,'0')}.png`,omitBackground:true});
  }
  await b.close();console.log('overlays ok');
