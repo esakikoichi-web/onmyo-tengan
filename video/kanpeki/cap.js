@@ -2,7 +2,7 @@ const {chromium}=require('playwright');const fs=require('fs'),path=require('path
 const C=JSON.parse(fs.readFileSync('cap.json','utf8'));const F='file://'+path.resolve('../vid/fonts');
 fs.writeFileSync('blank.html','<html></html>');
 const css=`@font-face{font-family:S;src:url(${F}/sm8.ttf);font-weight:800}*{margin:0;font-family:S}body{width:1080px;height:1920px;background:transparent;overflow:hidden}
-.cov{position:absolute;left:0;right:0;top:1280px;height:520px;background:linear-gradient(#0000 0%,#000e 22%,#000 40%,#000 85%,#0000 100%)}
+.cov{position:absolute;left:0;right:0;top:1180px;height:620px;background:linear-gradient(#0000 0%,#000c 18%,#000 30%,#000 86%,#0000 100%)}
 .cap{position:absolute;left:30px;right:30px;top:1390px;height:330px;display:flex;align-items:center;justify-content:center;text-align:center;color:#fff;font-weight:800;line-height:1.6;text-shadow:0 3px 10px #000}
 .k{color:#9fe0b0}`;
 (async()=>{const b=await chromium.launch({executablePath:'/opt/pw-browsers/chromium'});const p=await b.newPage({viewport:{width:1080,height:1920}});await p.goto('file://'+path.resolve('blank.html'));
