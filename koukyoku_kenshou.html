@@ -1,0 +1,172 @@
+<title>皇極経世 検証ノート</title>
+<style>
+:root{--bg:#f6f1e6;--panel:#fffdf7;--ink:#241f17;--dim:#6f6553;--gold:#8a6a1f;--bright:#6f5414;--bad:#a8412c;--line:rgba(138,106,31,.30);--soft:rgba(176,141,60,.10);--page:#e9e2d2}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#1d1a15;--panel:#26221b;--ink:#ece3cf;--dim:#b3a78e;--gold:#d2ad5a;--bright:#e6c77a;--bad:#e0806a;--line:rgba(210,173,90,.28);--soft:rgba(210,173,90,.10);--page:#15130f}}
+:root[data-theme="dark"]{--bg:#1d1a15;--panel:#26221b;--ink:#ece3cf;--dim:#b3a78e;--gold:#d2ad5a;--bright:#e6c77a;--bad:#e0806a;--line:rgba(210,173,90,.28);--soft:rgba(210,173,90,.10);--page:#15130f}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--page);color:var(--ink);font-family:"Shippori Mincho B1","Hiragino Mincho ProN","Yu Mincho",serif;line-height:1.85}
+.wrap{max-width:720px;margin:0 auto;background:var(--bg);min-height:100vh;box-shadow:0 0 40px rgba(0,0,0,.08);padding-bottom:84px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--bg);border-bottom:1px solid var(--line);padding:10px 16px 8px;text-align:center}
+header .ttl{font-size:15px;letter-spacing:.35em;color:var(--gold);font-weight:700}
+header .sub{font-size:11px;color:var(--dim);margin-top:2px;letter-spacing:.08em}
+nav.tabs{position:fixed;bottom:0;left:0;right:0;z-index:60;background:var(--bg);border-top:1px solid var(--line);display:flex;justify-content:center;padding:6px 4px calc(6px + env(safe-area-inset-bottom))}
+nav.tabs .in{display:flex;width:100%;max-width:720px}
+nav.tabs a{flex:1;text-align:center;text-decoration:none;color:var(--dim);font-size:11px;padding:4px 2px;border-radius:8px;line-height:1.3}
+nav.tabs a b{display:block;font-size:17px;color:var(--gold);font-weight:700}
+nav.tabs a.on{background:var(--soft);color:var(--bright)}
+main{padding:16px}
+h2.sec{font-size:17px;color:var(--gold);letter-spacing:.12em;border-left:4px solid var(--gold);padding-left:10px;margin:22px 0 12px}
+h3{font-size:15px;color:var(--bright);margin:18px 0 8px;letter-spacing:.05em}
+p{margin:8px 0;font-size:15px}
+.dim{color:var(--dim)}
+.small{font-size:13px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px;margin:12px 0}
+.orig{font-size:17px;font-weight:700;color:var(--bright);letter-spacing:.06em;line-height:1.7}
+.yomi{font-size:14px;color:var(--dim);margin-top:4px}
+.lbl{display:inline-block;font-size:11px;color:var(--bg);background:var(--gold);border-radius:4px;padding:1px 7px;margin-right:6px;letter-spacing:.1em;vertical-align:2px}
+.rei{border-left:3px solid var(--gold);background:var(--soft);border-radius:0 8px 8px 0;padding:10px 12px;margin:10px 0}
+.rei .rt{font-weight:700;color:var(--bright);font-size:14px}
+.rei .rb{font-size:14px;margin-top:4px}
+ul.sen{list-style:none;margin:6px 0}
+ul.sen li{position:relative;padding-left:18px;margin:5px 0;font-size:15px}
+ul.sen li:before{content:"◆";position:absolute;left:0;top:1px;font-size:10px;color:var(--gold)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+@media(min-width:560px){.grid{grid-template-columns:repeat(5,1fr)}}
+.gcard{display:block;text-decoration:none;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 4px 8px;text-align:center}
+.gcard:active{transform:scale(.98)}
+.gcard .no{font-size:11px;color:var(--dim)}
+.gcard .nm{font-size:14px;font-weight:700;color:var(--bright);margin-top:4px}
+.hex{display:inline-flex;flex-direction:column-reverse;gap:3px;margin:6px auto 2px}
+.hex i{display:block;height:5px;width:38px;background:var(--gold);border-radius:1px}
+.hex i.y{background:linear-gradient(90deg,var(--gold) 0 42%,transparent 42% 58%,var(--gold) 58%)}
+.hex.big{gap:6px}.hex.big i{height:10px;width:78px}
+.ghead{text-align:center;padding:10px 0 4px}
+.ghead .no{font-size:12px;color:var(--dim);letter-spacing:.2em}
+.ghead .nm{font-size:26px;font-weight:800;color:var(--bright);letter-spacing:.2em;margin-top:6px}
+.ghead .yo{font-size:13px;color:var(--dim)}
+.ghead .tri{font-size:13px;color:var(--dim);margin-top:6px}
+details.yao{background:var(--panel);border:1px solid var(--line);border-radius:10px;margin:12px 0;overflow:hidden}
+details.yao>summary{list-style:none;cursor:pointer;padding:12px 14px;display:flex;align-items:baseline;gap:10px;border-bottom:1px solid transparent}
+details.yao[open]>summary{border-bottom-color:var(--line);background:var(--soft)}
+details.yao>summary::-webkit-details-marker{display:none}
+details.yao>summary .p{font-size:13px;color:var(--bg);background:var(--gold);border-radius:4px;padding:0 7px;white-space:nowrap}
+details.yao>summary .t{font-size:16px;font-weight:700;color:var(--bright)}
+details.yao .body{padding:4px 14px 12px}
+.pager{display:flex;justify-content:space-between;gap:8px;margin:22px 0 6px}
+.pager a{flex:1;text-decoration:none;color:var(--bright);background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px;font-size:13px;text-align:center}
+.pager a.dis{visibility:hidden}
+.back{display:inline-block;margin:4px 0 0;color:var(--gold);text-decoration:none;font-size:13px}
+table.tri{width:100%;border-collapse:collapse;font-size:13px;margin:8px 0}
+table.tri th,table.tri td{border:1px solid var(--line);padding:6px 5px;text-align:left;vertical-align:top}
+table.tri th{background:var(--soft);color:var(--bright);white-space:nowrap}
+.search{width:100%;font:inherit;font-size:16px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.chip{font:inherit;font-size:12px;color:var(--gold);border:1px solid var(--line);border-radius:999px;padding:5px 11px;background:transparent;cursor:pointer}
+.chip.on{background:var(--gold);color:var(--bg)}
+.tag{display:inline-block;font-size:11px;color:var(--gold);border:1px solid var(--line);border-radius:4px;padding:0 6px;margin-right:6px}
+a.inl{color:var(--gold)}
+.note{font-size:12px;color:var(--dim);border-top:1px dashed var(--line);margin-top:24px;padding-top:10px;line-height:1.7}
+.toc a{display:block;text-decoration:none;color:var(--ink);padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--panel);margin:8px 0}
+.toc a b{color:var(--bright)}
+.toc a span{display:block;font-size:12px;color:var(--dim)}
+.themebtn{position:absolute;right:12px;top:10px;font:inherit;font-size:12px;background:transparent;border:1px solid var(--line);color:var(--dim);border-radius:6px;padding:2px 7px;cursor:pointer}
+.gl{font-family:"Segoe UI Symbol","Apple Symbols","Noto Sans Symbols 2",sans-serif;color:var(--gold);margin-right:2px;font-weight:400}
+.glbig{font-size:44px;line-height:1;color:var(--gold);display:block;margin:4px 0}
+.hex i.mv{background:var(--bad)}.hex i.y.mv{background:linear-gradient(90deg,var(--bad) 0 42%,transparent 42% 58%,var(--bad) 58%)}
+.hex.sm{gap:2px}.hex.sm i{height:4px;width:28px}
+.trix{display:flex;justify-content:center;gap:18px;margin:10px 0 4px}
+.trix .tb{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:12px;color:var(--dim)}
+.trix .tb b{font-size:15px;color:var(--bright)}
+.hex.t3 i{width:34px;height:6px}.hex.t3{gap:4px}
+.yfig{display:flex;align-items:center;gap:14px;background:var(--soft);border-radius:8px;padding:10px 12px;margin:8px 0}
+.yfig .arr{color:var(--gold);font-size:18px}
+.yfig .cap{font-size:13px;line-height:1.6}
+.yfig .cap b{color:var(--bright)}
+.pos{width:100%;border-collapse:collapse;font-size:13px;margin:8px 0}
+.pos td,.pos th{border:1px solid var(--line);padding:6px 5px;text-align:center;vertical-align:middle}
+.pos th{background:var(--soft);color:var(--bright)}
+.pos .ln i{display:block;height:6px;width:40px;margin:auto;background:var(--gold)}
+.pos .ln i.y{background:linear-gradient(90deg,var(--gold) 0 42%,transparent 42% 58%,var(--gold) 58%)}
+.g64{width:100%;border-collapse:collapse;font-size:10px;table-layout:fixed}
+.g64 td,.g64 th{border:1px solid var(--line);padding:3px 1px;text-align:center;line-height:1.3}
+.g64 th{background:var(--soft);color:var(--bright);font-size:11px}
+.g64 td a{color:var(--ink);text-decoration:none;display:block}
+.g64 td .gl{display:block;font-size:22px;margin:0}
+.g64 td.in{background:var(--soft)}
+.fig{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px;margin:10px 0;text-align:center}
+.fig svg{width:100%;max-width:340px;height:auto}
+.fig .fc{font-size:12px;color:var(--dim);margin-top:4px}
+.kd{font-size:14px;color:var(--ink);background:var(--soft);border-radius:6px;padding:6px 10px;margin:6px 0 8px;line-height:1.8}
+.kd .kl{font-size:11px;color:var(--gold);font-weight:700;margin-right:6px;letter-spacing:.1em}
+.hobox{border:1px dashed var(--line);border-radius:10px;padding:8px 12px;margin:10px 0;background:var(--panel)}
+.hol{display:inline-block;font-size:11px;color:#fff;background:var(--dim);border-radius:4px;padding:1px 6px;margin-right:6px;letter-spacing:.1em}
+table.mon{width:100%;border-collapse:collapse;font-size:14px;margin:6px 0}
+table.mon th{width:5.5em;text-align:left;vertical-align:top;color:var(--gold);font-weight:700;padding:5px 6px 5px 0;border-bottom:1px solid var(--line);white-space:nowrap}
+table.mon td{padding:5px 0;border-bottom:1px solid var(--line);line-height:1.7}
+.kz{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:8px 0}
+.kz a,.kz div.k{flex:1 1 30%;min-width:96px;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:8px 4px;text-align:center;color:var(--ink);text-decoration:none;font-size:13px}
+.kz b{display:block;color:var(--gold);font-size:11px;letter-spacing:.1em;margin-bottom:4px}
+.count{font-size:12px;color:var(--dim);margin:6px 2px}
+
+.sec-block{border-bottom:2px solid var(--line);padding-bottom:18px;margin-bottom:10px;scroll-margin-top:70px}
+.totop{text-align:right;font-size:13px}.totop a{color:var(--gold);text-decoration:none}
+.themebtn{display:none}
+
+table.tri{display:block;overflow-x:auto}</style>
+<div class="wrap">
+<header><div class="ttl">皇 極 経 世 検 証 ノ ー ト</div><div class="sub">『易學案内』の時運と現実の出来事を照らし合わせる ／ 監修 青龍孔一</div></header>
+<main>
+<h2 class="sec">結論</h2>
+<p>原書の刊行（2006年9月）より後の20年（2006〜2025年）で比べると、一致が強い年が<b>5年</b>、おおむね合う年が<b>4年</b>、どちらとも言える年が<b>8年</b>、外れた年が<b>3年</b>でした。</p>
+<p>2011年（山地剥＝東日本大震災）、2019年（天雷无妄＝思いがけない災難と原因のない病）、2020年（地火明夷＝こもる）のように、驚くほど重なる年があります。その一方で、2008年（雷地豫＝悦楽の年にリーマン・ショック）のように正反対の年もあります。</p>
+<p>株価や経済成長率と卦の吉凶を数で比べると、<b>はっきりした関係は出ませんでした</b>（下の「数で見る」）。まとめると、<b>出来事の「性格」が合う年は多いが、景気の良し悪しを当てる力は確認できない</b>、というのが現時点での評価です。</p>
+
+<h2 class="sec">検証の前提</h2>
+<ul class="sen">
+<li><b>本当の予測は2006年後半から</b>。原書は2006年9月刊行なので、それ以前の時代の解説は出来事を知ったうえでの後付けになりえます。</li>
+<li><b>卦の割り当ては機械的</b>。年卦は先天六十四卦図の順に機械的に決まり、著者が出来事に合わせて選んだものではありません。だから卦の並びそのものは公平な検証対象になります。</li>
+<li><b>月運の暦</b>。原書の月運は二月始まり（二・三月が初爻）なので、1月の出来事は前年の上爻として見ました。</li>
+<li><b>判定者の偏り</b>。判定は私（Claude）が出来事を知ったうえで行いました。目隠しの判定ではないので、甘めに出る可能性があります（後述）。</li>
+</ul>
+
+<h2 class="sec">長い時運（運・世・十年卦）</h2>
+<table class="tri"><tr><th>期間</th><th>卦</th><th>原書の読み</th><th>現実</th><th>判定</th></tr>
+<tr><th>1744〜2103</th><td>天風姤</td><td>異文明との遭遇。東アジアは鎖国で防ごうとする</td><td>アヘン戦争（1840）、ペリー来航（1853）など、西洋の衝撃はこの期間に起きた。ただし日本の鎖国体制（1639）は期間の始まる前</td><td>○</td></tr>
+<tr><th>1924〜1983</th><td>姤の九四・巽為風</td><td>「包に魚なし、起てば凶」。民衆から離れた行動は凶</td><td>第二次世界大戦、独裁国家の破滅、冷戦。よく合うが、原書は結果を知ったうえで書いている</td><td>○（後付け）</td></tr>
+<tr><th>1984〜1993</th><td>火天大有</td><td>大いに所有する。ただし天の恵みがなければ富を長く保てない</td><td>日本のバブル景気とその崩壊（1990〜91）。非常によく合うが、後付け</td><td>◎（後付け）</td></tr>
+<tr><th>1994〜2003</th><td>火山旅</td><td>変革の中の旅。落ち度がなくても災いに遭う者、すべてを失う者</td><td>失われた十年、金融危機（1997〜98）、阪神・淡路大震災（1995）。後付け</td><td>○（後付け）</td></tr>
+<tr><th>2004〜2013</th><td>火水未済</td><td>改革に急いで取り組むが、逸りすぎて失敗する。順序を踏んで待て</td><td>短命政権が続き（2006〜12年は毎年首相交代）、政権交代とその挫折を経験</td><td>○</td></tr>
+<tr><th>2014〜2023</th><td>山風蠱</td><td>腐敗と復興。父の破れを修復する</td><td>大企業の不正（東芝の不正会計、自動車の検査不正など）や旧来の組織の膿が次々露見。コロナからの回復。一致は中程度</td><td>△</td></tr>
+</table>
+
+<h2 class="sec">年ごとの照合（2004〜2025年）</h2>
+<p class="small dim">◎＝強く一致　○＝おおむね一致　△＝どちらとも言える　×＝外れ。出来事は日本と世界の主なもの。</p>
+<table class="tri"><tr><th>年</th><th>年卦</th><th>主な出来事</th><th>判定</th><th>根拠</th></tr><tr><th>2004</th><td><b>地山謙</b><br><span class="small dim">謙譲</span></td><td>中越地震（10月）、スマトラ沖大地震・インド洋津波（12月）</td><td style="text-align:center;font-size:18px;font-weight:700;color:var(--bad)">×</td><td class="small">謙譲の卦意と目立った対応なし。※原書の刊行前年</td></tr><tr><th>2005</th><td><b>天地否</b><br><span class="small dim">閉塞</span></td><td>8月に参議院が郵政法案を否決し、衆院解散。9月の総選挙で小泉自民党が大勝。日経平均＋40%</td><td style="text-align:center;font-size:18px;font-weight:700;color:var(--dim)">△</td><td class="small">「否決→突破」は8・9月の九四（天命に従い否塞を救う）と合う。経済は好調で「閉塞」とは逆。※原書刊行の前年</td></tr><tr><th>2006</th><td><b>沢地萃</b><br><span class="small dim">集合</span></td><td>9月に第一次安倍内閣が発足。大きな出来事は少ない</td><td style="text-align:center;font-size:18px;font-weight:700;color:var(--bad)">×</td><td class="small">「人と物が集まる」と対応する出来事が見当たらない</td></tr><tr><th>2007</th><td><b>火地晋</b><br><span class="small dim">成功</span></td><td>8月にサブプライム問題が表面化。9月に安倍首相が辞任。日経平均−11%</td><td style="text-align:center;font-size:18px;font-weight:700;color:var(--dim)">△</td><td class="small">年の「成功」とは逆。8・9月の九四「晋如たる鼫鼠、貞しけれども厲うし」は、急に進んで危うくなる姿として合う</td></tr><tr><th>2008</th><td><b>雷地豫</b><br><span class="small dim">悦楽</span></td><td>9月にリーマン・ショック。日経平均−42%で戦後最悪級</td><td style="text-align:center;font-size:18px;font-weight:700;color:var(--bad)">×</td><td class="small">「悦楽」とは正反対。ただ10・11月の六五「貞疾あり、恒に死せず」（長引くが死なない病）は金融危機の長期化と重なる</td></tr><tr><th>2009</th><td><b>風地観</b><br><span class="small dim">観察</span></td><td>8月の総選挙で民主党へ政権交代。オバマ政権が発足</td><td style="text-align:center;font-size:18px;font-weight:700;color:var(--dim)">△</td><td class="small">「観る・民を観て教えを設く」はかなり抽象的。政権交代と結び付けるのは解釈次第</td></tr><tr><th>2010</th><td><b>水地比</b><br><span class="small dim">親密</span></td><td>9月に尖閣沖で漁船衝突事件。日中関係が悪化</td><td style="text-align:center;font-size:18px;font-weight:700;color:var(--bad)">×</td><td class="small">「親密」と逆。8・9月の六四「外よりこれに比す、吉」とも合わない</td></tr><tr><th>2011</th><td><b>山地剥</b><br><span class="small dim">剥落</span></td><td>3月11日に東日本大震災と原発事故。アラブの春で政権が次々崩壊。日経平均−17%</td><td style="text-align:center;font-size:18px;font-weight:700;color:#2f7d4f">◎</td><td class="small">「山が崩れて地となる」「足元から寝台を壊す、凶」（2・3月の初六）がそのまま当てはまる。最も強い一致</td></tr><tr><th>2012</th><td><b>地雷復</b><br><span class="small dim">復活</span></td><td>5月にプーチンが大統領に復帰。12月に安倍晋三が首相に再登板</td><td style="text-align:center;font-size:18px;font-weight:700;color:var(--gold)">○</td><td class="small">年の「復活」は合う。4・5月の六二「休く復る、吉」もプーチン復帰と重なる。ただし12月の上六は「復に迷う、凶」で、安倍再登板とは逆</td></tr><tr><th>2013</th><td><b>山雷頤</b><br><span class="small dim">頤養</span></td><td>アベノミクスと異次元緩和（4月）。東京五輪の招致決定（9月）。和食がユネスコ無形文化遺産に（12月）</td><td style="text-align:center;font-size:18px;font-weight:700;color:var(--dim)">△</td><td class="small">「養う」はアベノミクスとも読めるが、何にでも当てはまりやすい</td></tr><tr><th>2014</th><td><b>水雷屯</b><br><span class="small dim">屯難</span></td><td>4月に消費税が8%に上がり景気が足踏み。御嶽山噴火（9月）。ロシアのクリミア併合</td><td style="text-align:center;font-size:18px;font-weight:700;color:var(--dim)">△</td><td class="small">四大難卦にしては日経平均が＋7%。「始まりの苦しみ」は消費増税後の停滞と一応合う</td></tr><tr><th>2015</th><td><b>風雷益</b><br><span class="small dim">増益</span></td><td>日経平均が2万円台を回復。訪日客の「爆買い」</td><td style="text-align:center;font-size:18px;font-weight:700;color:var(--gold)">○</td><td class="small">「外からこれを益すものが来る」（4・5月の六二）がインバウンド景気と合う</td></tr><tr><th>2016</th><td><b>震為雷</b><br><span class="small dim">戒懼</span></td><td>4月に熊本地震。6月に英国がEU離脱を決定。11月にトランプ当選</td><td style="text-align:center;font-size:18px;font-weight:700;color:#2f7d4f">◎</td><td class="small">4・5月の六二「震の来るとき厲うし…財貨を捨てて高い丘に登れ」が熊本地震と重なる。10・11月の六五「往くも来るも厲うし」と世界の激震も合う</td></tr><tr><th>2017</th><td><b>火雷噬嗑</b><br><span class="small dim">刑罰</span></td><td>3月に韓国の朴槿恵大統領が罷免・逮捕。#MeToo運動（10月〜）。森友・加計問題</td><td style="text-align:center;font-size:18px;font-weight:700;color:var(--gold)">○</td><td class="small">「障害物をかみ砕き、刑罰を明らかにする」が合う</td></tr><tr><th>2018</th><td><b>沢雷随</b><br><span class="small dim">随縁</span></td><td>6月に初の米朝首脳会談。11月にゴーン会長が逮捕</td><td style="text-align:center;font-size:18px;font-weight:700;color:var(--dim)">△</td><td class="small">「相手に随う」を米朝会談と読めなくもない。10・11月の九五「嘉に孚あり、吉」はゴーン逮捕と合わない</td></tr><tr><th>2019</th><td><b>天雷无妄</b><br><span class="small dim">至誠</span></td><td>5月に令和へ改元。7月に京都アニメーション放火事件。10月に首里城火災と台風19号。11〜12月に武漢で新型コロナの最初の症例</td><td style="text-align:center;font-size:18px;font-weight:700;color:#2f7d4f">◎</td><td class="small">卦のテーマは「思いがけない災難」。6・7月の六三「行人の得るは邑人の災い」（通りがかりの者が起こす災難）、10・11月の九五「无妄の疾あり」（原因のない病）が際立って重なる</td></tr><tr><th>2020</th><td><b>地火明夷</b><br><span class="small dim">韜晦</span></td><td>新型コロナで世界的な外出制限。航空便が止まる。五輪が延期</td><td style="text-align:center;font-size:18px;font-weight:700;color:#2f7d4f">◎</td><td class="small">「明が地中に入る」＝明かりを隠してこもる。2・3月の初九「飛びて翼を垂る、三日食わず」も航空停止と重なる</td></tr><tr><th>2021</th><td><b>山火賁</b><br><span class="small dim">装飾</span></td><td>東京五輪を無観客で開催</td><td style="text-align:center;font-size:18px;font-weight:700;color:var(--dim)">△</td><td class="small">「飾り」と「質」の対比は無観客五輪と読めるが、決め手は弱い</td></tr><tr><th>2022</th><td><b>水火既済</b><br><span class="small dim">完成</span></td><td>2月にロシアがウクライナへ侵攻。7月に安倍元首相が銃撃されて死去</td><td style="text-align:center;font-size:18px;font-weight:700;color:var(--dim)">△</td><td class="small">2・3月の初九「咎なし」は侵攻と合わない。一方、九三「鬼方を伐つ、三年にしてこれに克つ」（遠征が長引く）は戦争の長期化と重なる</td></tr><tr><th>2023</th><td><b>風火家人</b><br><span class="small dim">家庭</span></td><td>ジャニーズ事務所の性加害問題。出生数が過去最少。10月にハマスがイスラエルを襲撃</td><td style="text-align:center;font-size:18px;font-weight:700;color:var(--dim)">△</td><td class="small">「家」の問題は国内の話題と合うが、10・11月の九五「憂うるなく吉」と中東の戦争は合わない</td></tr><tr><th>2024</th><td><b>雷火豊</b><br><span class="small dim">（盛大）</span></td><td>1月に能登半島地震。2月に日経平均が34年ぶりに最高値を更新。11月にトランプ再選</td><td style="text-align:center;font-size:18px;font-weight:700;color:var(--gold)">○</td><td class="small">「豊＝盛大」は株価の最高値と合う。能登地震は暦の上では2023年の上九の時期で、「終には吉」と合わない。※原書は2024年以降の年卦一覧のみ</td></tr><tr><th>2025</th><td><b>沢火革</b><br><span class="small dim">（改革）</span></td><td>4月に米国が大型関税を発動。5月に新ローマ教皇レオ14世が選出。10月に高市早苗が初の女性首相に就任</td><td style="text-align:center;font-size:18px;font-weight:700;color:#2f7d4f">◎</td><td class="small">「革命・改革」が合う。4・5月の六二「已日にしてこれを革む」が教皇交代と関税、10・11月の九五「大人虎変す」（指導者が一新する）が新首相と重なる</td></tr></table>
+<p class="small dim">2026年（天火同人＝人と同じくする、協同）は進行中のため、年末に判定します。</p>
+
+<h2 class="sec">数で見る</h2>
+<p>判定者の偏りを避けるため、数字だけで比べる方法も試しました。原書の卦辞と六つの爻辞に出てくる「吉」の数から「凶」の数を引いて、その年卦の「吉凶点」としました（例：山地剥は−3、風火家人は＋5）。これを、その年の日経平均の騰落率と日本の実質GDP成長率に並べました。</p>
+<table class="tri"><tr><th>比べたもの（2006年〜）</th><th>相関係数</th><th>偶然でも起きる確率</th><th>読み方</th></tr>
+<tr><th>吉凶点と日経平均の騰落率（20年）</th><td>0.19</td><td>約41%</td><td>ほぼ関係なし</td></tr>
+<tr><th>吉凶点と実質GDP成長率（19年）</th><td>0.37</td><td>約12%</td><td>弱い傾向はあるが、偶然と区別できない</td></tr></table>
+<p class="small dim">「偶然でも起きる確率」は、年と卦の組み合わせを2万回ランダムに入れ替えて、同じ強さ以上の相関が出た割合です。5%を下回らないと「偶然ではない」とは言えません。日経平均は年末値、GDPは概数です。</p>
+<p>大きく外れた例は2008年です。吉凶点0の雷地豫（悦楽）の年に日経平均が−42%になりました。逆に2013年は吉凶点＋1の山雷頤で、日経平均は＋57%でした。</p>
+
+<h2 class="sec">偏りへの注意</h2>
+<ul class="sen">
+<li><b>一年には出来事が多い</b>。世界中の出来事から合うものを探せば、たいていの卦に一つは当てはまるものが見つかります。</li>
+<li><b>卦の言葉は幅が広い</b>。六十四卦のうち、災害や困難と読める卦（屯・坎・蹇・困・剥・明夷・震・大過・否など）はおよそ7分の1あります。災害の多い年にその種の卦が当たる確率は、もともとそれなりにあります。</li>
+<li><b>当たりは記憶に残り、外れは忘れる</b>。この表では外れた年や合わない月もそのまま残しました。</li>
+<li><b>それでも目を引く点</b>。2011年3月（剥の初爻＝足元から崩れる）、2019年10・11月（无妄の疾＝原因のない病）のように、月の単位まで重なる例は、確率だけで片付けるには印象的です。</li>
+</ul>
+
+<h2 class="sec">これからの検証の仕方</h2>
+<p>後付けの偏りをなくす方法は、<b>出来事が起きる前に読みを書き残しておくこと</b>です。原書には2043年までの年卦があります（2026 天火同人、2027 地沢臨、2028 山沢損、2029 水沢節、2030 風沢中孚……）。</p>
+<ul class="sen">
+<li>毎年立春までに、その年の年卦と六爻（二か月ごと）の読みを短く書いて日付を残す。</li>
+<li>各二か月が終わったら、主な出来事を記録して◎○△×を付ける。</li>
+<li>出来事の一覧と卦の文を、結果を知らない第三者に組み合わせてもらう（目隠し判定）。偶然なら20年分で1年程度しか正しく組めません。</li>
+</ul>
+<p class="note">資料：川嶋孝周『易學案内 ―皇極経世書の世界―』（明徳出版社、2006）の年卦・月運。出来事と経済指標は一般に知られた事実に基づく概略で、判定はClaudeによる。2026年10月時点。</p>
+</main></div>
