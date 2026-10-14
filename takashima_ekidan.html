@@ -226,6 +226,7 @@ table.mon td{padding:5px 0;border-bottom:1px solid var(--line);line-height:1.7}
 <script src="takashima_ten.js"></script>
 <script src="takashima_kanji.js"></script>
 <script src="takashima_shoi.js"></script>
+<script src="takashima_kousetsu.js"></script>
 <script>
 (function(){
 var TRI={"乾":{b:[1,1,1],s:"☰",o:"天"},"兌":{b:[1,1,0],s:"☱",o:"沢"},"離":{b:[1,0,1],s:"☲",o:"火"},"震":{b:[1,0,0],s:"☳",o:"雷"},"巽":{b:[0,1,1],s:"☴",o:"風"},"坎":{b:[0,1,0],s:"☵",o:"水"},"艮":{b:[0,0,1],s:"☶",o:"山"},"坤":{b:[0,0,0],s:"☷",o:"地"}};
@@ -354,8 +355,9 @@ function hikaku(g,i){var z=zhi(g,i);if(!z)return"";var ch=i<3?"lo":"up";
  '<p class="small">'+(ch==="lo"?"変わるのは<b>内（自分・内面）</b>："+SEI[g.lo]+" → "+SEI[z.lo]:"変わるのは<b>外（相手・外面）</b>："+SEI[g.up]+" → "+SEI[z.up])+"</p></div>";}
 function myreis(n,i){var a=(TK.myrei||[]).filter(function(r){return r.n===n&&r.yi===i;});if(!a.length)return"";
  return'<div class="my"><div class="lb">青龍孔一の占例</div>'+a.map(function(r){return'<div class="rt">'+esc(r.date)+"　"+esc(r.t)+'</div><div class="rb">'+esc(r.d)+(r.r?'<br><span class="small">結果：'+esc(r.r)+"</span>":"")+"</div>";}).join("")+"</div>";}
+function kzs(ps){if(!ps||!ps.length)return"";return'<details class="kj kz"><summary>高島の講説（全訳）</summary>'+ps.map(function(p){return"<p>"+esc(p)+"</p>";}).join("")+'<p class="small dim">漢訳『高島易断』より訳出。</p></details>';}
 function imi(k,lb){if(!k||!k.length)return"";return'<div class="imi"><div class="imil">'+lb+"</div>"+paras(k)+"</div>";}
-function yaoBody(g,y,yi,KD,brief){var ky=(KD.y||[])[yi]||[],kr=(KD.ry||[])[yi]||[],pi=yIdx(y.p);var h=kdl(ky[0],kr[0])+imi(y.k,"爻辞の意味")+yaoFig(g,y.p)+kotoba(y.t+(y.s||""));
+function yaoBody(g,y,yi,KD,brief){var ky=(KD.y||[])[yi]||[],kr=(KD.ry||[])[yi]||[],pi=yIdx(y.p);var h=kdl(ky[0],kr[0])+imi(y.k,"爻辞の意味")+kzs(((TK.kz||{})[g.n]||{y:{}}).y[y.p])+yaoFig(g,y.p)+kotoba(y.t+(y.s||""));
  if(pi!=null)h+=posInfo(g,pi);
  if(y.s)h+='<p class="small dim"><span class="lbl">象伝</span>'+esc(y.s)+"</p>"+(ky[1]?'<p class="small">'+rb(ky[1],kr[1])+"</p>":"");
  if(y.sen)h+='<p><span class="lbl">占</span>'+esc(y.sen).replace(/\n/g,"<br>")+"</p>";
@@ -427,7 +429,7 @@ function vGua(n){
   if(TH||(g.kaji&&g.kaji.p))h+='<div class="about"><div class="lb">この卦に書いてあること</div>'+(TH?'<div class="th">【 '+esc(TH)+' 】</div>':"")+(g.kaji&&g.kaji.p?"<p>"+esc(g.kaji.p)+"</p>":"")+zk(g.n)+'<p class="small dim">各爻の段階は下の「六爻の流れ」へ。</p></div>'+kj(g)+jk(g);
   if(g.meaning)h+='<h2 class="sec">卦の名と象</h2>'+paras(g.meaning);
   var KD=(TK.kd&&TK.kd[g.n])||{y:[]};
-  if(g.kaji)h+='<h2 class="sec">卦辞</h2><div class="card"><div class="orig">'+esc(g.kaji.t)+"</div>"+(KD.k?kdl(KD.k,KD.rk):'<div class="yomi">'+esc(g.kaji.y)+"</div>")+imi(g.kaji.k,"卦辞の意味")+kotoba(g.kaji.t)+pl(g.kaji.p)+"</div>";
+  if(g.kaji)h+='<h2 class="sec">卦辞</h2><div class="card"><div class="orig">'+esc(g.kaji.t)+"</div>"+(KD.k?kdl(KD.k,KD.rk):'<div class="yomi">'+esc(g.kaji.y)+"</div>")+imi(g.kaji.k,"卦辞の意味")+kzs(((TK.kz||{})[g.n]||{}).k)+kotoba(g.kaji.t)+pl(g.kaji.p)+"</div>";
   
   if(g.tuan)h+='<h2 class="sec">彖伝</h2><div class="card"><div class="orig">'+esc(g.tuan.t)+"</div>"+kdl(KD.t,KD.rt)+paras(g.tuan.k)+pl(g.tuan.p)+"</div>";
   if(g.kosetsu)h+='<h2 class="sec">高島の講説</h2>'+paras(g.kosetsu);
