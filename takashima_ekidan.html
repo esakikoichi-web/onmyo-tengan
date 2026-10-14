@@ -494,6 +494,8 @@ var ZDB=null;function zDb(){if(!ZDB)ZDB=(window.claude&&window.claude.use)?windo
 function zHist(H){return H.map(function(r){return'<a href="#y/'+r.n+"/"+r.y+'"><small>'+esc(r.d)+"　"+esc(r.name)+"・"+esc(r.p)+(r.zn?"（之卦 "+esc(r.zn)+"）":"")+"</small>"+esc(r.q)+"</a>";}).join("");}
 function zSync(){zDb().then(function(db){if(!db)return;var H=zLoad(),ch=0;var ps=H.map(function(r){if(r.s)return null;ch=1;var o={d:r.d,q:r.q,n:r.n,y:r.y,name:r.name,p:r.p,zn:r.zn||"",ts:r.ts||Date.parse(r.d)||Date.now()};return db.collection("zei").add(o).then(function(){r.s=1;});});Promise.all(ps).then(function(){if(ch)zSave(H);zShow();},function(){});zShow();});}
 function zShow(){zDb().then(function(db){var el=document.getElementById("zhist");if(!db||!el)return;db.collection("zei").orderBy("ts","desc").limit(100).get().then(function(q){var H=q.docs.map(function(d){return d.data();});if(H.length){el.innerHTML='<div class="rl">'+zHist(H)+'</div><p class="small dim">記録はサイトに保存されています（どの端末からでも見られます）。</p>';}},function(){});});}
+function zFull(n,y){var a=document.getElementById("gua/"+n),b=document.getElementById("y/"+n+"/"+y);if(a&&b)return{g:a.innerHTML,y:b.innerHTML};
+ if(typeof vGua==="function"){var keep=app,t=document.createElement("div");app=t;try{vGua(n);var g=t.innerHTML;vYao(n,y);var yy=t.innerHTML;}finally{app=keep;}return{g:g,y:yy};}return{g:"",y:""};}
 function zLoad(){try{return JSON.parse(localStorage.getItem("tk-zei")||"[]");}catch(e){return[];}}
 function zSave(a){try{localStorage.setItem("tk-zei",JSON.stringify(a.slice(0,50)));}catch(e){}}
 function vZei(){
@@ -527,14 +529,16 @@ function vZei(){
     h+='<div class="card"><div class="small dim">お題</div><div class="zq">'+esc(S.q)+'</div></div>'+zDone();
     h+='<div class="card zres"><div class="small dim">得卦</div><div class="zrow">'+zHex(bits,y)+'<div><div class="zname">'+esc(g.name)+'</div><div class="zyao">'+esc(yp)+'</div></div><div class="zarrow">→</div>'+zHex(nb,-1)+'<div><div class="small dim">之卦</div><div>'+esc(zg?zg.name:"")+'</div></div></div>'+
       ((g.yao||[])[y]?'<div class="orig" style="margin-top:10px">'+esc(g.yao[y].t)+'</div>':"")+
-      '<a class="zbtn" href="#y/'+g.n+"/"+y+'">この爻のページを開く</a><a class="zbtn sub" href="#gua/'+g.n+'">卦のページ</a>'+
+      '<button class="zbtn" id="zdown">卦辞から順に読む（下へ）</button>'+
       '<button class="zbtn sub" id="zcp">結果をコピー</button><button class="zbtn sub" id="zre">もう一度占う</button></div>';
+    var F=zFull(g.n,y);
+    h+='<div class="zfull" id="zgua"><h2 class="sec">卦の全体　'+esc(g.name)+'</h2><p class="small dim">卦辞・彖伝・大象から卦全体の時を読み、そのうえで下の得た爻を読む。</p>'+F.g+'<h2 class="sec">得た爻　'+esc(g.name)+'・'+esc(yp)+'</h2>'+F.y+'</div>';
     app.innerHTML=h;
     var d=new Date(),ds=d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2);
     if(!S.saved){var H=zLoad();var rec={d:ds,q:S.q,n:g.n,y:y,name:g.name,p:yp,zn:zg?zg.name:"",ts:Date.now()};H.unshift(rec);zSave(H);S.saved=1;zDb().then(function(db){if(!db)return;db.collection("zei").add({d:rec.d,q:rec.q,n:rec.n,y:rec.y,name:rec.name,p:rec.p,zn:rec.zn,ts:rec.ts}).then(function(){rec.s=1;zSave(H);},function(){});});}
     var txt="お題："+S.q+"\n得卦："+g.name+"の"+yp+"（之卦 "+(zg?zg.name:"")+"）\n日付："+ds;
     document.getElementById("zcp").onclick=function(){var ok=function(){alert("コピーしました");};if(navigator.clipboard)navigator.clipboard.writeText(txt).then(ok,function(){prompt("コピーしてください",txt);});else prompt("コピーしてください",txt);};
-    document.getElementById("zre").onclick=function(){S={q:"",step:0,res:[]};draw();};
+    document.getElementById("zdown").onclick=function(){var e=document.getElementById("zgua");if(e)e.scrollIntoView({behavior:"smooth"});};document.getElementById("zre").onclick=function(){S={q:"",step:0,res:[]};draw();};
   }
   function zDone(){if(!S.res.length)return"";return'<div class="card small">'+S.res.map(function(r,i){return'<div>'+["一変（下卦）","二変（上卦）","三変（変爻）"][i]+"　残り<b>"+r.v+"</b>本 → <b>"+(i<2?ZN[r.v]+"（"+TRI[ZN[r.v]].o+"）":["初","二","三","四","五","上"][r.v-1]+"爻")+"</b></div>";}).join("")+"</div>";}
   function split(ms){
