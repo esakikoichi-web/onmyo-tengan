@@ -491,7 +491,7 @@ function zTri(b){for(var k in TRI){var t=TRI[k].b;if(t[0]===b[0]&&t[1]===b[1]&&t
 function zHex(bits,mv){return'<span class="zhex">'+bits.map(function(v,i){return'<i class="'+(v?"":"y")+(i===mv?" mv":"")+'"></i>';}).join("")+"</span>";}
 function zSticks(L,R){var h='<div class="zst">';var tot=(L==null?49:L+R);for(var i=0;i<tot;i++){var gap=(L!=null&&i===L)?' style="margin-left:22px"':"";h+="<b"+gap+"></b>";}return h+"</div>";}
 var ZDB=null;function zDb(){if(!ZDB)ZDB=(window.claude&&window.claude.use)?window.claude.use("db").catch(function(){return null;}):Promise.resolve(null);return ZDB;}
-function zHist(H){return H.map(function(r){return'<a href="#y/'+r.n+"/"+r.y+'"><small>'+esc(r.d)+"　"+esc(r.name)+"・"+esc(r.p)+(r.zn?"（之卦 "+esc(r.zn)+"）":"")+"</small>"+esc(r.q)+"</a>";}).join("");}
+function zHist(H){return H.map(function(r){return'<a href="#zei" class="zh" data-n="'+r.n+'" data-y="'+r.y+'" data-q="'+esc(r.q)+'" data-d="'+esc(r.d)+'"><small>'+esc(r.d)+"　"+esc(r.name)+"・"+esc(r.p)+(r.zn?"（之卦 "+esc(r.zn)+"）":"")+"</small>"+esc(r.q)+"</a>";}).join("");}
 function zSync(){zDb().then(function(db){if(!db)return;var H=zLoad(),ch=0;var ps=H.map(function(r){if(r.s)return null;ch=1;var o={d:r.d,q:r.q,n:r.n,y:r.y,name:r.name,p:r.p,zn:r.zn||"",ts:r.ts||Date.parse(r.d)||Date.now()};return db.collection("zei").add(o).then(function(){r.s=1;});});Promise.all(ps).then(function(){if(ch)zSave(H);zShow();},function(){});zShow();});}
 function zShow(){zDb().then(function(db){var el=document.getElementById("zhist");if(!db||!el)return;db.collection("zei").orderBy("ts","desc").limit(100).get().then(function(q){var H=q.docs.map(function(d){return d.data();});if(H.length){el.innerHTML='<div class="rl">'+zHist(H)+'</div><p class="small dim">記録はサイトに保存されています（どの端末からでも見られます）。</p>';}},function(){});});}
 function zFull(n,y){var a=document.getElementById("gua/"+n),b=document.getElementById("y/"+n+"/"+y);if(a&&b)return{g:a.innerHTML,y:b.innerHTML};
@@ -509,6 +509,7 @@ function vZei(){
       '<button class="zbtn" id="zgo">筮を始める</button></div>';
       var H=zLoad();h+='<h3>これまでの占筮</h3><div id="zhist">'+(H.length?'<div class="rl">'+zHist(H)+'</div><p class="small dim">記録はこの端末のブラウザに保存されています。</p>':'<p class="small dim">まだ記録はありません。</p>')+'</div>';
       app.innerHTML=h;zSync();
+      document.getElementById("zhist").onclick=function(e){var t=e.target.closest("a.zh");if(!t)return;e.preventDefault();S={go:1,res:[1,1,1],saved:1,q:t.getAttribute("data-q"),view:{n:+t.getAttribute("data-n"),y:+t.getAttribute("data-y"),d:t.getAttribute("data-d")}};draw();window.scrollTo(0,0);};
       document.getElementById("zgo").onclick=function(){S.q=document.getElementById("zq").value.trim();if(!S.q){alert("お題を入れてください");return;}S.go=1;draw();};
       return;}
     if(S.res.length<3){
@@ -523,10 +524,12 @@ function vZei(){
       b.addEventListener("pointerdown",dn);b.addEventListener("pointerup",up);b.addEventListener("pointerleave",up);b.addEventListener("pointercancel",up);
       return;}
     // result
-    var lo=ZN[S.res[0].v],up=ZN[S.res[1].v],y=S.res[2].v-1,g=zFind(lo,up);
+    var lo,up,y,g;
+    if(S.view){TK.gua.forEach(function(x){if(x.n===S.view.n)g=x;});lo=g.lo;up=g.up;y=S.view.y;}
+    else{lo=ZN[S.res[0].v];up=ZN[S.res[1].v];y=S.res[2].v-1;g=zFind(lo,up);}
     var bits=TRI[lo].b.concat(TRI[up].b),nb=bits.slice();nb[y]=nb[y]?0:1;var zg=zFind(zTri(nb.slice(0,3)),zTri(nb.slice(3)));
     var yp=yname(g,y);
-    h+='<div class="card"><div class="small dim">お題</div><div class="zq">'+esc(S.q)+'</div></div>'+zDone();
+    h+='<div class="card"><div class="small dim">お題'+(S.view?"（"+esc(S.view.d)+" の占筮）":"")+'</div><div class="zq">'+esc(S.q)+'</div></div>'+(S.view?"":zDone());
     h+='<div class="card zres"><div class="small dim">得卦</div><div class="zrow">'+zHex(bits,y)+'<div><div class="zname">'+esc(g.name)+'</div><div class="zyao">'+esc(yp)+'</div></div><div class="zarrow">→</div>'+zHex(nb,-1)+'<div><div class="small dim">之卦</div><div>'+esc(zg?zg.name:"")+'</div></div></div>'+
       ((g.yao||[])[y]?'<div class="orig" style="margin-top:10px">'+esc(g.yao[y].t)+'</div>':"")+
       '<button class="zbtn" id="zdown">卦辞から順に読む（下へ）</button>'+
