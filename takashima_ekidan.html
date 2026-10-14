@@ -185,6 +185,7 @@ table.mon td{padding:5px 0;border-bottom:1px solid var(--line);line-height:1.7}
 .zhex i.y{background:linear-gradient(90deg,var(--ink) 42%,transparent 42%,transparent 58%,var(--ink) 58%)}
 .zhex i.mv{background:var(--bad)}.zhex i.y.mv{background:linear-gradient(90deg,var(--bad) 42%,transparent 42%,transparent 58%,var(--bad) 58%)}
 .zname{font-size:22px;font-weight:700}.zyao{color:var(--bad);font-size:18px}.zarrow{color:var(--dim);font-size:20px}
+.ygh{margin:18px 0 0;padding:8px 12px;border-left:4px solid var(--gold);background:var(--soft);color:var(--gold);font-weight:700}
 </style>
 </head>
 <body>
@@ -469,8 +470,7 @@ function vYao(n,yi){
   var h='<a class="back" href="#gua/'+g.n+'">← '+esc(g.name)+' の全体（卦辞・六爻の流れ）</a><div class="hk">'+hexb(bits(g),"sm",yi)+'<div><a class="nm" href="#gua/'+g.n+'"><span class="gl">'+(g64(g.name)?g64(g.name).gl:"")+"</span>"+esc(g.name)+"</a>　"+esc(y.p)+'<div class="small dim">之卦 '+zlink(z)+"</div></div></div>";
   h+='<div class="yl">'+["初","二","三","四","五","上"].map(function(c,k){return'<a href="#y/'+g.n+"/"+k+'"'+(k===yi?' style="background:var(--soft);font-weight:700"':"")+">"+c+"</a>";}).join("")+"</div>";
   h+='<details class="yao" open><summary><span class="p">'+esc(y.p)+'</span><span class="t">'+esc(y.t)+'</span></summary><div class="body">'+yaoBody(g,y,idx,KD)+"</div></details>";
-  if(g.kaji)h+='<h3>卦辞（参考）</h3><div class="card"><div class="orig">'+esc(g.kaji.t)+"</div>"+(KD.k?kdl(KD.k,KD.rk):'<div class="yomi">'+esc(g.kaji.y)+"</div>")+pl(g.kaji.p)+"</div>";
-  app.innerHTML=h;
+  app.innerHTML=h;app.dataset.gi="";yInject(n,yi,app);
 }
 function vHiku(){
   var h='<a class="zbtn" href="#zei" style="margin-top:14px">筮竹で占う（略筮法）</a><h2 class="sec">爻を引く</h2><p class="small dim">筮して得た卦の、得た爻の番号をタップすると、その爻のページ（爻辞・象伝・講説・占断・占例・之卦）が開きます。卦の並びは六十四卦の順。下の早見表で上卦と下卦から卦名を探せます。</p>';
@@ -496,6 +496,13 @@ function zSync(){zDb().then(function(db){if(!db)return;var H=zLoad(),ch=0;var ps
 function zShow(){zDb().then(function(db){var el=document.getElementById("zhist");if(!db||!el)return;db.collection("zei").orderBy("ts","desc").limit(100).get().then(function(q){var H=q.docs.map(function(d){return d.data();});if(H.length){el.innerHTML='<div class="rl">'+zHist(H)+'</div><p class="small dim">記録はサイトに保存されています（どの端末からでも見られます）。</p>';}},function(){});});}
 function zFull(n,y){var a=document.getElementById("gua/"+n),b=document.getElementById("y/"+n+"/"+y);if(a&&b)return{g:a.innerHTML,y:b.innerHTML};
  if(typeof vGua==="function"){var keep=app,t=document.createElement("div");app=t;try{vGua(n);var g=t.innerHTML;vYao(n,y);var yy=t.innerHTML;}finally{app=keep;}return{g:g,y:yy};}return{g:"",y:""};}
+function yInject(n,yi,root){if(window.__SB||!root||root.dataset.gi==String(n))return;var src=document.getElementById("gua/"+n),html="";
+ if(src)html=src.innerHTML;else if(typeof vGua==="function"){var keep=app,t=document.createElement("div");app=t;try{vGua(n);html=t.innerHTML;}finally{app=keep;}}
+ if(!html)return;var tmp=document.createElement("div");tmp.innerHTML=html;var box=document.createElement("div");box.className="ygua";var on=false;
+ [].slice.call(tmp.children).forEach(function(el){if(el.matches&&el.matches("h2.sec")){var t=el.textContent;if(t.indexOf("卦辞")===0)on=true;else if(t.indexOf("六爻の流れ")===0)on=false;}if(on)box.appendChild(el);});
+ if(!box.children.length)return;var hd=document.createElement("div");hd.className="ygh";hd.textContent="この卦の全体（卦辞・彖伝・大象）";box.insertBefore(hd,box.firstChild);
+ var yh=document.createElement("h2");yh.className="sec";yh.textContent="得た爻";box.appendChild(yh);
+ var d=root.querySelector("details.yao");if(d)d.parentNode.insertBefore(box,d);else root.appendChild(box);root.dataset.gi=String(n);}
 function zLoad(){try{return JSON.parse(localStorage.getItem("tk-zei")||"[]");}catch(e){return[];}}
 function zSave(a){try{localStorage.setItem("tk-zei",JSON.stringify(a.slice(0,50)));}catch(e){}}
 function vZei(){
