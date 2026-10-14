@@ -24,6 +24,6 @@ ffmpeg -loglevel error -y -f concat -safe 0 -i clips.txt -c copy kbody.mp4
 DUR=$(ffprobe -v error -show_entries format=duration -of csv=p=0 kbody.mp4)
 ffmpeg -loglevel error -y -f lavfi -i "aevalsrc='0.030*sin(2*PI*110*t)*(0.6+0.4*sin(2*PI*0.07*t))+0.020*sin(2*PI*146.83*t)*(0.6+0.4*sin(2*PI*0.05*t+1))+0.014*sin(2*PI*220*t)*(0.5+0.5*sin(2*PI*0.06*t+2))':s=44100:d=$DUR" \
  -af "afade=t=in:d=2,afade=t=out:st=$(python3 -c "print($DUR-3)"):d=3,lowpass=f=860" -ac 2 bgm.wav
-ffmpeg -loglevel error -y -i kbody.mp4 -i bgm.wav -filter_complex "[1]volume=0.5[b];[0:a][b]amix=inputs=2:duration=first:normalize=0[a]" \
+ffmpeg -loglevel error -y -i kbody.mp4 -i bgm.wav -filter_complex "[1]volume=0.3[b];[0:a][b]amix=inputs=2:duration=first:normalize=0[a]" \
  -map 0:v -map "[a]" -c:v copy -c:a aac -b:a 160k -movflags +faststart 完璧の語源_キングダム動画_60秒.mp4
 ffprobe -v error -show_entries format=duration,size -of csv=p=0 完璧の語源_キングダム動画_60秒.mp4
