@@ -35,12 +35,13 @@ const TAGS={
  fs.mkdirSync('fo',{recursive:true});
  for(let i=0;i<L.length;i++){
   const sub=L[i].sub.replace(/“完璧”|「完璧」|完璧/g,m=>`<span class="hl">${m}</span>`);
+  const subStyle=(L[i].sub.length>26)?'font-size:54px;line-height:1.42;bottom:220px':'';
   const nm=(TAGS[i]||[]).map(t=>`<div class="nametag" style="left:${t.x*1080}px;top:${t.y*1920}px"><span class="kuni">${t.k}</span><span class="nm">${t.n}</span></div>`).join('');
   await p.setContent(`<html><head><style>${css}</style></head><body>
    <div class="top"></div><div class="btm"></div><div class="footer"></div>
    <div class="eyebrow">語 源 の 話</div>
    ${nm}
-   <div class="sub">${sub}</div>
+   <div class="sub" style="${subStyle}">${sub}</div>
    <div class="rule"></div><div class="brand">青 龍 孔 一</div>
    </body></html>`);
   await p.evaluate(()=>document.fonts.ready);
