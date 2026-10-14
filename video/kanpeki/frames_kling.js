@@ -5,27 +5,29 @@ const F='file://'+path.resolve('../vid/fonts');
 const css=`
 @font-face{font-family:M;src:url(${F}/f1.ttf);font-weight:500}
 @font-face{font-family:MB;src:url(${F}/f2.ttf);font-weight:800}
-@font-face{font-family:R;src:url(${F}/f3.ttf);font-weight:500}
+@font-face{font-family:MIN;src:url(${F}/f1.ttf);font-weight:500}
 *{margin:0;box-sizing:border-box}
 body{width:1080px;height:1920px;position:relative;overflow:hidden;background:transparent;font-family:M;color:#f3ead6}
-.top{position:absolute;top:0;left:0;right:0;height:300px;background:linear-gradient(180deg,rgba(6,4,7,.78),rgba(6,4,7,0))}
+.top{position:absolute;top:0;left:0;right:0;height:360px;background:linear-gradient(180deg,rgba(6,4,7,.82),rgba(6,4,7,0))}
 .btm{position:absolute;bottom:0;left:0;right:0;height:760px;background:linear-gradient(0deg,rgba(5,3,6,.96) 30%,rgba(5,3,6,.55) 55%,rgba(5,3,6,0))}
 .footer{position:absolute;bottom:0;left:0;right:0;height:104px;background:#050306}
-.eyebrow{position:absolute;top:66px;left:0;right:0;text-align:center;font-family:R;font-size:36px;letter-spacing:.44em;color:#d9b45a}
-.nametag{position:absolute;top:150px;left:60px;display:inline-block;font-family:MB;font-weight:800;font-size:46px;color:#f3ead6;padding:10px 26px;background:linear-gradient(90deg,rgba(120,20,22,.95),rgba(70,10,12,.78));border-left:6px solid #d9b45a;text-shadow:0 3px 14px rgba(0,0,0,.95);letter-spacing:.06em}
-.nametag small{display:block;font-family:R;font-size:26px;color:#e7c877;letter-spacing:.14em;margin-bottom:2px;font-weight:500}
+.eyebrow{position:absolute;top:60px;left:0;right:0;text-align:center;font-family:MIN;font-size:34px;letter-spacing:.44em;color:#d9b45a}
+/* 登場人物：国名＋名前を上中央に大きく（明朝） */
+.nametag{position:absolute;top:150px;left:50%;transform:translateX(-50%);display:flex;align-items:stretch;font-family:MB;font-weight:800;color:#f3ead6;text-shadow:0 3px 16px rgba(0,0,0,.98);white-space:nowrap}
+.nametag .kuni{font-family:MB;font-weight:800;font-size:52px;color:#1a0f08;background:#d9b45a;padding:6px 22px;display:flex;align-items:center}
+.nametag .nm{font-family:MB;font-weight:800;font-size:60px;padding:4px 28px;background:linear-gradient(90deg,rgba(120,20,22,.96),rgba(70,10,12,.9));border:2px solid #d9b45a;border-left:none;letter-spacing:.08em;display:flex;align-items:center}
 .sub{position:absolute;bottom:250px;left:70px;right:70px;text-align:center;font-family:MB;font-weight:800;font-size:72px;line-height:1.5;white-space:pre-line;text-shadow:0 5px 26px rgba(0,0,0,.98),0 0 10px rgba(0,0,0,.8)}
 .hl{color:#9ce0b0;text-shadow:0 0 22px rgba(130,220,160,.5),0 5px 26px rgba(0,0,0,.95)}
-.brand{position:absolute;bottom:34px;left:0;right:0;text-align:center;font-family:R;font-size:38px;letter-spacing:.44em;color:#c6a455}
+.brand{position:absolute;bottom:34px;left:0;right:0;text-align:center;font-family:MIN;font-size:36px;letter-spacing:.44em;color:#c6a455}
 .rule{position:absolute;bottom:120px;left:50%;transform:translateX(-50%);width:110px;height:2px;background:linear-gradient(90deg,transparent,#8a7334,transparent)}
 `;
-const NAME={shou:['秦王','昭王'],rin:['趙の使者','藺相如'],torikaeshi:['趙の使者','藺相如'],ikari:['趙の使者','藺相如'],gojitsu:['趙の使者','藺相如'],kokuhaku:['趙の使者','藺相如']};
+const NAME={shou:['秦','昭王'],rin:['趙','藺相如'],torikaeshi:['趙','藺相如'],ikari:['趙','藺相如'],gojitsu:['趙','藺相如'],kokuhaku:['趙','藺相如']};
 (async()=>{
  const b=await chromium.launch();const p=await b.newPage({viewport:{width:1080,height:1920}});
  fs.mkdirSync('fo',{recursive:true});
  for(let i=0;i<L.length;i++){
   const sub=L[i].sub.replace(/“完璧”|「完璧」|完璧/g,m=>`<span class="hl">${m}</span>`);
-  const nm=(i>0 && NAME[L[i].sc])?`<div class="nametag"><small>${NAME[L[i].sc][0]}</small>${NAME[L[i].sc][1]}</div>`:'';
+  const nm=(i>0 && NAME[L[i].sc])?`<div class="nametag"><span class="kuni">${NAME[L[i].sc][0]}</span><span class="nm">${NAME[L[i].sc][1]}</span></div>`:'';
   await p.setContent(`<html><head><style>${css}</style></head><body>
    <div class="top"></div><div class="btm"></div><div class="footer"></div>
    <div class="eyebrow">語 源 の 話</div>

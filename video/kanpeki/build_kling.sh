@@ -14,7 +14,7 @@ for idx in $(seq 0 $((N-1))); do
  # クリップをD秒にフィット：短ければ等速トリム、長ければスロー。1080x1920に拡大→中央クロップ。
  PTS=$(python3 -c "print(round(max(1.0,$D/$CLIP),4))")
  ffmpeg -loglevel error -y -i "$vid" -i a/$i.mp3 -filter_complex \
-  "[0:v]scale=1097:1920,crop=1080:1920:8:0,setpts=${PTS}*PTS,trim=0:$D,setpts=PTS-STARTPTS,fps=30[base];\
+  "[0:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,setpts=${PTS}*PTS,trim=0:$D,setpts=PTS-STARTPTS,fps=30[base];\
    movie=fo/$i.png[ov];[base][ov]overlay=0:0,fade=t=in:d=0.25,fade=t=out:st=$(python3 -c "print(round($D-0.3,3))"):d=0.3,format=yuv420p[v];\
    [1:a]apad=pad_dur=$GAP,afade=t=in:d=0.12,afade=t=out:st=$(python3 -c "print(round($D-0.3,3))"):d=0.3[a]" \
   -map "[v]" -map "[a]" -t $D -r 30 -c:v libx264 -preset veryfast -crf 20 -c:a aac -b:a 160k -ar 44100 -ac 2 ck/$i.mp4
