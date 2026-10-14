@@ -490,6 +490,10 @@ function zFind(lo,up){var r=null;TK.gua.forEach(function(g){if(g.lo===lo&&g.up==
 function zTri(b){for(var k in TRI){var t=TRI[k].b;if(t[0]===b[0]&&t[1]===b[1]&&t[2]===b[2])return k;}return null;}
 function zHex(bits,mv){return'<span class="zhex">'+bits.map(function(v,i){return'<i class="'+(v?"":"y")+(i===mv?" mv":"")+'"></i>';}).join("")+"</span>";}
 function zSticks(L,R){var h='<div class="zst">';var tot=(L==null?49:L+R);for(var i=0;i<tot;i++){var gap=(L!=null&&i===L)?' style="margin-left:22px"':"";h+="<b"+gap+"></b>";}return h+"</div>";}
+var ZDB=null;function zDb(){if(!ZDB)ZDB=(window.claude&&window.claude.use)?window.claude.use("db").catch(function(){return null;}):Promise.resolve(null);return ZDB;}
+function zHist(H){return H.map(function(r){return'<a href="#y/'+r.n+"/"+r.y+'"><small>'+esc(r.d)+"　"+esc(r.name)+"・"+esc(r.p)+(r.zn?"（之卦 "+esc(r.zn)+"）":"")+"</small>"+esc(r.q)+"</a>";}).join("");}
+function zSync(){zDb().then(function(db){if(!db)return;var H=zLoad(),ch=0;var ps=H.map(function(r){if(r.s)return null;ch=1;var o={d:r.d,q:r.q,n:r.n,y:r.y,name:r.name,p:r.p,zn:r.zn||"",ts:r.ts||Date.parse(r.d)||Date.now()};return db.collection("zei").add(o).then(function(){r.s=1;});});Promise.all(ps).then(function(){if(ch)zSave(H);zShow();},function(){});zShow();});}
+function zShow(){zDb().then(function(db){var el=document.getElementById("zhist");if(!db||!el)return;db.collection("zei").orderBy("ts","desc").limit(100).get().then(function(q){var H=q.docs.map(function(d){return d.data();});if(H.length){el.innerHTML='<div class="rl">'+zHist(H)+'</div><p class="small dim">記録はサイトに保存されています（どの端末からでも見られます）。</p>';}},function(){});});}
 function zLoad(){try{return JSON.parse(localStorage.getItem("tk-zei")||"[]");}catch(e){return[];}}
 function zSave(a){try{localStorage.setItem("tk-zei",JSON.stringify(a.slice(0,50)));}catch(e){}}
 function vZei(){
@@ -501,8 +505,8 @@ function vZei(){
       h+='<div class="card"><p class="small">筮竹は五十本を用いる。占いの要は本数の操作ではなく、占う者の至誠にある。他念を去り、問う事柄を黙念して、心を天地と一つにする。</p>'+
       '<label class="small dim">占うお題（一つに絞る）</label><textarea id="zq" rows="3" class="zin" placeholder="例：この取引を進めて良いか">'+esc(S.q)+'</textarea>'+
       '<button class="zbtn" id="zgo">筮を始める</button></div>';
-      var H=zLoad();if(H.length){h+='<h3>これまでの占筮</h3><div class="rl">'+H.map(function(r){return'<a href="#y/'+r.n+"/"+r.y+'"><small>'+esc(r.d)+"　"+esc(r.name)+"・"+esc(r.p)+"</small>"+esc(r.q)+"</a>";}).join("")+'</div><p class="small dim">記録はこの端末のブラウザにだけ保存されます。</p>';}
-      app.innerHTML=h;
+      var H=zLoad();h+='<h3>これまでの占筮</h3><div id="zhist">'+(H.length?'<div class="rl">'+zHist(H)+'</div><p class="small dim">記録はこの端末のブラウザに保存されています。</p>':'<p class="small dim">まだ記録はありません。</p>')+'</div>';
+      app.innerHTML=h;zSync();
       document.getElementById("zgo").onclick=function(){S.q=document.getElementById("zq").value.trim();if(!S.q){alert("お題を入れてください");return;}S.go=1;draw();};
       return;}
     if(S.res.length<3){
@@ -527,7 +531,7 @@ function vZei(){
       '<button class="zbtn sub" id="zcp">結果をコピー</button><button class="zbtn sub" id="zre">もう一度占う</button></div>';
     app.innerHTML=h;
     var d=new Date(),ds=d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2);
-    if(!S.saved){var H=zLoad();H.unshift({d:ds,q:S.q,n:g.n,y:y,name:g.name,p:yp});zSave(H);S.saved=1;}
+    if(!S.saved){var H=zLoad();var rec={d:ds,q:S.q,n:g.n,y:y,name:g.name,p:yp,zn:zg?zg.name:"",ts:Date.now()};H.unshift(rec);zSave(H);S.saved=1;zDb().then(function(db){if(!db)return;db.collection("zei").add({d:rec.d,q:rec.q,n:rec.n,y:rec.y,name:rec.name,p:rec.p,zn:rec.zn,ts:rec.ts}).then(function(){rec.s=1;zSave(H);},function(){});});}
     var txt="お題："+S.q+"\n得卦："+g.name+"の"+yp+"（之卦 "+(zg?zg.name:"")+"）\n日付："+ds;
     document.getElementById("zcp").onclick=function(){var ok=function(){alert("コピーしました");};if(navigator.clipboard)navigator.clipboard.writeText(txt).then(ok,function(){prompt("コピーしてください",txt);});else prompt("コピーしてください",txt);};
     document.getElementById("zre").onclick=function(){S={q:"",step:0,res:[]};draw();};
