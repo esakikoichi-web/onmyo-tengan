@@ -1,5 +1,5 @@
 set -e
-GAP=0.18; CLIP=5.041667
+GAP=0.08; CLIP=5.041667
 # カット順の sc（script.json と同じ並び）
 SCS=(ikari heki chou shou wana rin torikaeshi ikari gojitsu nigasu kokuhaku kanketsu kanpeki kanpeki)
 # sc → KlingクリップID
