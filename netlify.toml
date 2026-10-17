@@ -2,3 +2,7 @@
   for = "/*"
   [headers.values]
     Basic-Auth = "admin:onmyo2026"
+
+[functions]
+  node_bundler = "esbuild"
+  included_files = ["takashima_data*.js", "takashima_kudashi.js"]

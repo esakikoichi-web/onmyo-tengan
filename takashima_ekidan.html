@@ -115,6 +115,16 @@ table.mon td{padding:5px 0;border-bottom:1px solid var(--line);line-height:1.7}
 .kz a,.kz div.k{flex:1 1 30%;min-width:96px;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:8px 4px;text-align:center;color:var(--ink);text-decoration:none;font-size:13px}
 .kz b{display:block;color:var(--gold);font-size:11px;letter-spacing:.1em;margin-bottom:4px}
 .count{font-size:12px;color:var(--dim);margin:6px 2px}
+textarea.uq{width:100%;font:inherit;font-size:16px;line-height:1.7;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--ink);resize:vertical;min-height:110px}
+.ubtn{display:block;width:100%;font:inherit;font-size:15px;font-weight:700;letter-spacing:.15em;color:#fff8e6;background:var(--gold);border:1px solid var(--bright);border-radius:10px;padding:12px;margin:10px 0;cursor:pointer}
+.ubtn:disabled{opacity:.5;cursor:default}
+.ubtn.sub{background:transparent;color:var(--gold);font-weight:500;letter-spacing:.05em}
+.urow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0;font-size:14px}
+.urow select{font:inherit;font-size:15px;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:6px 8px}
+.kan{white-space:pre-wrap;font-size:15px;line-height:1.9}
+.kan.wait{color:var(--dim)}
+.cta{border:1px solid var(--gold);background:var(--soft);border-radius:10px;padding:14px;margin:14px 0;text-align:center}
+.cta a{display:inline-block;margin-top:8px;text-decoration:none;color:#fff8e6;background:var(--gold);border-radius:999px;padding:8px 22px;font-size:14px;letter-spacing:.1em}
 </style>
 </head>
 <body>
@@ -127,6 +137,7 @@ table.mon td{padding:5px 0;border-bottom:1px solid var(--line);line-height:1.7}
 <main id="app"></main>
 </div>
 <nav class="tabs"><div class="in">
+  <a href="#uranau" data-t="uranau"><b>筮</b>占う</a>
   <a href="#home" data-t="home"><b>序</b>はじめに</a>
   <a href="#jo" data-t="jo"><b>理</b>易義例</a>
   <a href="#gua" data-t="gua"><b>卦</b>六十四卦</a>
@@ -286,9 +297,57 @@ function vFuroku(){
   (TK.furoku||[]).forEach(function(s){h+="<h3>"+esc(s.title)+"</h3>"+paras(s.intro)+reis(s.items);});
   app.innerHTML=h;
 }
+var ORD=["乾","兌","離","震","巽","坎","艮","坤"],US={q:"",up:"",lo:"",yao:0};
+function rnd(k){var a=new Uint32Array(1);crypto.getRandomValues(a);return a[0]%k;}
+function triSel(id,v){return'<select id="'+id+'">'+ORD.map(function(t,i){return'<option value="'+t+'"'+(t===v?" selected":"")+">"+(i+1)+" "+TRI[t].s+" "+t+"（"+TRI[t].o+"）</option>";}).join("")+"</select>";}
+function vUranau(){
+  var h='<h2 class="sec">易を立てる ― AI鑑定</h2><p class="small dim">悩みを書いて筮を立てると、得た卦と爻の講話をもとに、AIがあなたの相談に合わせた鑑定文を書きます。</p>'+
+   '<textarea class="uq" id="uq" maxlength="800" placeholder="例：今の会社を辞めて独立すべきか迷っています。">'+esc(US.q)+'</textarea><div class="count" id="ucnt"></div>'+
+   '<button class="ubtn" id="ugo">筮を立てる（略筮法）</button>'+
+   '<details class="card"><summary class="small" style="cursor:pointer;color:var(--gold)">筮竹で立てた卦を入力する</summary>'+
+   '<div class="urow">上卦（外卦）'+triSel("uup",US.up||"乾")+'</div><div class="urow">下卦（内卦）'+triSel("ulo",US.lo||"乾")+'</div>'+
+   '<div class="urow">爻<select id="uyao">'+["初","二","三","四","五","上"].map(function(p,i){return'<option value="'+(i+1)+'"'+(US.yao===i+1?" selected":"")+">"+p+"爻</option>";}).join("")+'</select></div>'+
+   '<button class="ubtn sub" id="uset">この卦で観る</button></details><div id="ures"></div>';
+  app.innerHTML=h;
+  var q=document.getElementById("uq"),cnt=document.getElementById("ucnt");
+  function upd(){US.q=q.value;cnt.textContent=q.value.length+" / 800字";}
+  q.addEventListener("input",upd);upd();
+  document.getElementById("ugo").addEventListener("click",function(){US.lo=ORD[rnd(8)];US.up=ORD[rnd(8)];US.yao=rnd(6)+1;drawU();});
+  document.getElementById("uset").addEventListener("click",function(){US.up=document.getElementById("uup").value;US.lo=document.getElementById("ulo").value;US.yao=+document.getElementById("uyao").value;drawU();});
+  if(US.up)drawU();
+}
+function drawU(){
+  var g=TK.gua.filter(function(x){return x.up===US.up&&x.lo===US.lo;})[0];if(!g)return;
+  var yi=US.yao-1,y=(g.yao||[])[yi]||{},b=bits(g);
+  var h='<div class="card"><div class="ghead"><div class="no">第'+g.n+'卦</div>'+hexb(b,"big",yi)+'<div class="nm">'+esc(g.name)+'</div><div class="yo">'+esc(g.yomi)+'</div></div>';
+  if(g.kaji)h+='<p><span class="lbl">卦辞</span>'+esc(g.kaji.y||g.kaji.t)+"</p>";
+  h+='<p><span class="lbl">'+esc(y.p||"")+"</span>"+esc(y.t||"")+"</p>";
+  if(y.sen)h+='<p class="small"><span class="lbl">占</span>'+esc(y.sen)+"</p>";
+  h+='<a class="back" href="#gua/'+g.n+'">この卦の講話を読む →</a></div>'+
+   '<button class="ubtn" id="ukan">AI鑑定を受ける</button><div id="ukout"></div>';
+  var r=document.getElementById("ures");r.innerHTML=h;
+  document.getElementById("ukan").addEventListener("click",function(){kantei(g.n,US.yao,this);});
+  r.scrollIntoView({behavior:"smooth",block:"start"});
+}
+function kantei(n,yao,btn){
+  var q=US.q.trim(),out=document.getElementById("ukout");
+  if(!q){alert("相談内容を書いてください");document.getElementById("uq").focus();return;}
+  btn.disabled=true;
+  out.innerHTML='<div class="card"><div class="kan wait" id="ukan-t">鑑定文を書いています……</div></div>';
+  var el=document.getElementById("ukan-t"),txt="";
+  fetch("/api/kantei",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({q:q,n:n,yao:yao})}).then(function(res){
+    if(!res.ok)return res.text().then(function(t){throw new Error(t||("エラー "+res.status));});
+    var rd=res.body.getReader(),dec=new TextDecoder();
+    function pump(){return rd.read().then(function(c){if(c.done)return;txt+=dec.decode(c.value,{stream:true});el.classList.remove("wait");el.textContent=txt;return pump();});}
+    return pump();
+  }).then(function(){
+    out.insertAdjacentHTML("beforeend",'<p class="small dim">※AIが高島易断の講話をもとに作成した参考情報です。結果を保証するものではありません。</p><div class="cta"><div>さらに深く観たい方は、易者・青龍孔一が直接鑑定いたします。</div><a href="https://lin.ee/xozxBZk" target="_blank" rel="noopener">青龍孔一の個人鑑定を申し込む</a></div>');
+  }).catch(function(e){el.classList.remove("wait");el.textContent="AI鑑定を受けられませんでした："+e.message;}).then(function(){btn.disabled=false;});
+}
 function route(){
   var hsh=(location.hash||"#home").slice(1),p=hsh.split("/");
-  if(p[0]==="gua"&&p[1]){setTab("gua");vGua(+p[1]);}
+  if(p[0]==="uranau"){setTab("uranau");vUranau();}
+  else if(p[0]==="gua"&&p[1]){setTab("gua");vGua(+p[1]);}
   else if(p[0]==="gua"){setTab("gua");vGuaList();}
   else if(p[0]==="jo"){setTab("jo");vJo();}
   else if(p[0]==="rei"){setTab("rei");vRei();}
