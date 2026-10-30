@@ -1,0 +1,56 @@
+[
+  {
+    "collectedAt": "2026-10-30",
+    "name": "せいや（霜降り明星）",
+    "birthDate": "1992-09-13",
+    "sex": "男",
+    "newsTitle": "体調不良の「霜降り明星」せいや 仕事復帰を報告 原因は肺炎",
+    "newsUrl": "https://news.allabout.co.jp/articles/o/53737/",
+    "birthSourceUrl": "https://natalie.mu/profile/99552",
+    "status": "ok",
+    "dayStem": "壬",
+    "natal": {
+      "年柱": "壬申",
+      "月柱": "己酉",
+      "日柱": "壬辰"
+    },
+    "startAge": 8,
+    "daiunDir": "順行",
+    "daiunCycle": 8,
+    "現在の年齢": 35,
+    "現在の大運": "癸丑",
+    "今年の流年": "丙午"
+  },
+  {
+    "collectedAt": "2026-10-30",
+    "name": "高市早苗",
+    "birthDate": "1961-03-07",
+    "sex": "女",
+    "newsTitle": "高市自民党大勝。海外メディアは「新しい国際秩序の可能性」を指摘",
+    "newsUrl": "https://listen.style/p/smbslbmi/fhrmougj",
+    "birthSourceUrl": "https://www.kantei.go.jp/jp/98_abe/meibo/daijin/takaichi_sanae.html",
+    "status": "ok",
+    "dayStem": "己",
+    "natal": {
+      "年柱": "辛丑",
+      "月柱": "辛卯",
+      "日柱": "己亥"
+    },
+    "startAge": 10,
+    "daiunDir": "順行",
+    "daiunCycle": 10,
+    "現在の年齢": 66,
+    "現在の大運": "丁酉",
+    "今年の流年": "丙午"
+  },
+  {
+    "collectedAt": "2026-10-30",
+    "name": "西山朋佳",
+    "birthDate": null,
+    "sex": "女",
+    "newsTitle": "西山朋佳が女性初の将棋棋士に 連盟新規定、編入の権利を行使",
+    "newsUrl": "https://kumanichi.com/articles/2050594",
+    "birthSourceUrl": null,
+    "status": "生年月日不明のため命式計算スキップ"
+  }
+]
