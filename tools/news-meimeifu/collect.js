@@ -100,7 +100,7 @@ function todayAgeAndFlow(engine, now){
   };
 }
 
-function buildRecord(candidate, collectedAt, now){
+function buildRecordCore(candidate, collectedAt, now){
   const {name, y, m, d, sex, newsTitle, newsUrl, birthSourceUrl} = candidate;
   if(y==null || m==null || d==null){
     return {
@@ -133,6 +133,14 @@ function buildRecord(candidate, collectedAt, now){
   };
 }
 
+const DETAIL_KEYS=['newsDate','newsSummary','newsPoints','whyPerson'];
+function buildRecord(candidate, collectedAt, now){
+  const core=buildRecordCore(candidate, collectedAt, now);
+  const extra={};
+  DETAIL_KEYS.forEach(k=>{ if(candidate[k]!=null) extra[k]=candidate[k]; });
+  return {...core, ...extra};
+}
+
 function toCsvRow(r){
   const cols=[r.collectedAt,r.name,r.birthDate||'',r.sex||'',r.status,
     r.dayStem||'', r.natal?r.natal.年柱:'', r.natal?r.natal.月柱:'', r.natal?r.natal.日柱:'',
@@ -163,6 +171,7 @@ function rebuild(){
     const [y,m,d]=r.birthDate.split('-').map(Number);
     return buildRecord({
       name:r.name,y,m,d,sex:r.sex,newsTitle:r.newsTitle,newsUrl:r.newsUrl,birthSourceUrl:r.birthSourceUrl,
+      newsDate:r.newsDate,newsSummary:r.newsSummary,newsPoints:r.newsPoints,whyPerson:r.whyPerson,
     },r.collectedAt,new Date(r.collectedAt+'T12:00:00+09:00'));
   });
   writeAll(all);
