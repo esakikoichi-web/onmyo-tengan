@@ -87,6 +87,41 @@ function buildChart(engine, now){
   };
 }
 
+
+// ニュース当時（newsDate）の大運・流年・流月と、命式との干合・冲・天戦地冲・反言などの照合
+function buildLuck(engine, dateStr){
+  if(!dateStr) return null;
+  const [y,m,d]=dateStr.split('-').map(Number);
+  const age=engine.ageAt(y);
+  const natS=engine.natalStems, natB=engine.natalBranches;
+  const items=[];
+  const push=(kind,stem,br,line)=>{
+    const mm=line.match(/（([^）]*)）$/);
+    items.push({kind, ...cell(engine,stem,br), notes: mm?mm[1].split('＋'):[]});
+  };
+  const hasDaiun=age>=engine.du.startAge;
+  let cdStem=null, cdBr=null;
+  if(hasDaiun){
+    const cd=E.daiunAtAge(engine.du,age);
+    cdStem=E.STEMS[cd.stemIdx]; cdBr=E.BRANCHES[cd.branchIdx];
+    if(engine.du.cycle===2){
+      const cd10=E.daiunAtAgeCycle(engine.du,age,10);
+      const s10=E.STEMS[cd10.stemIdx], b10=E.BRANCHES[cd10.branchIdx];
+      push('大運(2年運)',cdStem,cdBr,engine.fmtPillar('大運',cdStem,cdBr,{},{},[cdBr],natS,natB));
+      push('大運(10年運)',s10,b10,engine.fmtPillar('大運',s10,b10,{},{},[b10],natS,natB));
+    }else{
+      push('大運',cdStem,cdBr,engine.fmtPillar('大運',cdStem,cdBr,{},{},[cdBr],natS,natB));
+    }
+  }
+  const yi=engine.yearInfo(y);
+  const yS=E.STEMS[yi.stemIdx], yB=E.BRANCHES[yi.branchIdx];
+  push('流年',yS,yB,engine.fmtPillar('流年',yS,yB,hasDaiun?{大運:cdStem}:{},hasDaiun?{大運:cdBr}:{},hasDaiun?[cdBr,yB]:[yB],natS,natB));
+  const mi=engine.monthInfo(y,m,d||15);
+  const mS=E.STEMS[mi.stemIdx], mB=E.BRANCHES[mi.branchIdx];
+  push('流月',mS,mB,engine.fmtPillar('流月',mS,mB,hasDaiun?{大運:cdStem,流年:yS}:{流年:yS},hasDaiun?{大運:cdBr,流年:yB}:{流年:yB},hasDaiun?[cdBr,yB,mB]:[yB,mB],natS,natB));
+  return {date:dateStr, age, items};
+}
+
 function todayAgeAndFlow(engine, now){
   const age=engine.ageAt(now.getFullYear());
   const yInfo=engine.yearInfo(now.getFullYear());
@@ -130,6 +165,7 @@ function buildRecordCore(candidate, collectedAt, now){
     現在の大運: flow.daiun,
     今年の流年: flow.ryunen,
     chart: buildChart(engine, now),
+    luck: buildLuck(engine, candidate.newsDate),
   };
 }
 
