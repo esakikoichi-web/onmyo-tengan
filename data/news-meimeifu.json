@@ -118,5 +118,15 @@
     "現在の年齢": 46,
     "現在の大運": "丁亥",
     "今年の流年": "丙午"
+  },
+  {
+    "collectedAt": "2026-10-30",
+    "name": "リチャード・テン（バイナンスCEO）",
+    "birthDate": null,
+    "sex": "男",
+    "newsTitle": "暗号資産、過去最大の盗難1兆円 取引大手バイナンス",
+    "newsUrl": "https://news.yahoo.co.jp/articles/2c8de535bdb9411ae8157427338c261730f56069",
+    "birthSourceUrl": null,
+    "status": "生年月日不明のため命式計算スキップ"
   }
 ]
