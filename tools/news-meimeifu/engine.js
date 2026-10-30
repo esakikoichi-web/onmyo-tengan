@@ -1,3 +1,4 @@
+// 自動生成: node build-engine.js （元: tools/unmeifu-generator/index.html）
 
 /* ---- engine.js (ported, require/module.exports removed) ---- */
 const STEMS=['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];

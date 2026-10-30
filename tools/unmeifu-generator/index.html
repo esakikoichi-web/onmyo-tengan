@@ -1,0 +1,891 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>運命譜ジェネレーター</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Noto+Serif+JP:wght@400;600&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* layout: single scroll column — input cards stacked over a results card that holds the generated text */
+:root{
+  --paper:#f1ece0; --ink:#1f1b17; --muted:#56493d; --rule:#c9bda8;
+  --card:#f8f4ea; --vermilion:#a63e28; --indigo:#2d4259; --bronze:#7a5c26;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#141210; --ink:#f3ede0; --muted:#b8ad9c; --rule:#4a4539;
+    --card:#201c17; --vermilion:#e8876a; --indigo:#93aed0; --bronze:#d4af5a;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#141210; --ink:#f3ede0; --muted:#b8ad9c; --rule:#4a4539;
+  --card:#201c17; --vermilion:#e8876a; --indigo:#93aed0; --bronze:#d4af5a;
+  color-scheme: dark;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:"Noto Serif JP",serif;padding-inline:16px;padding-block:28px;}
+.wrap{max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:22px;}
+h1{font-family:"Shippori Mincho",serif;font-weight:700;font-size:1.7rem;margin:0;letter-spacing:.04em;text-wrap:balance;}
+.tagline{color:var(--muted);font-size:.85rem;margin-top:6px;line-height:1.7;}
+.card{background:var(--card);border:1px solid var(--rule);border-radius:4px;padding:18px 18px 20px;}
+.card h2{font-family:"Shippori Mincho",serif;font-size:1.05rem;font-weight:700;margin:0 0 14px;border-bottom:1px solid var(--rule);padding-bottom:8px;letter-spacing:.03em;}
+.output-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;border-bottom:1px solid var(--rule);padding-bottom:8px;margin-bottom:14px;}
+.output-head button{flex-shrink:0;}
+label{font-family:"Noto Sans JP",sans-serif;font-size:.72rem;color:var(--muted);display:block;margin-bottom:4px;letter-spacing:.02em;}
+input[type=text],input[type=number],select,textarea{
+  width:100%;font-family:"Noto Sans JP",sans-serif;font-size:.9rem;background:var(--paper);color:var(--ink);
+  border:1px solid var(--rule);border-radius:3px;padding:7px 8px;font-variant-numeric:tabular-nums;
+}
+textarea{resize:vertical;line-height:1.6;}
+input:focus,select:focus,button:focus-visible{outline:2px solid var(--indigo);outline-offset:1px;}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:10px;}
+.row-inline{display:flex;gap:10px;flex-wrap:wrap;align-items:end;}
+.row-inline > div{flex:1;min-width:70px;}
+.unknown-time{display:flex;align-items:center;gap:6px;font-family:"Noto Sans JP",sans-serif;font-size:.75rem;color:var(--muted);margin-top:6px;}
+.events{display:flex;flex-direction:column;gap:10px;}
+.event-row{display:grid;grid-template-columns:72px 50px 50px 1fr auto;gap:8px;align-items:end;min-width:0;}
+.event-row .f{min-width:0;}
+.event-row label{font-size:.65rem;}
+.event-row input[type=text]{min-width:0;}
+button{font-family:"Noto Sans JP",sans-serif;cursor:pointer;border-radius:3px;border:1px solid var(--rule);background:var(--paper);color:var(--ink);font-size:.8rem;padding:8px 14px;}
+button.primary{background:var(--vermilion);border-color:var(--vermilion);color:#fdf6ee;font-weight:700;letter-spacing:.03em;}
+button.ghost{background:transparent;}
+button.remove{padding:6px 9px;color:var(--vermilion);border-color:transparent;background:transparent;font-size:.95rem;line-height:1;}
+.add-row{align-self:flex-start;margin-top:2px;}
+.example-note{font-family:"Noto Sans JP",sans-serif;font-size:.68rem;color:var(--muted);margin-top:8px;}
+.actions{display:flex;gap:10px;flex-wrap:wrap;}
+#result{display:none;}
+#result.show{display:block;}
+.chart-table{width:100%;border-collapse:collapse;font-family:"Noto Sans JP",sans-serif;font-size:.82rem;margin-bottom:14px;}
+.chart-table th,.chart-table td{border-bottom:1px solid var(--rule);padding:6px 8px;text-align:left;font-variant-numeric:tabular-nums;}
+.chart-table th{color:var(--muted);font-weight:500;font-size:.7rem;letter-spacing:.03em;}
+.pillar-kanshi{font-family:"Shippori Mincho",serif;font-size:1.05rem;}
+.meta-line{font-family:"Noto Sans JP",sans-serif;font-size:.78rem;color:var(--muted);margin-bottom:14px;}
+details{margin-bottom:14px;}
+summary{font-family:"Noto Sans JP",sans-serif;font-size:.78rem;color:var(--indigo);cursor:pointer;}
+.daiun-scroll{overflow-x:auto;margin-top:8px;}
+pre#output{
+  white-space:pre-wrap;word-break:break-word;font-family:"Noto Serif JP",serif;font-size:.86rem;line-height:1.95;
+  background:var(--paper);border:1px solid var(--rule);border-radius:3px;padding:14px;margin:0;
+}
+.event-header{color:var(--vermilion);font-weight:600;}
+.tag-daiun{color:var(--vermilion);} .tag-ryunen{color:var(--indigo);} .tag-ryugetsu{color:var(--bronze);}
+.err{color:var(--vermilion);font-family:"Noto Sans JP",sans-serif;font-size:.8rem;}
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>運命譜ジェネレーター</h1>
+    <p class="tagline">氏名・生年月日から命式と大運を自動算出し、出来事ごとの流年・流月を干合/支合/三合/半会/冲/刑/害/破/天徳/天戦地冲/反言つきで書き出す。チャットを介さず手元で何人分でも作れる。</p>
+  </header>
+
+  <section class="card">
+    <h2>命式（本人情報）</h2>
+    <div class="grid">
+      <div><label for="f-name">氏名</label><input type="text" id="f-name" value="" placeholder="氏名"></div>
+      <div><label for="f-sex">性別</label><select id="f-sex"><option value="男">男</option><option value="女">女</option></select></div>
+    </div>
+    <div class="row-inline" style="margin-top:10px">
+      <div class="f"><label for="f-year">生年</label><input type="number" id="f-year" value="" placeholder="例：1971"></div>
+      <div class="f"><label for="f-month">生月</label><input type="number" id="f-month" min="1" max="12" value="" placeholder="--"></div>
+      <div class="f"><label for="f-day">生日</label><input type="number" id="f-day" min="1" max="31" value="" placeholder="--"></div>
+      <div class="f"><label for="f-hour">時</label><input type="number" id="f-hour" min="0" max="23" value="" placeholder="--"></div>
+      <div class="f"><label for="f-min">分</label><input type="number" id="f-min" min="0" max="59" value="" placeholder="--"></div>
+    </div>
+    <div class="unknown-time"><input type="checkbox" id="f-time-unknown" checked><label for="f-time-unknown" style="margin:0">生時不明（時柱なしで算出）</label></div>
+  </section>
+
+  <section class="card">
+    <h2>出来事の年表</h2>
+    <label for="bulk-events">まとめて貼り付け（1行1件。日付と内容の間はスペースでOK）</label>
+    <textarea id="bulk-events" rows="5" placeholder="1992/12/15 デビュー作の制作開始
+1993-11-23 『Doggystyle』発売
+1997年 D.P.G.C.結成
+2003 「ビューティフル」ヒット"></textarea>
+    <div class="actions" style="margin-top:8px">
+      <button class="ghost" id="bulk-add" type="button">まとめて追加</button>
+      <button class="ghost" id="clear-events" type="button">出来事を全て削除</button>
+    </div>
+    <p class="example-note">対応形式：「2003/3/10」「2003-3-10」「2003年3月10日」「2003年3月」「2003」＋出来事名。年だけの行は大運・流年のみ、月まで分かる行は流月も書き出す（日が未入力の月は15日として計算）。「・1995年：」の下に「・3月16日：〜」のような箇条書きがぶら下がる入れ子形式も、直前の年を引き継いでそのまま貼り付けられる。</p>
+    <div class="events" id="events" style="margin-top:14px"></div>
+    <button class="ghost add-row" id="add-event" type="button">＋ 1件だけ手入力で追加</button>
+  </section>
+
+  <div class="actions">
+    <button class="primary" id="generate" type="button">運命譜を生成</button>
+  </div>
+
+  <section class="card" id="result">
+    <h2>命式</h2>
+    <div id="natal-block"></div>
+    <details>
+      <summary>大運表を表示（起運〜各運の干支・年齢）</summary>
+      <div class="daiun-scroll"><table class="chart-table" id="daiun-table"></table></div>
+    </details>
+    <div class="output-head">
+      <h2 style="margin:0;border:none;padding:0">年表（大運・流年・流月）</h2>
+      <button class="ghost" id="copy-btn" type="button">結果をコピー</button>
+    </div>
+    <pre id="output"></pre>
+  </section>
+</div>
+
+<script>
+/* ---- engine.js (ported, require/module.exports removed) ---- */
+const STEMS=['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
+const BRANCHES=['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
+const STEM_GOGYO={甲:'木',乙:'木',丙:'火',丁:'火',戊:'土',己:'土',庚:'金',辛:'金',壬:'水',癸:'水'};
+const BRANCH_GOGYO={寅:'木',卯:'木',巳:'火',午:'火',辰:'土',戌:'土',丑:'土',未:'土',申:'金',酉:'金',子:'水',亥:'水'};
+const JUUSHIN_MAP={
+ '甲':{'甲':'比肩','乙':'敗財','丙':'食神','丁':'傷官','戊':'偏財','己':'正財','庚':'偏官','辛':'正官','壬':'偏印','癸':'印綬'},
+ '乙':{'乙':'比肩','甲':'劫財','丁':'食神','丙':'傷官','己':'偏財','戊':'正財','辛':'偏官','庚':'正官','癸':'偏印','壬':'印綬'},
+ '丙':{'丙':'比肩','丁':'敗財','戊':'食神','己':'傷官','庚':'偏財','辛':'正財','壬':'偏官','癸':'正官','甲':'偏印','乙':'印綬'},
+ '丁':{'丁':'比肩','丙':'劫財','己':'食神','戊':'傷官','辛':'偏財','庚':'正財','癸':'偏官','壬':'正官','乙':'偏印','甲':'印綬'},
+ '戊':{'戊':'比肩','己':'敗財','庚':'食神','辛':'傷官','壬':'偏財','癸':'正財','甲':'偏官','乙':'正官','丙':'偏印','丁':'印綬'},
+ '己':{'己':'比肩','戊':'劫財','辛':'食神','庚':'傷官','癸':'偏財','壬':'正財','乙':'偏官','甲':'正官','丁':'偏印','丙':'印綬'},
+ '庚':{'庚':'比肩','辛':'敗財','壬':'食神','癸':'傷官','甲':'偏財','乙':'正財','丙':'偏官','丁':'正官','戊':'偏印','己':'印綬'},
+ '辛':{'辛':'比肩','庚':'劫財','癸':'食神','壬':'傷官','乙':'偏財','甲':'正財','丁':'偏官','丙':'正官','己':'偏印','戊':'印綬'},
+ '壬':{'壬':'比肩','癸':'敗財','甲':'食神','乙':'傷官','丙':'偏財','丁':'正財','戊':'偏官','己':'正官','庚':'偏印','辛':'印綬'},
+ '癸':{'癸':'比肩','壬':'劫財','乙':'食神','甲':'傷官','丁':'偏財','丙':'正財','己':'偏官','戊':'正官','辛':'偏印','庚':'印綬'},
+};
+const JUUNISHI_TABLE={
+ '甲':{子:'沐浴',丑:'冠帯',寅:'建禄',卯:'帝旺',辰:'衰',巳:'病',午:'死',未:'墓',申:'絶',酉:'胎',戌:'養',亥:'長生'},
+ '乙':{午:'長生',巳:'沐浴',辰:'冠帯',卯:'建禄',寅:'帝旺',丑:'衰',子:'病',亥:'死',戌:'墓',酉:'絶',申:'胎',未:'養'},
+ '丙':{寅:'長生',卯:'沐浴',辰:'冠帯',巳:'建禄',午:'帝旺',未:'衰',申:'病',酉:'死',戌:'墓',亥:'絶',子:'胎',丑:'養'},
+ '丁':{酉:'長生',申:'沐浴',未:'冠帯',午:'建禄',巳:'帝旺',辰:'衰',卯:'病',寅:'死',丑:'墓',子:'絶',亥:'胎',戌:'養'},
+ '戊':{寅:'長生',卯:'沐浴',辰:'冠帯',巳:'建禄',午:'帝旺',未:'衰',申:'病',酉:'死',戌:'墓',亥:'絶',子:'胎',丑:'養'},
+ '己':{酉:'長生',申:'沐浴',未:'冠帯',午:'建禄',巳:'帝旺',辰:'衰',卯:'病',寅:'死',丑:'墓',子:'絶',亥:'胎',戌:'養'},
+ '庚':{巳:'長生',午:'沐浴',未:'冠帯',申:'建禄',酉:'帝旺',戌:'衰',亥:'病',子:'死',丑:'墓',寅:'絶',卯:'胎',辰:'養'},
+ '辛':{子:'長生',亥:'沐浴',戌:'冠帯',酉:'建禄',申:'帝旺',未:'衰',午:'病',巳:'死',辰:'墓',卯:'絶',寅:'胎',丑:'養'},
+ '壬':{申:'長生',酉:'沐浴',戌:'冠帯',亥:'建禄',子:'帝旺',丑:'衰',寅:'病',卯:'死',辰:'墓',巳:'絶',午:'胎',未:'養'},
+ '癸':{卯:'長生',寅:'沐浴',丑:'冠帯',子:'建禄',亥:'帝旺',戌:'衰',酉:'病',申:'死',未:'墓',午:'絶',巳:'胎',辰:'養'},
+};
+let CAL='auto';
+function useGreg(y,m,d){ if(CAL==='gregorian') return true; if(CAL==='julian') return false; return (y>1582)||(y===1582&&(m>10||(m===10&&d>=15))); }
+function jdnGregorian(y,m,d){const a=Math.floor((14-m)/12);const yy=y+4800-a;const mm=m+12*a-3;return d+Math.floor((153*mm+2)/5)+365*yy+Math.floor(yy/4)-Math.floor(yy/100)+Math.floor(yy/400)-32045;}
+function jdnJulian(y,m,d){const a=Math.floor((14-m)/12);const yy=y+4800-a;const mm=m+12*a-3;return d+Math.floor((153*mm+2)/5)+365*yy+Math.floor(yy/4)-32083;}
+function toJDN(y,m,d){return useGreg(y,m,d)?jdnGregorian(y,m,d):jdnJulian(y,m,d);}
+function jdToParts(jd){
+  jd+=9/24;
+  let Z=Math.floor(jd+0.5), F=jd+0.5-Z, A;
+  const greg=(CAL==='gregorian')||(CAL==='auto'&&Z>=2299161);
+  if(CAL==='julian') A=Z;
+  else if(greg){const al=Math.floor((Z-1867216.25)/36524.25);A=Z+1+al-Math.floor(al/4);}
+  else A=Z;
+  const B=A+1524,C=Math.floor((B-122.1)/365.25),Dd=Math.floor(365.25*C),E=Math.floor((B-Dd)/30.6001);
+  const day=B-Dd-Math.floor(30.6001*E)+F, month=E<14?E-1:E-13, year=month>2?C-4716:C-4715;
+  const di=Math.floor(day),frac=day-di,tot=Math.round(frac*1440),h=Math.floor(tot/60),mi=tot%60;
+  return {year,month,day:di,h,m:mi};
+}
+function isLeapFor(y){ const g=(CAL==='gregorian')||(CAL==='auto'&&y>=1583); return g?((y%4===0&&y%100!==0)||y%400===0):(((y%4)+4)%4===0); }
+function daysInMonth(y,m){const md=[31,isLeapFor(y)?29:28,31,30,31,30,31,31,30,31,30,31];return md[m-1];}
+const D2R=Math.PI/180;
+function norm360(x){x%=360;return x<0?x+360:x;}
+function sunAppLon(jde){
+  const T=(jde-2451545.0)/36525.0;
+  const L0=norm360(280.46646+36000.76983*T+0.0003032*T*T);
+  const M=norm360(357.52911+35999.05029*T-0.0001537*T*T)*D2R;
+  const C=(1.914602-0.004817*T-0.000014*T*T)*Math.sin(M)+(0.019993-0.000101*T)*Math.sin(2*M)+0.000289*Math.sin(3*M);
+  const omega=(125.04-1934.136*T)*D2R;
+  return norm360(L0+C-0.00569-0.00478*Math.sin(omega));
+}
+function deltaT(y){
+  let u,t;
+  if(y<-500){u=(y-1820)/100;return -20+32*u*u;}
+  if(y<500){u=y/100;return 10583.6-1014.41*u+33.78311*u*u-5.952053*u**3-0.1798452*u**4+0.022174192*u**5+0.0090316521*u**6;}
+  if(y<1600){u=(y-1000)/100;return 1574.2-556.01*u+71.23472*u*u+0.319781*u**3-0.8503463*u**4-0.005050998*u**5+0.0083572073*u**6;}
+  if(y<1700){t=y-1600;return 120-0.9808*t-0.01532*t*t+t**3/7129;}
+  if(y<1800){t=y-1700;return 8.83+0.1603*t-0.0059285*t*t+0.00013336*t**3-t**4/1174000;}
+  if(y<1860){t=y-1800;return 13.72-0.332447*t+0.0068612*t*t+0.0041116*t**3-0.00037436*t**4+0.0000121272*t**5-0.0000001699*t**6+0.000000000875*t**7;}
+  if(y<1900){t=y-1860;return 7.62+0.5737*t-0.251754*t*t+0.01680668*t**3-0.0004473624*t**4+t**5/233174;}
+  if(y<1920){t=y-1900;return -2.79+1.494119*t-0.0598939*t*t+0.0061966*t**3-0.000197*t**4;}
+  if(y<1941){t=y-1920;return 21.20+0.84493*t-0.076100*t*t+0.0020936*t**3;}
+  if(y<1961){t=y-1950;return 29.07+0.407*t-t*t/233+t**3/2547;}
+  if(y<1986){t=y-1975;return 45.45+1.067*t-t*t/260-t**3/718;}
+  if(y<2005){t=y-2000;return 63.86+0.3345*t-0.060374*t*t+0.0017275*t**3+0.000651814*t**4+0.00002373599*t**5;}
+  if(y<2050){t=y-2000;return 62.92+0.32217*t+0.005589*t*t;}
+  u=(y-1820)/100;return -20+32*u*u;
+}
+function solarTermJD(targetDeg, approxY, approxM, approxD){
+  let jde=jdnGregorian(approxY,approxM,approxD)+0.5;
+  for(let i=0;i<8;i++){
+    const diff=((targetDeg-sunAppLon(jde)+540)%360)-180;
+    jde+=diff*(365.25/360);
+  }
+  return jde-deltaT(approxY)/86400;
+}
+function monthBranchIdxFromLon(lon){const sec=Math.floor(norm360(lon-315)/30);return (2+sec)%12;}
+function dayPillar(y,m,d){const idx=((toJDN(y,m,d)+49)%60+60)%60;return {stemIdx:idx%10,branchIdx:idx%12,kanshiIdx:idx};}
+function yearPillarStem(ganshiYear){const idx=((ganshiYear-1984)%60+60)%60;return {stemIdx:idx%10,branchIdx:idx%12,kanshiIdx:idx};}
+function pickNearest(arr,t){let best=arr[0];for(const v of arr)if(Math.abs(v-t)<Math.abs(best-t))best=v;return best;}
+function computeChart(y,m,d,h,min,sex){
+  const timeKnown=(h!==null&&min!==null);
+  const eh=timeKnown?h:23, emin=timeKnown?min:59;
+  const jdUT=toJDN(y,m,d)-0.5+(eh*60+emin)/1440-9/24;
+  const jde=jdUT+deltaT(y)/86400;
+  const lon=sunAppLon(jde);
+  const mbIdx=monthBranchIdxFromLon(lon);
+  const risshunJD=solarTermJD(315,y,2,4);
+  const ganshiYear=(jdUT>=risshunJD)?y:(y-1);
+  const yp=yearPillarStem(ganshiYear);
+  const yearStemIdx=yp.stemIdx;
+  const starts=[2,4,6,8,0];
+  const grp=yearStemIdx%5;
+  const monthSeq=(mbIdx-2+12)%12;
+  const monthStemIdx=(starts[grp]+monthSeq)%10;
+  const dp=dayPillar(y,m,d);
+  const dayStemIdx=dp.stemIdx, dayBranchIdx=dp.branchIdx;
+  const dayStem=STEMS[dayStemIdx];
+  let hp=null;
+  if(timeKnown){
+    const tot=h*60+min; let bi;
+    if(tot>=1380||tot<60) bi=0; else bi=Math.min(Math.floor((tot-60)/120)+1,11);
+    const startStems=[0,2,4,6,8];
+    const effDay=(tot>=1380)?(dayStemIdx+1)%10:dayStemIdx;
+    const si=(startStems[effDay%5]+bi)%10;
+    hp={stemIdx:si,branchIdx:bi};
+  }
+  return {
+    timeKnown, ganshiYear, monthBranch:BRANCHES[mbIdx],
+    year:{stemIdx:yp.stemIdx,branchIdx:yp.branchIdx,kanshiIdx:yp.kanshiIdx},
+    month:{stemIdx:monthStemIdx,branchIdx:mbIdx},
+    day:{stemIdx:dayStemIdx,branchIdx:dayBranchIdx,kanshiIdx:dp.kanshiIdx},
+    hour:hp, dayStem
+  };
+}
+function tenTG(dayStem,targetStem){return (JUUSHIN_MAP[dayStem]&&JUUSHIN_MAP[dayStem][targetStem])||'';}
+const BRANCH_STEM_SEI={子:'壬',丑:'己',寅:'甲',卯:'乙',辰:'戊',巳:'丁',午:'丙',未:'己',申:'庚',酉:'辛',戌:'戊',亥:'癸'};
+function branchTG(dayStem,branch){return tenTG(dayStem,BRANCH_STEM_SEI[branch]);}
+function juunishi(dayStem,branch){return (JUUNISHI_TABLE[dayStem]&&JUUNISHI_TABLE[dayStem][branch])||'';}
+function kanshiIndex(si,bi){for(let i=si;i<60;i+=10)if(i%12===bi)return i;for(let i=si+10;i<120;i+=10)if(i%12===bi)return i-60;return -1;}
+function daiun(chart,y,m,d,sex){
+  const isYang=chart.year.stemIdx%2===0;
+  const dir=(sex==='男')?(isYang?1:-1):(isYang?-1:1);
+  const birthJDN=toJDN(y,m,d);
+  const setsuJDN=(lonDeg,seedD,anchor)=>{
+    let jd=solarTermJD(lonDeg,y,m,seedD);
+    jd=pickNearest([jd,jd-365.2422,jd+365.2422],anchor);
+    const p=jdToParts(jd);
+    return toJDN(p.year,p.month,p.day);
+  };
+  let days;
+  if(dir===1){
+    const nextLon=(315+30*(((chart.month.branchIdx-2+12)%12)+1))%360;
+    days=setsuJDN(nextLon,Math.min(d+20,28),birthJDN+15)-birthJDN;
+  }else{
+    const curLon=(315+30*((chart.month.branchIdx-2+12)%12))%360;
+    days=birthJDN-setsuJDN(curLon,d,birthJDN-15);
+  }
+  if(days<0)days=0;
+  const startAge=Math.round(days/3);
+  const cycle=startAge<=1?10:startAge; // 大運の巡りは起運数と同じ年数。起運数が0〜1の時だけ10年固定にする（起運数2はそのまま2年運として扱い、別途10年版も併記する）
+  const mKanshi=kanshiIndex(chart.month.stemIdx,chart.month.branchIdx);
+  const kanshiOf=i=>{const k=((mKanshi+dir*(i-1))%60+60)%60;return {stemIdx:k%10,branchIdx:k%12};};
+  const listVar=[];
+  for(let i=1; 1+(i-1)*cycle<=100 && i<=200; i++){
+    const a=1+(i-1)*cycle; listVar.push({...kanshiOf(i),ageStart:a,ageEnd:a+cycle-1});
+  }
+  return {dir,startAge,cycle,mKanshi,list:listVar};
+}
+function daiunAtAgeCycle(du,age,cycle){
+  const i=Math.max(1,Math.floor((age-1)/cycle)+1);
+  const k=((du.mKanshi+du.dir*(i-1))%60+60)%60;
+  const a=1+(i-1)*cycle;
+  return {stemIdx:k%10,branchIdx:k%12,ageStart:a,ageEnd:a+cycle-1};
+}
+function daiunAtAge(du,age){
+  if(age==null||age<0) return null;
+  return daiunAtAgeCycle(du,age,du.cycle);
+}
+function kanshiStr(o){return STEMS[o.stemIdx]+BRANCHES[o.branchIdx];}
+function displayWidth(s){let w=0;for(const ch of s)w+=/[\x00-\xFF]/.test(ch)?1:2;return w;}
+function padKind(kind,maxW){return kind+' '.repeat(Math.max(0,maxW-displayWidth(kind)));}
+
+/* ---- run3.js (ported, require/module.exports removed) ---- */
+const CHU={"子":"午","丑":"未","寅":"申","卯":"酉","辰":"戌","巳":"亥","午":"子","未":"丑","申":"寅","酉":"卯","戌":"辰","亥":"巳"};
+const ROKUGO={"子":"丑","丑":"子","寅":"亥","亥":"寅","卯":"戌","戌":"卯","辰":"酉","酉":"辰","巳":"申","申":"巳","午":"未","未":"午"};
+const ROKUGO_EL={'丑子':'土','寅亥':'木','卯戌':'火','酉辰':'金','巳申':'水','午未':null};
+const SANGO=[["寅","午","戌"],["申","子","辰"],["巳","酉","丑"],["亥","卯","未"]];
+const SANGO_EL={"寅午戌":"火","申子辰":"水","巳酉丑":"金","亥卯未":"木"};
+const HOGO=[["寅","卯","辰"],["巳","午","未"],["申","酉","戌"],["亥","子","丑"]];
+const HOGO_EL={"寅卯辰":"木","巳午未":"火","申酉戌":"金","亥子丑":"水"};
+const GAI={"子":"未","未":"子","丑":"午","午":"丑","寅":"巳","巳":"寅","卯":"辰","辰":"卯","申":"亥","亥":"申","酉":"戌","戌":"酉"};
+const PO={"子":"酉","酉":"子","午":"卯","卯":"午","巳":"申","申":"巳","寅":"亥","亥":"寅","丑":"辰","辰":"丑","未":"戌","戌":"未"};
+const SELFPUN=["辰","午","酉","亥"];
+const KEI_GROUPS=[["寅","巳","申"],["丑","戌","未"]];
+const KEI_PAIR=[["子","卯"]];
+const STEM_CHONG={"甲":"庚","庚":"甲","乙":"辛","辛":"乙","丙":"壬","壬":"丙","丁":"癸","癸":"丁"};
+const GOU_STEM={"甲己":"土","乙庚":"金","丙辛":"水","丁壬":"木","戊癸":"火"};
+function gouPair(a,b){const k1=a+b,k2=b+a;return GOU_STEM[k1]||GOU_STEM[k2]||null;}
+const SN={木:'火',火:'土',土:'金',金:'水',水:'木'};
+const SP={火:'木',土:'火',金:'土',水:'金',木:'水'};
+const KN={木:'土',土:'水',水:'火',火:'金',金:'木'};
+const KP={土:'木',水:'土',火:'水',金:'火',木:'金'};
+function elCategory(dayEl, el){
+  if(el===dayEl) return '比劫';
+  if(el===SN[dayEl]) return '食傷';
+  if(el===SP[dayEl]) return '印';
+  if(el===KN[dayEl]) return '財';
+  if(el===KP[dayEl]) return '官';
+  return '';
+}
+const TENTOKU={
+  "亥":{type:'stem',vals:['乙','庚']}, "子":{type:'branch',vals:['巳','申']},
+  "丑":{type:'stem',vals:['庚','乙']}, "寅":{type:'stem',vals:['丁','壬']},
+  "卯":{type:'branch',vals:['申','巳']}, "辰":{type:'stem',vals:['壬','丁']},
+  "巳":{type:'stem',vals:['辛','丙']}, "午":{type:'branch',vals:['亥','寅']},
+  "未":{type:'stem',vals:['甲','己']}, "申":{type:'stem',vals:['癸','戊']},
+  "酉":{type:'branch',vals:['寅','亥']}, "戌":{type:'stem',vals:['丙','辛']},
+};
+
+function makeEngine(Y,M,D,SEX,h,min){
+  const natal=computeChart(Y,M,D,h!==undefined?h:null,min!==undefined?min:null,SEX);
+  const ds=natal.dayStem;
+  const dayEl=STEM_GOGYO[ds];
+  const du=daiun(natal,Y,M,D,SEX);
+  const natalStems={年柱:STEMS[natal.year.stemIdx],月柱:STEMS[natal.month.stemIdx],日柱:ds};
+  const natalBranches={年柱:BRANCHES[natal.year.branchIdx],月柱:BRANCHES[natal.month.branchIdx],日柱:BRANCHES[natal.day.branchIdx]};
+  if(natal.hour){ natalStems.時柱=STEMS[natal.hour.stemIdx]; natalBranches.時柱=BRANCHES[natal.hour.branchIdx]; }
+  const monthBranchNatal=natalBranches.月柱;
+  const tentokuDef=TENTOKU[monthBranchNatal];
+
+  function ageAt(y){ return y - natal.ganshiYear + 1; }
+  function yearInfo(y){ return computeChart(y,6,15,null,null,SEX).year; }
+  function monthInfo(y,m,day){ return computeChart(y,m,day||15,null,null,SEX).month; }
+
+  function fuyinHanyinNotes(flowStem, flowBranch, baseStems, baseBranches){
+    const notes=[];
+    const stBase=baseStems||natalStems, brBase=baseBranches||natalBranches;
+    Object.keys(stBase).forEach(label=>{
+      const nst=stBase[label], nbr=brBase[label];
+      if(nst===flowStem && nbr===flowBranch) notes.push(label+'反言');
+      else if(CHU[flowBranch]===nbr && (STEM_CHONG[flowStem]===nst || KN[STEM_GOGYO[flowStem]]===STEM_GOGYO[nst])) notes.push(label+'天戦地冲');
+    });
+    return notes;
+  }
+
+  function stemNotes(flowStem, extraStems, baseStems){
+    const notes=[];
+    if(tentokuDef && tentokuDef.type==='stem' && tentokuDef.vals.includes(flowStem)) notes.push('天徳');
+    const all={...(baseStems||natalStems), ...extraStems};
+    const groups={};
+    Object.entries(all).forEach(([label,st])=>{
+      if(st===flowStem) return;
+      const el=gouPair(flowStem,st);
+      if(el){
+        let cat=elCategory(dayEl,el);
+        if(cat){
+          if(cat==='比劫') cat='比肩';
+          const key=[flowStem,st].sort().join('')+'|'+cat;
+          if(!groups[key]) groups[key]={labels:[],pair:[flowStem,st].sort().join(''),cat};
+          groups[key].labels.push(label);
+        }
+      }
+    });
+    Object.values(groups).forEach(g=>{
+      const lbl=g.labels.join('').replace(/柱/g,'')+'柱';
+      const marks='△'.repeat(g.labels.length);
+      notes.push(lbl+'の'+g.pair+'で'+g.cat+marks);
+    });
+    return notes;
+  }
+
+  function branchNotes(flowBr, extraBranches, allFlowBranches, baseBranches, suppressLabels){
+    const notes=[];
+    const sup=suppressLabels||new Set();
+    if(tentokuDef && tentokuDef.type==='branch' && tentokuDef.vals.includes(flowBr)) notes.push('天徳');
+    const all={...(baseBranches||natalBranches), ...extraBranches};
+    const rokugoGroup={labels:[]};
+    Object.entries(all).forEach(([label,br])=>{
+      if(br===flowBr) return;
+      if(CHU[flowBr]===br && !sup.has(label)) notes.push(label+'冲');
+      if(PO[flowBr]===br && ROKUGO[flowBr]!==br) notes.push(label+'破');
+      if(ROKUGO[flowBr]===br) rokugoGroup.labels.push(label);
+      if(GAI[flowBr]===br) notes.push(label+'害');
+    });
+    if(rokugoGroup.labels.length){
+      const br=ROKUGO[flowBr];
+      const key=[flowBr,br].sort().join('');
+      const el=ROKUGO_EL[key];
+      if(el){
+        let cat=elCategory(dayEl,el); if(cat==='比劫')cat='比肩';
+        const lbl=rokugoGroup.labels.join('').replace(/柱/g,'')+'柱';
+        const marks='△'.repeat(rokugoGroup.labels.length);
+        notes.push(lbl+'の'+[flowBr,br].join('')+'合'+el+(cat?'で'+cat+marks:''));
+      }
+    }
+    const allPresent=[...allFlowBranches, ...Object.values(all)];
+    KEI_GROUPS.forEach(g=>{
+      if(!g.includes(flowBr)) return;
+      const matched=g.filter(b=> b===flowBr || allPresent.includes(b));
+      if(matched.length>=2) notes.push([...new Set(matched)].join('')+'の刑');
+    });
+    KEI_PAIR.forEach(p=>{
+      if(!p.includes(flowBr)) return;
+      const other=p.find(x=>x!==flowBr);
+      if(allPresent.includes(other)) notes.push(p.join('')+'の刑');
+    });
+    if(SELFPUN.includes(flowBr)){
+      const cnt=allFlowBranches.filter(b=>b===flowBr).length + Object.values(all).filter(b=>b===flowBr).length;
+      if(cnt>=2) notes.push(flowBr+flowBr+'の自刑');
+    }
+    const groups={};
+    SANGO.forEach(t=>{
+      if(!t.includes(flowBr)) return;
+      const presentMembers=t.filter(b=> b===flowBr || allPresent.includes(b));
+      if(presentMembers.length<2) return;
+      const full = presentMembers.length>=3;
+      Object.entries(all).forEach(([label,br])=>{
+        if(br===flowBr || !t.includes(br)) return;
+        const el=SANGO_EL[t.join('')];
+        if(!el) return;
+        let cat=elCategory(dayEl,el);
+        if(!cat) return;
+        if(cat==='比劫')cat='比肩';
+        const key=t.join('')+'|'+cat+'|'+(full?'full':'half');
+        if(!groups[key]) groups[key]={labels:[],pair: full? t.join('') : [flowBr,br].filter((v,i,a)=>a.indexOf(v)===i).sort().join(''),cat,mark: full?'▲':'△'};
+        groups[key].labels.push(label);
+      });
+    });
+    HOGO.forEach(t=>{
+      if(!t.includes(flowBr)) return;
+      const need=t.filter(b=>b!==flowBr);
+      const matchLabels=need.map(b=>{
+        const found=Object.entries(all).find(([label,br])=>br===b);
+        return found?found[0]:(allFlowBranches.includes(b)?'同柱':null);
+      });
+      if(matchLabels.every(x=>x)){
+        const el=HOGO_EL[t.join('')];
+        let cat=el?elCategory(dayEl,el):'';
+        if(cat==='比劫')cat='比肩';
+        if(cat){
+          const key=t.join('')+'|'+cat+'|hogo';
+          if(!groups[key]) groups[key]={labels:[],pair:t.join(''),cat,mark:'▲'};
+          groups[key].labels.push(...matchLabels);
+        }
+      }
+    });
+    Object.values(groups).forEach(g=>{
+      const lbl=[...new Set(g.labels)].join('').replace(/柱/g,'')+'柱';
+      const marks=g.mark.repeat(g.labels.length);
+      notes.push(lbl+'の'+g.pair+'で'+g.cat+marks);
+    });
+    return [...new Set(notes)];
+  }
+
+  function crossFlowNotes(stem,branch,extraStemPool,extraBranchPool){
+    const notes=[];
+    Object.keys(extraStemPool||{}).forEach(label=>{
+      const ost=extraStemPool[label], obr=extraBranchPool[label];
+      if(ost===stem && obr===branch) notes.push(label+'と反言');
+      else if(CHU[branch]===obr && (STEM_CHONG[stem]===ost || KN[STEM_GOGYO[stem]]===STEM_GOGYO[ost])) notes.push(label+'天戦地冲');
+    });
+    return notes;
+  }
+  function fmtPillar(kind,stem,branch,extraStemPool,extraBranchPool,allFlowBranches,baseStems,baseBranches){
+    const tg=tenTG(ds,stem), un=juunishi(ds,branch), btg=branchTG(ds,branch);
+    const fh=fuyinHanyinNotes(stem,branch,baseStems,baseBranches);
+    const cf=crossFlowNotes(stem,branch,extraStemPool,extraBranchPool);
+    const suppressLabels=new Set([...fh,...cf].filter(n=>n.endsWith('天戦地冲')).map(n=>n.replace(/と?天戦地冲$/,'')));
+    const sN=stemNotes(stem, extraStemPool, baseStems);
+    const bN=branchNotes(branch, extraBranchPool, allFlowBranches, baseBranches, suppressLabels);
+    const notes=[...fh,...cf,...sN,...bN];
+    const tIdx=notes.indexOf('天徳');
+    if(tIdx>0){ notes.splice(tIdx,1); notes.unshift('天徳'); }
+    const noteStr = notes.length? '（'+notes.join('＋')+'）' : '';
+    const unPadded = un.length<2 ? '　'+un : un; // 十二運が1文字の語は全角スペースで2文字幅に揃える
+    return kind+' / '+stem+branch+' '+tg+' '+unPadded+' '+btg+noteStr;
+  }
+
+  return {natal,ds,dayEl,du,ageAt,yearInfo,monthInfo,fmtPillar,natalStems,natalBranches};
+}
+
+/* ---- page logic ---- */
+let eventSeq=0;
+const eventsEl=document.getElementById('events');
+
+function addEventRow(y,m,d,label){
+  const id='ev'+(eventSeq++);
+  const row=document.createElement('div');
+  row.className='event-row';
+  row.dataset.id=id;
+  row.innerHTML=
+    '<div class="f"><label for="'+id+'-y">年</label><input type="number" id="'+id+'-y" value="'+(y||'')+'"></div>'+
+    '<div class="f"><label for="'+id+'-m">月</label><input type="number" id="'+id+'-m" min="1" max="12" value="'+(m||'')+'"></div>'+
+    '<div class="f"><label for="'+id+'-d">日</label><input type="number" id="'+id+'-d" min="1" max="31" value="'+(d||'')+'"></div>'+
+    '<div class="f"><label for="'+id+'-t">出来事</label><input type="text" id="'+id+'-t" value="'+(label?label.replace(/"/g,'&quot;'):'')+'"></div>'+
+    '<button class="remove" type="button" aria-label="この行を削除" data-remove="'+id+'">✕</button>';
+  eventsEl.appendChild(row);
+}
+eventsEl.addEventListener('click',e=>{
+  const btn=e.target.closest('[data-remove]');
+  if(btn){ eventsEl.querySelector('[data-id="'+btn.dataset.remove+'"]').remove(); }
+});
+document.getElementById('add-event').addEventListener('click',()=>addEventRow());
+
+/* 箇条書きの入れ子（年の行の下に「年内：」「3月16日：」のような孫行が続く形式）に対応するため、
+   直前に確定した年・月を文脈として引き継ぎながら1行ずつ読む。
+   先頭記号は「-」「*」「・」「•」「**」など書式がまちまちでも拾えるよう緩めに剥がし、
+   「1. 見出し」のような章番号の行だけは年の文脈ごと無視する。 */
+/* 出来事欄が「下旬【タイトル】本文」のように【】見出しを含む場合、
+   見出しは年表の日付行に、残りの本文は大運・流年・流月のあとの独立行に分ける */
+function splitTitle(raw){
+  const t=(raw||'').trim();
+  const start=t.indexOf('【'), end=t.indexOf('】');
+  if(start!==-1 && end!==-1 && end>start){
+    const lead=t.slice(0,start).trim();
+    const bracket=t.slice(start,end+1);
+    const rest=t.slice(end+1).trim();
+    return {headTitle:(lead?lead:'')+bracket, desc:rest};
+  }
+  return {headTitle:'', desc:t};
+}
+/* 「出来事」欄1つに年月日も一緒に書いてしまった場合（年の入力欄を空のまま
+   「1986年【タイトル】本文」のように貼った場合）に備えて、年が未入力なら
+   出来事テキストの先頭から日付を拾い直す */
+function extractDateFromText(text){
+  const t=(text||'').trim();
+  let m;
+  m=t.match(/^(\d{4})[\/\-](\d{1,2})[\/\-](\d{1,2})[\s　:：\-]*(.*)$/);
+  if(m) return {y:+m[1],m:+m[2],d:+m[3],rest:m[4].trim()};
+  m=t.match(/^(\d{4})年(\d{1,2})月(\d{1,2})日?[\s　:：\-]*(.*)$/);
+  if(m) return {y:+m[1],m:+m[2],d:+m[3],rest:m[4].trim()};
+  m=t.match(/^(\d{4})年(\d{1,2})月[\s　:：\-]*(.*)$/);
+  if(m) return {y:+m[1],m:+m[2],d:null,rest:m[3].trim()};
+  m=t.match(/^(\d{4})年(?:[〜～~\-](\d{4})年?)?[\s　:：\-]*(.*)$/);
+  if(m) return {y:+m[1],m:null,d:null,rest:m[3].trim()};
+  return null;
+}
+function cleanLine(line){
+  let s=line.replace(/^[\s]*([-*•◦‣・>#]+)\s*/,'');
+  s=s.replace(/\*+$/,'');
+  return s.trim();
+}
+function isHeaderLine(line){
+  return /^\d{1,2}[\.\)]/.test(line.trim());
+}
+/* 「2. 見出しタイトル（2012年〜2014年）」のような章見出しが、改行が
+   保持されずに前後の出来事の地の文と同じ行にくっついて貼り付けられた場合、
+   isHeaderLine（行頭判定）だけでは拾いきれないため、本文中のどこにあっても
+   この形の見出しをまるごと除去しておく */
+function stripSectionHeaders(text){
+  return text.replace(/\d{1,2}[\.\)]\s*[^\n]{2,60}?[（(]\s*\d{4}年[^（(）)]{0,60}[）)]/g, '');
+}
+/* このツール自身が出力した「大運 / ...」「流年 / ...」「流月 / ...」の行を
+   誤って貼り付け直した場合に、出来事として拾ってしまわないよう無視する */
+function isPillarLine(line){
+  return /^(大運|流年|流月)\s*\//.test(line);
+}
+/* 生成結果の見出し「1986年（23歳）」をそのまま貼り直した場合に備えて、
+   日付直後の「（N歳）」はタイトル・本文として扱わず読み飛ばす */
+function stripAgeAnnotation(s){
+  return s.replace(/^（\d+歳）[\s　]*/,'').trim();
+}
+/* 行頭だけでなく、地の文（流し込みの文章）の途中に埋まった日付も拾えるよう、
+   行全体を走査して日付らしき箇所をすべて探す。年を伴うフル日付は常に検索し、
+   「3月16日」「年内」のような年を省略した書き方は、直前に年の文脈(curY)が
+   確定している時だけ検索対象にする。 */
+const FULL_DATE_PATTERNS=[
+  {re:/(\d{4})[\/\-](\d{1,2})[\/\-](\d{1,2})/g, build:m=>({y:+m[1],m:+m[2],d:+m[3]})},
+  {re:/(\d{4})年(\d{1,2})月(\d{1,2})日?/g, build:m=>({y:+m[1],m:+m[2],d:+m[3]})},
+  {re:/(\d{4})年(\d{1,2})月/g, build:m=>({y:+m[1],m:+m[2],d:null})},
+  {re:/(\d{4})年(?:[〜～~\-]\d{4}年?)?/g, build:m=>({y:+m[1],m:null,d:null})},
+];
+const CTX_DATE_PATTERNS=[
+  {re:/(\d{1,2})月(\d{1,2})日/g, build:m=>({m:+m[1],d:+m[2]})},
+  {re:/(\d{1,2})月(?:[上中下]旬)?/g, build:m=>({m:+m[1],d:null})},
+  {re:/年内/g, build:()=>({m:null,d:null})},
+];
+/* 「27歳頃（2010年（28歳）頃）【〜】」のように、年齢の注釈の括弧の中に
+   別の年が入れ子で書かれている場合、その中の年で区切ってしまうと括弧の
+   開き・閉じが前後の出来事にちぎれて残ってしまう。括弧の中にある年は
+   区切りの日付として使わず、地の文の一部としてそのまま残す */
+function insideParen(str, idx){
+  let depth=0;
+  for(let i=0;i<idx;i++){
+    const c=str[i];
+    if(c==='（'||c==='(') depth++;
+    else if(c==='）'||c===')') depth=Math.max(0,depth-1);
+  }
+  return depth>0;
+}
+function findFirstDate(str, fromIndex, curY){
+  let best=null;
+  const consider=(re,build,isCtx)=>{
+    re.lastIndex=fromIndex;
+    let m;
+    while((m=re.exec(str))){
+      if(insideParen(str,m.index)) continue;
+      const info=build(m);
+      const cand={index:m.index,end:re.lastIndex,y:isCtx?curY:info.y,m:info.m,d:info.d};
+      if(best===null || cand.index<best.index || (cand.index===best.index && cand.end>best.end)) best=cand;
+      break;
+    }
+  };
+  FULL_DATE_PATTERNS.forEach(p=>consider(p.re,p.build,false));
+  if(curY!=null) CTX_DATE_PATTERNS.forEach(p=>consider(p.re,p.build,true));
+  return best;
+}
+function parseBulkEvents(text){
+  text=stripSectionHeaders(text);
+  const lines=text.split('\n');
+  let curY=null, curM=null;
+  const events=[];
+  let lastPushedIdx=-1;
+  let headerJustSeen=false; // 直前が「本文の無い日付見出し行」だった場合、次の地の文は継続扱いにしない
+
+  function push(y,m,d,chunk){
+    const t=stripAgeAnnotation(chunk);
+    if(!t) return false;
+    events.push({y,m,d,t});
+    lastPushedIdx=events.length-1;
+    headerJustSeen=false;
+    return true;
+  }
+  function appendOrPush(y,m,d,chunk){
+    const t=stripAgeAnnotation(chunk);
+    if(!t) return;
+    const canAppend = !headerJustSeen && lastPushedIdx>=0 && events[lastPushedIdx].y===y;
+    if(canAppend){
+      events[lastPushedIdx].t=(events[lastPushedIdx].t+' '+t).trim();
+    }else{
+      events.push({y,m,d,t});
+      lastPushedIdx=events.length-1;
+    }
+    headerJustSeen=false;
+  }
+
+  lines.forEach(raw=>{
+    if(isHeaderLine(raw)) return;
+    const rest=cleanLine(raw);
+    if(!rest) return;
+    if(isPillarLine(rest)) return;
+
+    const found=findFirstDate(rest,0,curY);
+    if(!found){
+      // この行に日付が一切なければ、年の文脈があるときだけ直前の出来事の続きとして拾う
+      if(curY!=null) appendOrPush(curY,curM,null,rest);
+      return;
+    }
+    const lead=rest.slice(0,found.index).trim();
+    if(lead && curY!=null) appendOrPush(curY,curM,null,lead);
+    let cur=found;
+    while(cur){
+      const next=findFirstDate(rest,cur.end,cur.y!=null?cur.y:curY);
+      const segEnd=next?next.index:rest.length;
+      const chunk=rest.slice(cur.end,segEnd);
+      curY=cur.y; curM=(cur.m!=null)?cur.m:null;
+      const pushed=push(cur.y,cur.m,cur.d,chunk);
+      if(!pushed) headerJustSeen=true; // 「1988年（25歳）」のような本文の無い見出し行
+      cur=next;
+    }
+  });
+  return events;
+}
+/* 同じ出来事が「年【タイトル】」行と「年　本文」行の2行に分かれて重複している場合に
+   1件へ統合する。(1)完全に同じ年月日の行どうしをまとめ、(2)それでも残る
+   「タイトルだけ」と「本文だけ（年のみで月日不明）」は、同じ年の中で出現順にペアリングする */
+function mergeDuplicateEvents(events){
+  const exactGroups=new Map();
+  const order=[];
+  events.forEach(e=>{
+    const key=e.y+'|'+(e.m==null?'':e.m)+'|'+(e.d==null?'':e.d);
+    if(!exactGroups.has(key)){ exactGroups.set(key,[]); order.push(key); }
+    exactGroups.get(key).push(e);
+  });
+  let merged=[];
+  order.forEach(key=>{
+    const group=exactGroups.get(key);
+    if(group.length===1){ merged.push(group[0]); return; }
+    const titled=group.filter(e=>splitTitle(e.t).headTitle);
+    if(titled.length===0){
+      // 全部タイトルなしの本文どうし→別々の出来事の可能性があるので統合しない
+      group.forEach(e=>merged.push(e));
+      return;
+    }
+    let title='', descs=[];
+    group.forEach(e=>{
+      const {headTitle,desc}=splitTitle(e.t);
+      if(headTitle && !title) title=headTitle;
+      if(desc && !descs.includes(desc)) descs.push(desc);
+    });
+    const combinedT=title ? (descs.length? title+' '+descs.join(' ') : title) : descs.join(' ');
+    merged.push({y:group[0].y,m:group[0].m,d:group[0].d,t:combinedT});
+  });
+  const byYear={};
+  merged.forEach((e,idx)=>{
+    const {headTitle,desc}=splitTitle(e.t);
+    if(!byYear[e.y]) byYear[e.y]={descOnly:[],titled:[]};
+    if(!headTitle && desc && e.m==null){ byYear[e.y].descOnly.push(idx); }
+    else if(headTitle){ byYear[e.y].titled.push(idx); }
+  });
+  const toRemove=new Set();
+  Object.values(byYear).forEach(group=>{
+    const n=Math.min(group.descOnly.length, group.titled.length);
+    for(let i=0;i<n;i++){
+      const descIdx=group.descOnly[i], titleIdx=group.titled[i];
+      const descEvent=merged[descIdx], titleEvent=merged[titleIdx];
+      const {headTitle}=splitTitle(titleEvent.t);
+      const {desc}=splitTitle(descEvent.t);
+      merged[titleIdx]={y:titleEvent.y,m:titleEvent.m,d:titleEvent.d,t:headTitle+(desc?' '+desc:'')};
+      toRemove.add(descIdx);
+    }
+  });
+  return merged.filter((e,idx)=>!toRemove.has(idx));
+}
+document.getElementById('bulk-add').addEventListener('click',()=>{
+  const ta=document.getElementById('bulk-events');
+  const events=mergeDuplicateEvents(parseBulkEvents(ta.value));
+  events.forEach(ev=>addEventRow(ev.y,ev.m,ev.d,ev.t));
+  const btn=document.getElementById('bulk-add');
+  if(events.length){ ta.value=''; btn.textContent=events.length+'件追加しました'; }
+  else{ btn.textContent='日付を読み取れなかった'; }
+  setTimeout(()=>{btn.textContent='まとめて追加';},1800);
+});
+document.getElementById('clear-events').addEventListener('click',()=>{
+  eventsEl.innerHTML='';
+});
+
+const timeUnknownEl=document.getElementById('f-time-unknown');
+const hourEl=document.getElementById('f-hour'), minEl=document.getElementById('f-min');
+function syncTimeFields(){ hourEl.disabled=timeUnknownEl.checked; minEl.disabled=timeUnknownEl.checked; }
+timeUnknownEl.addEventListener('change',syncTimeFields);
+syncTimeFields();
+
+function collectEvents(){
+  return [...eventsEl.querySelectorAll('.event-row')].map(row=>{
+    const id=row.dataset.id;
+    const y=parseInt(document.getElementById(id+'-y').value,10);
+    const m=parseInt(document.getElementById(id+'-m').value,10);
+    const d=parseInt(document.getElementById(id+'-d').value,10);
+    const titleRaw=document.getElementById(id+'-t').value.trim();
+    if(isNaN(y)){
+      const extracted=extractDateFromText(titleRaw);
+      if(extracted) return {y:extracted.y,m:extracted.m,d:extracted.d,t:extracted.rest};
+    }
+    return {
+      y:isNaN(y)?null:y,
+      m:isNaN(m)?null:m,
+      d:isNaN(d)?null:d,
+      t:titleRaw
+    };
+  }).filter(e=>e.y!==null);
+}
+
+function renderNatal(engine){
+  const rows=[['年柱','年柱'],['月柱','月柱'],['日柱','日柱']];
+  if(engine.natalStems.時柱) rows.push(['時柱','時柱']);
+  let html='<table class="chart-table"><tr><th></th><th>干支</th><th>十神</th><th>十二運</th><th>蔵干十神</th></tr>';
+  rows.forEach(([label])=>{
+    const st=engine.natalStems[label], br=engine.natalBranches[label];
+    const tg= (label==='日柱') ? '日主' : tenTG(engine.ds,st);
+    html+='<tr><td>'+label+'</td><td class="pillar-kanshi">'+st+br+'</td><td>'+tg+'</td><td>'+juunishi(engine.ds,br)+'</td><td>'+branchTG(engine.ds,br)+'</td></tr>';
+  });
+  html+='</table>';
+  html+='<p class="meta-line">日主：'+engine.ds+'（'+engine.dayEl+'）　起運：'+engine.du.startAge+'歳（'+(engine.du.dir===1?'順行':'逆行')+'、'+engine.du.cycle+'年ごとに交代）</p>';
+  document.getElementById('natal-block').innerHTML=html;
+}
+
+function renderDaiunTable(engine){
+  let html='<tr><th>年齢</th><th>干支</th><th>十神</th><th>十二運</th></tr>';
+  engine.du.list.slice(0,12).forEach(p=>{
+    const st=STEMS[p.stemIdx], br=BRANCHES[p.branchIdx];
+    html+='<tr><td>'+p.ageStart+'〜'+p.ageEnd+'歳</td><td class="pillar-kanshi">'+st+br+'</td><td>'+tenTG(engine.ds,st)+'</td><td>'+juunishi(engine.ds,br)+'</td></tr>';
+  });
+  document.getElementById('daiun-table').innerHTML=html;
+}
+
+document.getElementById('generate').addEventListener('click',()=>{
+  const name=document.getElementById('f-name').value.trim()||'（氏名未入力）';
+  const sex=document.getElementById('f-sex').value;
+  const Y=parseInt(document.getElementById('f-year').value,10);
+  const M=parseInt(document.getElementById('f-month').value,10);
+  const D=parseInt(document.getElementById('f-day').value,10);
+  const timeUnknown=timeUnknownEl.checked;
+  const h=timeUnknown?null:parseInt(hourEl.value,10);
+  const min=timeUnknown?null:parseInt(minEl.value,10);
+  const result=document.getElementById('result');
+  const out=document.getElementById('output');
+
+  if(isNaN(Y)||isNaN(M)||isNaN(D)){
+    result.classList.add('show');
+    out.textContent='';
+    document.getElementById('natal-block').innerHTML='<p class="err">生年月日を正しく入力してください。</p>';
+    document.getElementById('daiun-table').innerHTML='';
+    return;
+  }
+
+  const engine=makeEngine(Y,M,D,sex,(timeUnknown||isNaN(h))?null:h,(timeUnknown||isNaN(min))?null:min);
+  renderNatal(engine);
+  renderDaiunTable(engine);
+
+  const events=collectEvents().sort((a,b)=> a.y-b.y || (a.m||0)-(b.m||0) || (a.d||0)-(b.d||0));
+  let text=name+'　命式：'+engine.natalStems.年柱+engine.natalBranches.年柱+' '+engine.natalStems.月柱+engine.natalBranches.月柱+' '+engine.natalStems.日柱+engine.natalBranches.日柱+(engine.natalStems.時柱?' '+engine.natalStems.時柱+engine.natalBranches.時柱:'')+'（日主：'+engine.ds+'）\n\n';
+
+  events.forEach(ev=>{
+    const age=engine.ageAt(ev.y);
+    // 起運年齢に達する前（生まれた時点など）はまだ大運が始まっていないため、大運は出さない
+    const hasDaiun=age>=engine.du.startAge;
+    const cd=hasDaiun?daiunAtAge(engine.du,age):null;
+    const cdStem=hasDaiun?STEMS[cd.stemIdx]:null, cdBr=hasDaiun?BRANCHES[cd.branchIdx]:null;
+    const yInfo=engine.yearInfo(ev.y);
+    const yStem=STEMS[yInfo.stemIdx], yBr=BRANCHES[yInfo.branchIdx];
+
+    // 「年（年齢）【タイトル】」を見出しにし、本文は大運・流年・流月のあとに独立した行で書く
+    const {headTitle,desc}=splitTitle(ev.t);
+    text+=ev.y+'年'+(ev.m?ev.m+'月':'')+(ev.m&&ev.d?ev.d+'日':'')+'（'+age+'歳）'+headTitle+'\n';
+    // 大運・流年は出来事ごとに毎回必ず書き出す（前の出来事と同じ運でも省略しない）
+    // 2年運の場合は、2年ごとの大運と10年ごとの大運を両方書き出す
+    // 見出し（大運／流年／流月）の表示幅をそろえ、「/」の書き出し位置を揃える
+    const kindLabels=hasDaiun?(engine.du.cycle===2?['大運(2年運)','大運(10年運)','流年']:['大運','流年']):['流年'];
+    if(ev.m) kindLabels.push('流月');
+    const kindW=Math.max(...kindLabels.map(displayWidth));
+    if(hasDaiun){
+      if(engine.du.cycle===2){
+        const cd10=daiunAtAgeCycle(engine.du,age,10);
+        const cd10Stem=STEMS[cd10.stemIdx], cd10Br=BRANCHES[cd10.branchIdx];
+        text+=engine.fmtPillar(padKind('大運(2年運)',kindW),cdStem,cdBr,{},{},[cdBr],engine.natalStems,engine.natalBranches)+'\n';
+        text+=engine.fmtPillar(padKind('大運(10年運)',kindW),cd10Stem,cd10Br,{},{},[cd10Br],engine.natalStems,engine.natalBranches)+'\n';
+      }else{
+        text+=engine.fmtPillar(padKind('大運',kindW),cdStem,cdBr,{},{},[cdBr],engine.natalStems,engine.natalBranches)+'\n';
+      }
+    }
+    text+=engine.fmtPillar(padKind('流年',kindW),yStem,yBr,hasDaiun?{大運:cdStem}:{},hasDaiun?{大運:cdBr}:{},hasDaiun?[cdBr,yBr]:[yBr],engine.natalStems,engine.natalBranches)+'\n';
+    if(ev.m){
+      const mInfo=engine.monthInfo(ev.y,ev.m,ev.d||15);
+      const mStem=STEMS[mInfo.stemIdx], mBr=BRANCHES[mInfo.branchIdx];
+      const mExtraSt=hasDaiun?{大運:cdStem,流年:yStem}:{流年:yStem};
+      const mExtraBr=hasDaiun?{大運:cdBr,流年:yBr}:{流年:yBr};
+      text+=engine.fmtPillar(padKind('流月',kindW),mStem,mBr,mExtraSt,mExtraBr,hasDaiun?[cdBr,yBr,mBr]:[yBr,mBr],engine.natalStems,engine.natalBranches)+'\n';
+    }
+    if(desc) text+=desc+'\n';
+    text+='\n';
+  });
+
+  if(!events.length) text+='（出来事が入力されていません。年表に出来事を追加すると、その時点の大運・流年・流月が書き出されます）\n';
+
+  out.textContent=text.trim();
+  result.classList.add('show');
+  result.scrollIntoView({behavior:'smooth',block:'start'});
+});
+
+document.getElementById('copy-btn').addEventListener('click',async()=>{
+  const out=document.getElementById('output');
+  const btn=document.getElementById('copy-btn');
+  const text=out.textContent;
+  if(!text){ btn.textContent='まだ生成されていません'; setTimeout(()=>{btn.textContent='結果をコピー';},1800); return; }
+  try{
+    await navigator.clipboard.writeText(text);
+    btn.textContent='コピーしました';
+  }catch(err){
+    const range=document.createRange();
+    range.selectNodeContents(out);
+    const sel=window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+    btn.textContent='選択しました（Ctrl/Cmd+Cでコピー）';
+  }
+  setTimeout(()=>{btn.textContent='結果をコピー';},1800);
+});
+</script>
+
+</body></html>
