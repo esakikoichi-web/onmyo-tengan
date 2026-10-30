@@ -369,4 +369,4 @@ function makeEngine(Y,M,D,SEX,h,min){
 }
 
 
-module.exports={computeChart,daiun,daiunAtAge,daiunAtAgeCycle,makeEngine,STEMS,BRANCHES,kanshiIndex,kanshiStr,tenTG,juunishi,branchTG};
+module.exports={computeChart,daiun,daiunAtAge,daiunAtAgeCycle,makeEngine,STEMS,BRANCHES,kanshiIndex,kanshiStr,tenTG,juunishi,branchTG,TENTOKU,STEM_GOGYO,SN,KN};
