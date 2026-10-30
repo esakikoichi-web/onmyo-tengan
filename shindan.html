@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ja"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>しごとの強みタイプ診断</title>
+<meta name="description" content="8つの質問で、あなたの「仕事の強み」を5タイプから診断します。">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef5f3;--panel:#ffffff;--ink:#1f2b28;--dim:#657a74;--main:#1f7a63;--main-d:#155c49;--line:rgba(31,122,99,.22);--accent:#e8664a}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:"Zen Maru Gothic",sans-serif;min-height:100vh;display:flex;flex-direction:column;max-width:520px;margin:0 auto;width:100%}
+header{padding:22px 18px 14px;text-align:center}
+header .ttl{font-size:19px;font-weight:900;color:var(--main-d)}
+header .sub{font-size:12.5px;color:var(--dim);margin-top:6px;line-height:1.6}
+main{flex:1;padding:0 18px 24px;display:flex;flex-direction:column}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px 18px;box-shadow:0 4px 18px rgba(31,122,99,.08)}
+#progWrap{padding:0 18px;margin-bottom:10px}
+#progBar{height:6px;background:rgba(31,122,99,.14);border-radius:99px;overflow:hidden}
+#progFill{height:100%;width:0%;background:var(--main);transition:width .25s}
+#progLbl{font-size:11px;color:var(--dim);margin-top:6px;text-align:right}
+.qtext{font-size:16.5px;font-weight:700;line-height:1.7;margin-bottom:18px}
+.opt{display:block;width:100%;text-align:left;background:#f5faf8;border:1px solid var(--line);border-radius:10px;padding:13px 14px;margin-bottom:10px;font-family:inherit;font-size:14.5px;color:var(--ink);cursor:pointer;line-height:1.6}
+.opt:hover{background:#e6f3ef;border-color:var(--main)}
+#startCard{text-align:center}
+#startCard .lead{font-size:14px;color:var(--dim);line-height:1.8;margin:14px 0 20px}
+.btn{display:inline-block;width:100%;font-family:inherit;font-size:15px;font-weight:700;color:#fff;background:var(--main);border:none;border-radius:10px;padding:14px;cursor:pointer;letter-spacing:.03em}
+.btn:hover{background:var(--main-d)}
+.btn.ghost{background:transparent;color:var(--main-d);border:1px solid var(--line);margin-top:10px}
+#resCard{display:none;text-align:center}
+#resCard .kicker{font-size:12px;color:var(--dim);letter-spacing:.1em}
+#resCard .typename{font-size:26px;font-weight:900;color:var(--main-d);margin:6px 0 14px}
+#resCard .desc{font-size:14.5px;line-height:1.85;text-align:left;margin-bottom:16px}
+.blk{text-align:left;margin-bottom:14px}
+.blk h3{font-size:12.5px;color:var(--main-d);letter-spacing:.08em;margin-bottom:8px;border-left:4px solid var(--main);padding-left:8px}
+.blk ul{list-style:none}
+.blk li{font-size:13.5px;line-height:1.8;padding-left:1.1em;position:relative;margin-bottom:4px}
+.blk li::before{content:"・";position:absolute;left:0;color:var(--main)}
+.scoreRow{display:flex;flex-direction:column;gap:6px;margin-top:16px;text-align:left}
+.scoreRow .sr{display:flex;align-items:center;gap:8px;font-size:11.5px;color:var(--dim)}
+.scoreRow .srname{width:64px;flex:0 0 auto}
+.srbarWrap{flex:1;height:8px;background:rgba(31,122,99,.1);border-radius:99px;overflow:hidden}
+.srbar{height:100%;background:var(--main);border-radius:99px}
+.shareBtn{display:inline-block;background:#111;color:#fff;font-family:inherit;font-size:13.5px;font-weight:700;text-decoration:none;padding:12px 20px;border-radius:99px;margin-top:6px}
+.adslot{margin:18px 0;text-align:center;font-size:10.5px;color:#9aa9a4;border:1px dashed var(--line);border-radius:8px;padding:14px;min-height:60px;display:flex;align-items:center;justify-content:center}
+footer{text-align:center;font-size:10.5px;color:#9aa9a4;padding:10px 18px 20px;line-height:1.7}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="ttl">しごとの強みタイプ診断</div>
+  <div class="sub">8つの質問で、あなたが仕事で力を発揮するタイプがわかります</div>
+</header>
+
+<div id="progWrap" style="display:none">
+  <div id="progBar"><div id="progFill"></div></div>
+  <div id="progLbl"></div>
+</div>
+
+<main>
+  <div class="card" id="startCard">
+    <div style="font-size:38px">🧭</div>
+    <div class="lead">直感で、一番近いものを選んでください。<br>所要時間は1分ほどです。</div>
+    <button class="btn" onclick="startQuiz()">診断をはじめる</button>
+  </div>
+
+  <div class="card" id="qCard" style="display:none">
+    <div class="qtext" id="qText"></div>
+    <div id="qOpts"></div>
+  </div>
+
+  <div class="card" id="resCard">
+    <div class="kicker">診断結果</div>
+    <div class="typename" id="resName"></div>
+    <div class="desc" id="resDesc"></div>
+    <div class="blk"><h3>強み</h3><ul id="resGood"></ul></div>
+    <div class="blk"><h3>注意点</h3><ul id="resWatch"></ul></div>
+    <div class="blk"><h3>向いている仕事の例</h3><ul id="resJobs"></ul></div>
+    <div class="scoreRow" id="resScores"></div>
+    <div class="adslot" id="adslotResult"><!-- ここに広告コード(Google AdSense等)を設置 --></div>
+    <a class="shareBtn" id="shareLink" href="#" target="_blank" rel="noopener">結果をXでシェア</a>
+    <button class="btn ghost" onclick="restart()">もう一度診断する</button>
+  </div>
+</main>
+
+<div class="adslot" style="margin:0 18px 18px"><!-- ここに広告コード(Google AdSense等)を設置 --></div>
+
+<footer>この診断はエンターテインメントを目的としたものです。<br>結果の正確性を保証するものではありません。</footer>
+
+<script>
+var TYPES = {
+  "先導型": {
+    emoji:"🚩",
+    desc:"目標を掲げ、周りを巻き込みながら物事を前に進める力がある。誰かが決めるのを待つより、迷ったときほど自分から旗を立てるタイプ。",
+    good:["決断が早く、停滞をよしとしない","人を動かす言葉を持っている","責任を引き受ける度胸がある"],
+    watch:["周りのペースを置き去りにしやすい","立ち止まって話を聞く時間を意識的に作りたい"],
+    jobs:["営業リーダー","プロジェクトマネージャー","起業家","店舗責任者"]
+  },
+  "支援型": {
+    emoji:"🤝",
+    desc:"誰かの力になっているときに一番力を発揮する。チームの空気を読み、抜け落ちているケアに気づける。",
+    good:["気配りと調整力がある","信頼をこつこつ積み重ねられる","人の話を丁寧に聞ける"],
+    watch:["自分の意見を後回しにしがち","頼まれる前に断る練習も必要"],
+    jobs:["人事","カスタマーサクセス","コーディネーター","教育・保育系"]
+  },
+  "分析型": {
+    emoji:"📊",
+    desc:"感覚より根拠を大事にする。物事を分解して筋道を立てるのが得意で、曖昧なまま進むことに違和感を覚える。",
+    good:["論理的に筋道を立てられる","データや事実に基づいて判断できる","仕組み化がうまい"],
+    watch:["考えすぎて動き出しが遅くなることがある","感覚で動くタイプへの理解も持ちたい"],
+    jobs:["経理・財務","リサーチャー","エンジニア","コンサルタント"]
+  },
+  "発想型": {
+    emoji:"💡",
+    desc:"ゼロから何かを生み出すことに喜びを感じる。誰もやっていないことに惹かれ、決まりきったやり方には飽きやすい。",
+    good:["アイデアを次々に出せる","変化や新しいことを恐れない","既存の枠にとらわれない発想力"],
+    watch:["アイデア倒れになりやすく仕上げが苦手なことも","地道な継続作業は誰かと組むとうまくいく"],
+    jobs:["企画","デザイナー","マーケター","クリエイター職"]
+  },
+  "職人型": {
+    emoji:"🔧",
+    desc:"一つのことを突き詰め、質を高めることに集中力を発揮する。派手さより確かさを重んじる。",
+    good:["高い集中力と粘り強さ","技術や専門性を磨き続けられる","仕上げの精度が高い"],
+    watch:["こだわりすぎて時間をかけすぎることがある","周りへの共有・説明を意識すると評価が上がる"],
+    jobs:["職人・技術職","専門エンジニア","研究職","制作職"]
+  }
+};
+var ORDER = ["先導型","支援型","分析型","発想型","職人型"];
+
+var QUESTIONS = [
+  {q:"新しいプロジェクトが始まったら、まず何をする？", opts:["全体の方向性とゴールをまず決める","メンバーの得意不得意を確認して役割分担を整える","過去の事例やデータを集めて調べる","とにかく思いついたアイデアを書き出す","自分の担当範囲をどう極めるか考える"]},
+  {q:"会議で意見が対立したとき、あなたは？", opts:["早く結論を出すために話を前に進める","双方の言い分を聞いて折衷案を探す","どちらの根拠が確かか、データで判断する","誰も出していない第三の案を提案する","自分の担当部分に影響がなければ静観する"]},
+  {q:"仕事で褒められて一番嬉しいのは？", opts:["「あなたが引っ張ってくれたから成功した」","「あなたがいてくれて助かった」","「その分析、的確だったね」","「そのアイデア、面白いね」","「その仕上がり、誰にも真似できないね」"]},
+  {q:"仕事で一番ストレスを感じるのは？", opts:["誰も決めずに物事が止まっていること","チームの中で孤立している人がいること","根拠のないまま物事が進むこと","同じことの繰り返し作業","中途半端なクオリティで出すこと"]},
+  {q:"休日、気づいたら何をしている？", opts:["次の目標や計画を立てている","友人・家族の相談に乗っている","気になったことをとことん調べている","新しい趣味や表現を試している","好きなことを黙々と練習・改善している"]},
+  {q:"チームに新人が入ってきたら？", opts:["早めに仕事を任せて経験させる","こまめに声をかけて様子を見る","マニュアルや仕組みを整理して渡す","新人ならではの視点を聞いてみる","自分の仕事ぶりを見て学んでもらう"]},
+  {q:"仕事で失敗したときの立ち直り方は？", opts:["すぐ次の一手を考えて動き出す","誰かに話を聞いてもらって整理する","原因を分析して再発防止策を考える","やり方を変えて別の方法を試す","基礎から練習し直す"]},
+  {q:"理想の働き方は？", opts:["大きな目標に向けて人を動かす","誰かの役に立っている実感がある","筋の通った仕組みを作り上げる","誰もやっていないことに挑戦する","一つの技術を突き詰める"]}
+];
+
+var cur=0, scores={};
+
+function startQuiz(){
+  ORDER.forEach(function(t){scores[t]=0});
+  cur=0;
+  document.getElementById('startCard').style.display='none';
+  document.getElementById('resCard').style.display='none';
+  document.getElementById('qCard').style.display='block';
+  document.getElementById('progWrap').style.display='block';
+  renderQ();
+}
+
+function renderQ(){
+  var q=QUESTIONS[cur];
+  document.getElementById('qText').textContent=q.q;
+  var wrap=document.getElementById('qOpts');
+  wrap.innerHTML='';
+  q.opts.forEach(function(label,i){
+    var b=document.createElement('button');
+    b.className='opt';
+    b.textContent=label;
+    b.onclick=function(){answer(i)};
+    wrap.appendChild(b);
+  });
+  var pct=Math.round(cur/QUESTIONS.length*100);
+  document.getElementById('progFill').style.width=pct+'%';
+  document.getElementById('progLbl').textContent=(cur+1)+' / '+QUESTIONS.length;
+}
+
+function answer(i){
+  scores[ORDER[i]]++;
+  cur++;
+  if(cur<QUESTIONS.length){renderQ()}else{showResult()}
+}
+
+function showResult(){
+  document.getElementById('progFill').style.width='100%';
+  document.getElementById('qCard').style.display='none';
+  document.getElementById('progWrap').style.display='none';
+  var best=ORDER[0];
+  ORDER.forEach(function(t){if(scores[t]>scores[best])best=t});
+  var T=TYPES[best];
+  document.getElementById('resName').textContent=T.emoji+' '+best;
+  document.getElementById('resDesc').textContent=T.desc;
+  fillList('resGood',T.good);
+  fillList('resWatch',T.watch);
+  fillList('resJobs',T.jobs);
+  var maxScore=QUESTIONS.length;
+  var srow=document.getElementById('resScores');
+  srow.innerHTML='';
+  ORDER.forEach(function(t){
+    var pct=Math.round(scores[t]/maxScore*100);
+    var div=document.createElement('div');
+    div.className='sr';
+    div.innerHTML='<span class="srname">'+t+'</span><span class="srbarWrap"><span class="srbar" style="width:'+pct+'%"></span></span>';
+    srow.appendChild(div);
+  });
+  var text=encodeURIComponent('【しごとの強みタイプ診断】\n私は「'+best+'」でした。'+T.emoji+'\n');
+  var url=encodeURIComponent(location.href.split('?')[0]);
+  document.getElementById('shareLink').href='https://twitter.com/intent/tweet?text='+text+'&url='+url;
+  document.getElementById('resCard').style.display='block';
+}
+
+function fillList(id,arr){
+  var ul=document.getElementById(id);
+  ul.innerHTML='';
+  arr.forEach(function(t){var li=document.createElement('li');li.textContent=t;ul.appendChild(li)});
+}
+
+function restart(){
+  document.getElementById('resCard').style.display='none';
+  document.getElementById('startCard').style.display='block';
+}
+</script>
+</body></html>
